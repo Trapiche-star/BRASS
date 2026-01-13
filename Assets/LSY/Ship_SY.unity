@@ -565,8 +565,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5224492654039233540, guid: da438897ce7a0844ca274cead447f422, type: 3}
       propertyPath: m_Name
-      value: "\uADC0\uC871\uD48D \uBD80\uCC44 (Ver. \uCC9C\uC77C\uD64D) (\uC218\uC815\uBCF8)
-        (1)"
+      value: BlueFan
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1788,8 +1787,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8879863423951744081, guid: 29397b3575a7c424ca256f38a1e8bda7, type: 3}
       propertyPath: m_Name
-      value: "\uADC0\uC871\uD48D \uBD80\uCC44 (Ver. \uBB34\uCC44\uC0C9) (\uC218\uC815\uBCF8)
-        (1)"
+      value: BlackFan
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3764,7 +3762,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1961131596633707539, guid: 698f84f0045d2c041bb30582c461cd1c, type: 3}
       propertyPath: m_Name
-      value: "\uC2A4\uD300\uD391\uD06C \uC9C0\uAD6C\uBCF8"
+      value: Globe
       objectReference: {fileID: 0}
     - target: {fileID: 1961131596633708014, guid: 698f84f0045d2c041bb30582c461cd1c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4240,8 +4238,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6379583713671981130, guid: 7f2ac853b9c42014fada8c36a07570dc, type: 3}
       propertyPath: m_Name
-      value: "\uADC0\uC871\uD48D \uBD80\uCC44 (Ver. \uAE08\uD654) (\uC218\uC815\uBCF8)
-        (1)"
+      value: GoldFan
       objectReference: {fileID: 0}
     - target: {fileID: 8897586475350496132, guid: 7f2ac853b9c42014fada8c36a07570dc, type: 3}
       propertyPath: m_LocalScale.x
@@ -6500,8 +6497,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8879228637350556003, guid: 376d6161c053e2344b2af210ab58ef46, type: 3}
       propertyPath: m_Name
-      value: "\uADC0\uC871\uD48D \uBD80\uCC44 (Ver. \uCCAD\uC601) (\uC218\uC815\uBCF8)
-        (1)"
+      value: SktFan
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6879,7 +6875,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7022032534797226643, guid: 2bb945743a23ee44c89ecee359e64247, type: 3}
       propertyPath: m_Name
-      value: "\uD2B8\uB7FC\uD504 \uC624\uB974\uACE8"
+      value: MusicBox
       objectReference: {fileID: 0}
     - target: {fileID: 7203342519741753699, guid: 2bb945743a23ee44c89ecee359e64247, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8270,8 +8266,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7069582221233451304, guid: aefe621a62876df46976b903d12b1246, type: 3}
       propertyPath: m_Name
-      value: "\uADC0\uC871\uD48D \uBD80\uCC44 (Ver. \uB3D9\uBC31) (\uC218\uC815\uBCF8)
-        (1)"
+      value: RedFan
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

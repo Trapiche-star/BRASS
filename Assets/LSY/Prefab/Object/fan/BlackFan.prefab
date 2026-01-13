@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6093522303665922407}
   - component: {fileID: 3680779253413912877}
   m_Layer: 0
-  m_Name: "\uADC0\uC871\uD48D \uBD80\uCC44 (Ver. \uBB34\uCC44\uC0C9)"
+  m_Name: BlackFan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
