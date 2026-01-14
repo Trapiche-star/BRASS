@@ -8,18 +8,18 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: steampunk wagon shop 1.1
-  m_Shader: {fileID: 4800000, guid: 9294844b15dca184d914a632279b24e1, type: 3}
+  m_Shader: {fileID: 4800000, guid: df12117ecd77c31469c224178886498e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _GLOSSYREFLECTIONS_OFF
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
-  disabledShaderPasses: []
+  disabledShaderPasses:
+  - MOTIONVECTORS
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
@@ -336,6 +336,22 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Triplanar_5383659d67874c699e04e095f586c1f3_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 69883503249f7bb439f8d69205c55906, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _AAStrength: 1
@@ -374,6 +390,8 @@ Material:
     - _AudioLinkMask_UVMode: 0
     - _AudioLinkUVMode: 1
     - _AudioLinkVertexUVMode: 1
+    - _BUILTIN_QueueControl: -1
+    - _BUILTIN_QueueOffset: 0
     - _BackfaceForceShadow: 0
     - _BacklightBackfaceMask: 1
     - _BacklightBlur: 0.05
@@ -424,6 +442,8 @@ Material:
     - _Bump2ndScale: 1
     - _BumpScale: 1
     - _ColorMask: 15
+    - _Color_Variant_Contrast: 0
+    - _Color_Variant_Intensity: 0
     - _Cull: 0
     - _CustomShadow2nd: 0
     - _Cutoff: 0.5
@@ -580,6 +600,13 @@ Material:
     - _Metallic: 0.8
     - _Mode: 0
     - _MonochromeLighting: 0
+    - _Noise_B_Strength: 0.47
+    - _Noise_B_Strength_Color: 0.47
+    - _Noise_G_Strength: 0.47
+    - _Noise_G_Strength_Color: 0.47
+    - _Noise_R_Strength: 0.05
+    - _Noise_R_Strength_Color: 0.05
+    - _Object_Space: 0
     - _OcclusionStrength: 1
     - _OffsetFactor: 0
     - _OffsetUnits: 0
@@ -639,6 +666,8 @@ Material:
     - _PointShadowUseStep: 0
     - _PointShadowborder: 0.5
     - _PointShadowborderBlur: 0.01
+    - _QueueControl: 0
+    - _QueueOffset: 0
     - _Reflectance: 0.3
     - _ReflectionApplyTransparency: 1
     - _ReflectionBlendMode: 1
@@ -673,6 +702,7 @@ Material:
     - _RimUpperSideWidth: 0
     - _RimUseBaseTexture: 0
     - _RimVRParallaxStrength: 1
+    - _Scale: 0.5
     - _Shadow2ndBlur: 0.3
     - _Shadow2ndBorder: 0.5
     - _Shadow2ndNormalStrength: 1
@@ -721,6 +751,9 @@ Material:
     - _ShiftBackfaceUV: 0
     - _Smoothness: 0.6
     - _SmoothnessTextureChannel: 0
+    - _Smoothness_1: 0
+    - _Smoothness_2: 1
+    - _Smoothness_Contrast: 0.63
     - _SpecularBlur: 0
     - _SpecularBorder: 0.5
     - _SpecularHighlights: 1
@@ -819,6 +852,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color2nd: {r: 1, g: 1, b: 1, a: 1}
     - _Color3rd: {r: 1, g: 1, b: 1, a: 1}
+    - _Color_Variant: {r: 0, g: 0, b: 0, a: 0}
     - _DissolveColor: {r: 1, g: 1, b: 1, a: 1}
     - _DissolveNoiseMask_ScrollRotate: {r: 0, g: 0, b: 0, a: 0}
     - _DissolveParams: {r: 0, g: 0, b: 0.5, a: 0.1}
