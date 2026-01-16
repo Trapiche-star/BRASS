@@ -152,6 +152,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BRASS.AnimationEventRelay
   controller: {fileID: 8241711543289260765}
+--- !u!20 &1015891370 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 8033502537551533285, guid: 4773678651d125f45a14ae184a5db7d1, type: 3}
+  m_PrefabInstance: {fileID: 3964299348673691289}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1352556384
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,7 +169,8 @@ GameObject:
   - component: {fileID: 1352556387}
   - component: {fileID: 1352556386}
   - component: {fileID: 1352556385}
-  m_Layer: 0
+  - component: {fileID: 1352556389}
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -264,6 +270,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1352556389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1352556384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd9337cd8ed4a2c44a9836a25b518f01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BRASS.TestInteractable
 --- !u!1 &1530007957
 GameObject:
   m_ObjectHideFlags: 0
@@ -1536,6 +1554,8 @@ GameObject:
   - component: {fileID: 1814800095}
   - component: {fileID: 1814800097}
   - component: {fileID: 1814800096}
+  - component: {fileID: 8241711543289260767}
+  - component: {fileID: 8241711543289260766}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -1655,6 +1675,36 @@ MonoBehaviour:
   gravity: -9.81
   cameraPivot: {fileID: 1774497029381582749}
   rotationSpeed: 10
+--- !u!114 &8241711543289260766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4170466946814903168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc7374c64dd6e2545b4f2416109547d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCasting
+  playerCamera: {fileID: 1015891370}
+  castDistance: 3
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 128
+--- !u!114 &8241711543289260767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4170466946814903168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dce29ec35e7c5441b8b1e36023a1a46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInteraction
+  playerInput: {fileID: 7900927032013172325}
 --- !u!1001 &9122778366308761987
 PrefabInstance:
   m_ObjectHideFlags: 0
