@@ -2,55 +2,80 @@ using UnityEngine;
 
 namespace BRASS
 {
-    /// 마우스 커서 기준 Raycast와 LayerMask 필터링으로 현재 상호작용 대상을 감지한다
+    /// 마우스 포인터 기준 카메라 Raycast로 상호작용 대상을 감지하고 포커스 상태를 관리한다
     public class PlayerCasting : MonoBehaviour
     {
         #region Variables
-        [SerializeField] private Camera playerCamera;     // 레이 발사용 기준 카메라
-        [SerializeField] private float castDistance = 3f; // 감지 최대 거리
-        [SerializeField] private LayerMask targetLayer;   // 감지 대상 레이어
+        [Header("Reference")]
+        [SerializeField] private Camera playerCamera;   // Ray를 쏘는 기준 카메라
+        [SerializeField] private Transform player;       // 상호작용 거리 계산 기준(플레이어 위치)
 
-        private PlayerInputHandler input; // 플레이어 입력 수신 담당
-        #endregion
+        [Header("Cast Option")]
+        [SerializeField] private float castDistance = 5f;       // 카메라 Ray 최대 길이
+        [SerializeField] private float interactDistance = 1.2f; // 플레이어 기준 상호작용 허용 거리
+        [SerializeField] private LayerMask targetLayer;          // 상호작용 가능한 오브젝트 레이어
 
-        #region Property
-        public bool HasTarget { get; private set; }               // 현재 타겟 존재 여부
-        public RaycastHit CurrentHit { get; private set; }       // 마지막 히트 정보
-        public IInteractable CurrentTarget { get; private set; } // 현재 상호작용 대상
+        private PlayerInputHandler input; // 마우스 위치를 받기 위한 입력 처리 컴포넌트
+
+        private IInteractable currentTarget; // 이번 프레임에 감지된 상호작용 대상
+        private IInteractable lastTarget;    // 이전 프레임에 포커스 중이던 대상
+
+        public bool HasTarget { get; private set; }          // 현재 유효한 상호작용 대상 존재 여부
+        public IInteractable CurrentTarget => currentTarget; // 외부(PlayerInteraction)에서 참조할 현재 대상
         #endregion
 
         #region Unity Event Method
         private void Awake()
         {
-            input = GetComponent<PlayerInputHandler>(); // 만약 [입력 컴포넌트가 있으면] [참조를 저장한다]
-            if (playerCamera == null) playerCamera = Camera.main; // 만약 [카메라 참조가 없으면] [메인 카메라를 사용한다]
+            // 플레이어 입력 핸들러 컴포넌트 참조
+            input = GetComponent<PlayerInputHandler>();
+
+            // 카메라가 지정되지 않았으면 메인 카메라 사용
+            if (playerCamera == null)
+                playerCamera = Camera.main;
+
+            // 플레이어 트랜스폼이 없으면 자기 자신을 기준으로 사용
+            if (player == null)
+                player = transform;
         }
 
         private void Update()
         {
-            Cast(); // 매 프레임 마우스 기준으로 대상 감지를 갱신한다
+            // 매 프레임 마우스 기준 캐스팅 수행
+            Cast();
         }
         #endregion
 
         #region Custom Method
-        // 마우스 커서 위치 기준 Raycast로 레이어 필터링하여 대상 정보를 갱신한다
         private void Cast()
-        {
-            HasTarget = false;      // 만약 [이전 프레임 타겟이 있더라도] [기본값으로 초기화한다]
-            CurrentTarget = null;  // 만약 [현재 타겟이 없다면] [참조를 비운다]
+        {        
+            // 매 프레임 상태 초기화
+            HasTarget = false;
+            currentTarget = null;
 
-            if (input == null || playerCamera == null) return; // 만약 [필수 참조가 없으면] [이 메서드에서는 더 이상 처리하지 않는다]
+            if (input == null || playerCamera == null) return;
 
-            Ray ray = playerCamera.ScreenPointToRay(input.MousePosition); // 마우스 화면 좌표를 월드 레이로 변환한다
+            // 마우스 포인터 기준 Ray 생성
+            Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
 
-            if (Physics.Raycast(ray, out RaycastHit hit, castDistance, targetLayer)) // 만약 [지정 레이어에 레이가 닿으면] [타겟을 판별한다]
+            if (Physics.Raycast(ray, out RaycastHit hit, castDistance, targetLayer))
             {
-                CurrentHit = hit; // 만약 [히트가 발생했으면] [히트 정보를 저장한다]
+                // Ray에 맞은 오브젝트의 콜라이더 참조를 가져온다
+                Collider col = hit.collider;
+                Vector3 closestPoint = col.ClosestPoint(player.position);   // 플레이어 위치에서 해당 콜라이더까지의 가장 가까운 지점을 계산한다
 
-                if (hit.collider.TryGetComponent<IInteractable>(out var interactable)) // 만약 [상호작용 인터페이스를 구현했다면] [타겟으로 등록한다]
+                // 플레이어 기준 거리 계산
+                float distanceFromPlayer = Vector3.Distance(player.position, closestPoint);
+
+                // 상호작용 가능 거리 내인지 확인
+                if (distanceFromPlayer > interactDistance)
+                    return;
+
+                // 상호작용 대상인지 확인
+                if (hit.collider.TryGetComponent<IInteractable>(out var target))
                 {
-                    HasTarget = true;     // 만약 [유효한 타겟이면] [타겟 존재 상태를 활성화한다]
-                    CurrentTarget = interactable; // 만약 [상호작용 가능하면] [현재 타겟으로 저장한다]
+                    HasTarget = true;        // “반응 가능 상태”
+                    currentTarget = target; // G 키 입력 시 실행 대상
                 }
             }
         }
