@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1843086681552907131}
   - component: {fileID: 8488641150117180251}
   - component: {fileID: 4379256836293682995}
+  - component: {fileID: 1460145252192315750}
   - component: {fileID: 7870249439411039288}
   - component: {fileID: 1814818230512055200}
   m_Layer: 6
@@ -139,8 +140,24 @@ MonoBehaviour:
   slideSpeed: 15
   slideDeceleration: 5
   gravity: -9.81
-  cameraPivot: {fileID: 0}
   rotationSpeed: 10
+  cameraPivot: {fileID: 0}
+  stuckLimitTime: 1.5
+--- !u!114 &1460145252192315750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9045392184721531494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcce75efaf3c36a4b81257a6ea570d58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BRASS.PlayerState
+  IsMoving: 0
+  IsFastRun: 0
+  IsSliding: 0
 --- !u!114 &7870249439411039288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1003,13 +1020,39 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3715209739983621164, guid: 1ed4bb4cbdac5574495dd3f394ac24e7, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 2375009848050866468}
+    - targetCorrespondingSourceObject: {fileID: 3715209739983621164, guid: 1ed4bb4cbdac5574495dd3f394ac24e7, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 5654846921500000158}
+    - targetCorrespondingSourceObject: {fileID: 3715209739983621164, guid: 1ed4bb4cbdac5574495dd3f394ac24e7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1494721823946716220}
   m_SourcePrefab: {fileID: 100100000, guid: 1ed4bb4cbdac5574495dd3f394ac24e7, type: 3}
+--- !u!95 &278744183105899093 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4083346225557775380, guid: 1ed4bb4cbdac5574495dd3f394ac24e7, type: 3}
+  m_PrefabInstance: {fileID: 4284253218297769537}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &647297929064604269 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3715209739983621164, guid: 1ed4bb4cbdac5574495dd3f394ac24e7, type: 3}
   m_PrefabInstance: {fileID: 4284253218297769537}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2375009848050866468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647297929064604269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf71707308ee789438f2434a36e94e7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BRASS.PlayerAnimationController
+  animator: {fileID: 278744183105899093}
+  state: {fileID: 1460145252192315750}
+  idleAnimation: {fileID: 1494721823946716220}
 --- !u!114 &5654846921500000158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1023,6 +1066,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BRASS.AnimationEventRelay
   controller: {fileID: 4379256836293682995}
+--- !u!114 &1494721823946716220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647297929064604269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01b1b9c30d69df74fb87a6ff404dd2d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BRASS.IdleAnimation
+  idleAltInterval: 5
 --- !u!4 &5202008385083678182 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8306193019111109543, guid: 1ed4bb4cbdac5574495dd3f394ac24e7, type: 3}
