@@ -7,39 +7,52 @@ namespace BRASS
     public class PlayerInteraction : MonoBehaviour
     {
         #region Variables
-        [SerializeField] private PlayerInput playerInput; // Input Actions 수신 담당
+        [SerializeField] private PlayerInput playerInput; // Input System 기반 액션 맵 수신용 컴포넌트
 
-        private PlayerCasting casting; // 현재 상호작용 대상 감지 담당
+        private PlayerCasting casting; // 현재 마우스 Ray로 감지된 상호작용 대상 정보 제공 컴포넌트
         #endregion
 
         #region Unity Event Method
         private void Awake()
         {
-            if (playerInput == null) playerInput = GetComponent<PlayerInput>(); // 만약 [참조가 없으면] [컴포넌트를 자동 탐색한다]
-            casting = GetComponent<PlayerCasting>(); // 만약 [캐스팅 컴포넌트가 있으면] [참조를 저장한다]
+            // PlayerInput이 직접 지정되지 않았으면 동일 오브젝트에서 자동 탐색
+            if (playerInput == null)
+                playerInput = GetComponent<PlayerInput>();
+
+            // PlayerCasting 컴포넌트 참조 저장 (상호작용 대상 확인용)
+            casting = GetComponent<PlayerCasting>();
         }
 
         private void OnEnable()
         {
-            if (playerInput == null) return; // 만약 [입력 참조가 없으면] [이벤트를 구독하지 않는다]
-            playerInput.actions["Interact"].performed += OnInteract; // 만약 [G 키가 눌리면] [상호작용을 시도한다]
+            // 입력 컴포넌트가 없으면 이벤트 구독 불가
+            if (playerInput == null) return;
+
+            // Interact 액션(G 키)이 눌렸을 때 OnInteract 콜백 등록
+            playerInput.actions["Interact"].performed += OnInteract;
         }
 
         private void OnDisable()
         {
-            if (playerInput == null) return; // 만약 [입력 참조가 없으면] [이벤트 구독을 해제하지 않는다]
-            playerInput.actions["Interact"].performed -= OnInteract; // 만약 [비활성화되면] [이벤트 구독을 해제한다]
+            // 입력 컴포넌트가 없으면 이벤트 해제 불가
+            if (playerInput == null) return;
+
+            // 오브젝트 비활성화 시 입력 이벤트 구독 해제
+            playerInput.actions["Interact"].performed -= OnInteract;
         }
         #endregion
 
         #region Custom Method
-        // G 키 입력 시 현재 감지된 대상에게 상호작용을 실행한다
         private void OnInteract(InputAction.CallbackContext context)
         {
-            if (casting == null) return; // 만약 [캐스팅 컴포넌트가 없으면] [이 메서드에서는 더 이상 처리하지 않는다]
-            if (!casting.HasTarget) return; // 만약 [현재 타겟이 없으면] [이 메서드에서는 더 이상 상호작용하지 않는다]
+            // 캐스팅 컴포넌트가 없으면 상호작용 불가
+            if (casting == null) return;
 
-            casting.CurrentTarget?.Interact(); // 만약 [타겟이 존재하면] [상호작용을 실행한다]
+            // 현재 프레임에 유효한 상호작용 대상이 없으면 처리 중단
+            if (!casting.HasTarget) return;
+
+            // 감지된 대상에게 상호작용 실행 요청
+            casting.CurrentTarget?.Interact();
         }
         #endregion
     }
