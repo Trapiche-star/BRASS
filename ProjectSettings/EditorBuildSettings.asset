@@ -6,7 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+<<<<<<< HEAD
+    path: Assets/BRASS/NKJ/Scenes/EnterSceneUI.unity
+=======
     path: Assets/Scenes/EnterSceneUI.unity
+>>>>>>> 4920ce7884ea7eabe36eeeb4960ffe7860fb0ca6
     guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
