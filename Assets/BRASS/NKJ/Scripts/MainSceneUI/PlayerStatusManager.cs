@@ -3,74 +3,107 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 
+// 새 입력 시스템 에러 방지 (패키지가 설치되어 있을 경우)
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
+
 public class PlayerStatusManager : MonoBehaviour
 {
     public static PlayerStatusManager Instance;
 
-    [Header("Profile Info")]
-    public TextMeshProUGUI levelText;
-    public TextMeshProUGUI nickNameText;
+    [System.Serializable]
+    public class WeaponData
+    {
+        public string weaponName;
+        public Sprite icon;
+        public int atk;
+        public int def;
+    }
 
-    [Header("Gauges (EXP -> HP -> MP 순서)")]
-    public Image expFill;
-    public Image hpFill;
-    public Image mpFill;
 
-    [Header("Weapon & Stats")]
-    public Image weaponIcon;      // 게임기 모양 임시 이미지 위치
+
+    [Header("Current Status (UI Objects)")]
+    public Image currentWeaponIcon;
     public TextMeshProUGUI atkText;
     public TextMeshProUGUI defText;
 
-    [Header("Tooltip System")]
+    [Header("Weapon Selection Popup")]
+    public GameObject weaponSelectPopup;
+    public WeaponData[] availableWeapons; // 인스펙터에서 무기 정보를 입력하세요
+
+    [Header("Tooltip")]
     public GameObject tooltipPanel;
     public TextMeshProUGUI tooltipText;
 
     private void Awake()
     {
         Instance = this;
-        if (tooltipPanel != null) tooltipPanel.SetActive(false);
-    }
-
-    // 1. 상태 업데이트 (게이지 및 스탯)
-    public void UpdateAllStatus(float hp, float maxHp, float mp, float maxMp, float exp, float maxExp, int atk, int def)
-    {
-        if (hpFill) hpFill.fillAmount = hp / maxHp;
-        if (mpFill) mpFill.fillAmount = mp / maxMp;
-        if (expFill) expFill.fillAmount = exp / maxExp;
-
-        if (atkText) atkText.text = $"ATK  {atk}";
-        if (defText) defText.text = $"DEF  {def}";
-    }
-
-    // 2. 무기 아이콘 교체 (클릭 시 호출용)
-    public void ChangeWeapon(Sprite newWeaponSprite)
-    {
-        if (weaponIcon != null)
-        {
-            weaponIcon.sprite = newWeaponSprite;
-            Debug.Log("무기가 교체되었습니다!");
-        }
-    }
-
-    // 3. 툴팁 로직
-    public void ShowTooltip(string message)
-    {
-        if (tooltipPanel == null) return;
-        tooltipPanel.SetActive(true);
-        tooltipText.text = message;
-    }
-
-    public void HideTooltip()
-    {
-        if (tooltipPanel != null) tooltipPanel.SetActive(false);
+        if (weaponSelectPopup) weaponSelectPopup.SetActive(false);
+        if (tooltipPanel) tooltipPanel.SetActive(false);
     }
 
     private void Update()
     {
-        // 툴팁이 마우스를 따라다니게 설정
-        if (tooltipPanel != null && tooltipPanel.activeSelf)
+
+
+
+
+        // 2. 툴팁 마우스 추적 (새 입력 시스템 대응)
+        if (tooltipPanel && tooltipPanel.activeSelf)
         {
-            tooltipPanel.transform.position = Input.mousePosition + new Vector3(15, 15, 0);
+            Vector2 mousePos;
+#if ENABLE_INPUT_SYSTEM
+            mousePos = Mouse.current.position.ReadValue();
+#else
+            mousePos = Input.mousePosition;
+#endif
+            tooltipPanel.transform.position = mousePos + new Vector2(15, 15);
         }
+    }
+
+    // --- 팝업 제어 ---
+    public void OpenWeaponMenu()
+    {
+        if (weaponSelectPopup) weaponSelectPopup.SetActive(true);
+    }
+
+    public void CloseWeaponMenu()
+    {
+        if (weaponSelectPopup) weaponSelectPopup.SetActive(false);
+    }
+
+    // --- 무기 교체 (이미지 + 스탯) ---
+    public void SelectWeapon(int index)
+    {
+        if (index >= 0 && index < availableWeapons.Length)
+        {
+            WeaponData selected = availableWeapons[index];
+
+            // 이미지 변경
+            if (currentWeaponIcon) currentWeaponIcon.sprite = selected.icon;
+
+            // 스탯 변경
+            if (atkText) atkText.text = $"ATK {selected.atk}";
+            if (defText) defText.text = $"DEF {selected.def}";
+
+            Debug.Log($"{selected.weaponName} 장착 완료!");
+            CloseWeaponMenu(); // 선택 후 팝업 닫기
+        }
+    }
+
+    // --- 툴팁 제어 ---
+    public void ShowTooltip(string message)
+    {
+        if (tooltipPanel && tooltipText)
+        {
+            tooltipPanel.SetActive(true);
+            tooltipText.text = message;
+        }
+    }
+
+    public void HideTooltip()
+    {
+        if (tooltipPanel) tooltipPanel.SetActive(false);
     }
 }
