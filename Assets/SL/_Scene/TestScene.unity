@@ -262,6 +262,12 @@ MonoBehaviour:
   attackTypes:
   - Type01
   - Type02
+  aoeRadius: 5
+  aoeDamage: 20
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  aoeEffectPrefab: {fileID: 0}
 --- !u!1001 &1842607275
 PrefabInstance:
   m_ObjectHideFlags: 0
