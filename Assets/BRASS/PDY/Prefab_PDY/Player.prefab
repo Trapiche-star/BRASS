@@ -142,8 +142,78 @@ MonoBehaviour:
   cameraPivot: {fileID: 0}
   clickStopDistance: 0.1
   slideDistance: 7
-  slideSpeed: 14
-  clickBlockedStopTime: 1
+  slideSpeed: 100
+  slideMoveCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: -0.0023815334
+      inSlope: 2.0966125
+      outSlope: 2.0966125
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.7762285
+    - serializedVersion: 3
+      time: 0.0506496
+      value: 0.06909739
+      inSlope: 1.3663139
+      outSlope: 1.3663139
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.79311013
+    - serializedVersion: 3
+      time: 0.103618085
+      value: 0.14002155
+      inSlope: 1.6565756
+      outSlope: 1.6565756
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.32700437
+      value: 0.45712394
+      inSlope: 1.3993547
+      outSlope: 1.3993547
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.79083496
+      value: 0.9964255
+      inSlope: 0.79426455
+      outSlope: 0.79426455
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.9530538
+      value: 1.035558
+      inSlope: -0.24167055
+      outSlope: -0.24167055
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -1.3882967
+      outSlope: -1.3882967
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.7689884
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  slideTotalDistance: 5
+  clickBlockedStopTime: 0.5
 --- !u!114 &1460145252192315750
 MonoBehaviour:
   m_ObjectHideFlags: 0

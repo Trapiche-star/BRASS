@@ -16,8 +16,13 @@ namespace BRASS
         [SerializeField] private float clickStopDistance = 0.1f;  // 클릭 이동 시 목적지에 도달했다고 판단할 거리
 
         [Header("Slide")]
-        [SerializeField] private float slideDistance = 2.5f;      // 슬라이딩으로 이동할 총 거리
-        [SerializeField] private float slideSpeed = 6f;           // 슬라이딩 도중의 이동 속도
+        [SerializeField] private float slideDistance = 2.5f;        // 슬라이딩으로 이동할 총 거리
+        [SerializeField] private float slideSpeed = 6f;             // 슬라이딩 도중의 이동 속도
+        [SerializeField] private AnimationCurve slideMoveCurve;     // 슬라이드 애니메이션 진행도(0~1)에 따른 이동 비율을 정의한다
+        [SerializeField] private float slideTotalDistance = 2.5f;   // 슬라이드 애니메이션 전체 동안 이동할 총 거리를 담당한다
+
+        private float lastSlideCurveValue;
+        // 이전 프레임의 이동 비율 값을 저장한다
 
         [Header("ClickMoveBlock")]
         [SerializeField] private float clickBlockedStopTime = 1f; // 벽 등에 막혔을 때 클릭 이동을 취소할 시간
@@ -88,26 +93,25 @@ namespace BRASS
             {
                 ApplyGravity(); // 슬라이딩 중에도 중력 적용
 
-                float remaining = slideDistance - slideMovedDistance; // 남은 슬라이딩 거리
-                if (remaining > 0f)
+                AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+                float normalizedTime = Mathf.Clamp01(info.normalizedTime);      // 슬라이드 애니메이션의 진행도를 0~1 범위로 가져온다
+                float curveValue = slideMoveCurve.Evaluate(normalizedTime);     // 현재 진행도에 해당하는 이동 비율을 가져온다
+
+                float deltaCurve = curveValue - lastSlideCurveValue;            // 이전 프레임 대비 증가한 이동 비율만 계산한다
+                float moveDistance = deltaCurve * slideTotalDistance;           // 이번 프레임에 실제로 이동할 거리를 계산한다
+
+                if (moveDistance > 0f)
                 {
-                    // 이번 프레임에 이동할 거리 계산 (남은 거리와 속도 중 작은 값 선택)
-                    float moveThisFrame = Mathf.Min(remaining, slideSpeed * Time.deltaTime);
-                    
-                    Vector3 slideMove = slideDirection * moveThisFrame;     // 슬라이드 시작 시 확정된 방향을 기준으로 이동시킨다
-                    controller.Move(slideMove + velocity * Time.deltaTime);
-                    slideMovedDistance += moveThisFrame; // 이동 거리 누적
+                    Vector3 slideMove = slideDirection * moveDistance;
+                    controller.Move(slideMove + velocity * Time.deltaTime);     // 이동이 있을 때만 슬라이딩 이동을 적용한다
                 }
-                else
-                {
-                    // 슬라이딩 이동이 끝나면 중력만 적용
-                    controller.Move(velocity * Time.deltaTime);
-                }
+
+                lastSlideCurveValue = curveValue;                               // 다음 프레임 계산을 위해 값을 저장한다
 
                 return; // 슬라이딩 중에는 일반 이동 로직을 타지 않음
             }
 
-            // 3. 일반 이동 처리 흐름
+            // 일반 이동 처리 흐름
             HandleClickMoveInput();           // 클릭 입력 확인
             CalculateClickMoveDirection();    // 클릭 목적지 방향 계산
             CalculateKeyboardMoveDirection(); // 키보드 입력 방향 계산
@@ -248,30 +252,21 @@ namespace BRASS
         // 슬라이딩을 어느 방향으로 할지 결정 (이동 중이면 이동 방향, 아니면 마우스 방향)
         private Vector3 GetSlideDirection()
         {
-            if (input.IsKeyboardMove && moveDirection != Vector3.zero)
-                return moveDirection.normalized;
-            // 이동 중이면 현재 이동 방향을 슬라이드 방향으로 사용한다
+            Transform camTransform = Camera.main.transform;
+            // 현재 Cinemachine이 제어 중인 실제 메인 카메라 Transform
 
-            Ray ray = Camera.main.ScreenPointToRay(input.MousePosition);
-            // 마우스 포인터 위치 기준으로 카메라에서 레이를 쏜다
+            Vector3 forward = camTransform.forward;
+            // 카메라가 바라보는 전방 방향 벡터
 
-            Plane plane = new Plane(Vector3.up, transform.position);
-            // 캐릭터가 서 있는 높이의 수평 평면을 만든다
+            forward.y = 0f;
+            // 수직 성분 제거 (지면 기준 슬라이드)
 
-            if (plane.Raycast(ray, out float distance))
-            {
-                Vector3 hitPoint = ray.GetPoint(distance);
-                // 레이가 평면과 만나는 실제 월드 좌표를 계산한다
+            if (forward.sqrMagnitude < 0.01f)
+                return Vector3.zero;
+            // 유효하지 않은 방향 방지
 
-                Vector3 dir = hitPoint - transform.position;
-                dir.y = 0f;
-
-                if (dir.sqrMagnitude > 0.01f)
-                    return dir.normalized;
-                // 마우스 포인터가 가리키는 방향으로 슬라이드한다
-            }
-            
-            return transform.forward;   // 예외 상황에서는 캐릭터 정면을 사용한다
+            return forward.normalized;
+            // 카메라 방향 기준 슬라이딩
         }
 
         // 애니메이션의 특정 시점(Animation Event)에서 호출되어 실제 슬라이딩 이동 시작
@@ -284,25 +279,16 @@ namespace BRASS
         // 슬라이딩 상태 변수 및 데이터 초기화
         public void StartSlide(Vector3 direction)
         {
-            if (direction == Vector3.zero) return;
-            // 방향이 없으면 슬라이드를 시작하지 않는다
-
-            moveDirection = Vector3.zero;
-            // 일반 이동과 충돌하지 않도록 이동 방향을 초기화한다
-
+            if (direction == Vector3.zero) return;          // 방향이 없으면 슬라이드를 시작하지 않는다
+            moveDirection = Vector3.zero;                   // 일반 이동과 충돌하지 않도록 이동 방향을 초기화한다
             direction.y = 0f;
 
-            slideDirection = direction.normalized;
-            // 슬라이딩 중 실제 이동에 사용할 방향을 확정한다
+            slideDirection = direction.normalized;          // 슬라이딩 중 실제 이동에 사용할 방향을 확정한다
+            transform.rotation = Quaternion.LookRotation(slideDirection); // 캐릭터 비주얼을 슬라이딩 방향으로 즉시 회전시킨다
 
-            transform.rotation = Quaternion.LookRotation(slideDirection);
-            // 캐릭터 비주얼을 슬라이딩 방향으로 즉시 회전시킨다
-
-            slideMovedDistance = 0f;
-            // 새 슬라이드 시작이므로 누적 이동 거리를 초기화한다
-
-            state.IsSliding = true;
-            // 슬라이딩 상태로 전환한다
+            slideMovedDistance = 0f;                        // 새 슬라이드 시작이므로 누적 이동 거리를 초기화한다
+            lastSlideCurveValue = 0f;                       // 슬라이드 이동 곡선 누적값을 초기화한다
+            state.IsSliding = true;                         // 슬라이딩 상태로 전환한다
         }
 
         // 애니메이션이 끝날 때 호출되어 슬라이딩 상태 종료

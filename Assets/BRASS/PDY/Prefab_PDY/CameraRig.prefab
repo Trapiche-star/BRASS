@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BRASS.CameraPivotFollower
   target: {fileID: 0}
-  offset: {x: 0, y: 0, z: 0}
+  offset: {x: 0, y: 0.3, z: 0}
 --- !u!1 &5553399034309590799
 GameObject:
   m_ObjectHideFlags: 0
@@ -366,7 +366,7 @@ MonoBehaviour:
   cmCamera: {fileID: 332315365112722739}
   yawSpeed: 120
   pitchSpeed: 90
-  minZoom: 0
+  minZoom: 0.15
   maxZoom: 1
   zoomSpeed: 3
   zoomDamping: 10
