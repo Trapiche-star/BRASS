@@ -16,8 +16,8 @@ namespace BRASS
         [SerializeField] private float clickStopDistance = 0.1f;  // 클릭 이동 시 목적지에 도달했다고 판단할 거리
 
         [Header("Slide")]
-        [SerializeField] private float slideDistance = 2.5f;        // 슬라이딩으로 이동할 총 거리
-        [SerializeField] private float slideSpeed = 6f;             // 슬라이딩 도중의 이동 속도
+        //[SerializeField] private float slideDistance = 2.5f;        // 슬라이딩으로 이동할 총 거리
+        //[SerializeField] private float slideSpeed = 6f;             // 슬라이딩 도중의 이동 속도
         [SerializeField] private AnimationCurve slideMoveCurve;     // 슬라이드 애니메이션 진행도(0~1)에 따른 이동 비율을 정의한다
         [SerializeField] private float slideTotalDistance = 2.5f;   // 슬라이드 애니메이션 전체 동안 이동할 총 거리를 담당한다
 
@@ -43,7 +43,7 @@ namespace BRASS
         private Vector3 lastMovePosition;         // 이전 프레임의 위치 (막힘 감지용)
         private float clickBlockedTime;           // 장애물에 막혀 이동하지 못한 누적 시간
 
-        private float slideMovedDistance;         // 슬라이딩 시작 후 현재까지 이동한 거리
+        //private float slideMovedDistance;         // 슬라이딩 시작 후 현재까지 이동한 거리
         private bool slideInputConsumed;          // 슬라이딩 키 입력이 중복 처리되지 않도록 체크
         #endregion
 
@@ -286,7 +286,7 @@ namespace BRASS
             slideDirection = direction.normalized;          // 슬라이딩 중 실제 이동에 사용할 방향을 확정한다
             transform.rotation = Quaternion.LookRotation(slideDirection); // 캐릭터 비주얼을 슬라이딩 방향으로 즉시 회전시킨다
 
-            slideMovedDistance = 0f;                        // 새 슬라이드 시작이므로 누적 이동 거리를 초기화한다
+            //slideMovedDistance = 0f;                        // 새 슬라이드 시작이므로 누적 이동 거리를 초기화한다
             lastSlideCurveValue = 0f;                       // 슬라이드 이동 곡선 누적값을 초기화한다
             state.IsSliding = true;                         // 슬라이딩 상태로 전환한다
         }
@@ -295,6 +295,14 @@ namespace BRASS
         public void EndSlide()
         {
             state.IsSliding = false;
+        }
+        #endregion
+
+        #region External Action Bridge
+        // 외부 액션(PlayerJump 등)에서 수직 속도를 설정하기 위한 통로
+        public void SetVerticalVelocity(float value)
+        {
+            velocity.y = value; // 현재 수직 속도를 지정한 값으로 즉시 덮어쓴다
         }
         #endregion
     }
