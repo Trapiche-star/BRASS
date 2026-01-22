@@ -9,6 +9,9 @@ namespace BRASS
         public bool IsMoving;   // 현재 이동 중인지 여부
         public bool IsFastRun;  // 패스트런 상태 여부
         public bool IsSliding;  // 슬라이딩 상태 여부
+        public bool IsGrounded;  // 지면에 닿아 있는 상태 여부
+        public bool IsJumping;   // 점프가 시작된 프레임 여부
+        public int  JumpIndex;   // 0 = 점프 아님, 1 = 1단 점프, 2 = 2단 점프
         #endregion
 
         #region Property
