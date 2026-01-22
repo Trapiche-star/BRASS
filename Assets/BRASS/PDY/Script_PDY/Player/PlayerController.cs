@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -61,6 +62,10 @@ namespace BRASS
         {
             // 매 프레임마다 이동 로직 처리
             HandleMovement();
+
+            var jump = GetComponentInChildren<PlayerJump>();
+            // 하위 계층(PlayerAction 등)에서 PlayerJump를 탐색한다
+            
         }
         #endregion
 
@@ -242,11 +247,15 @@ namespace BRASS
         // 바닥에 닿아있지 않을 때 아래로 가속도 적용
         private void ApplyGravity()
         {
+            // CharacterController의 물리적 접지 상태를 state에 동기화한다 (추가)
+            state.IsGrounded = controller.isGrounded;
+
             // 바닥에 닿아있으면 수직 속도 초기화 (살짝 -2를 주어 바닥 밀착 유지)
-            if (controller.isGrounded && velocity.y < 0f)
+            if (state.IsGrounded && velocity.y < 0f)
                 velocity.y = -2f;
 
             velocity.y += gravity * Time.deltaTime;
+            // 매 프레임 중력 가속도를 수직 속도에 누적한다
         }
 
         // 슬라이딩을 어느 방향으로 할지 결정 (이동 중이면 이동 방향, 아니면 마우스 방향)
@@ -296,14 +305,36 @@ namespace BRASS
         {
             state.IsSliding = false;
         }
-        #endregion
-
+        #endregion  
+        
         #region External Action Bridge
+        // 외부 액션(PlayerJump 등)에서 점프 애니메이션 트리거를 요청한다
+        public void TriggerJumpAnimation(int index)
+        {
+            if (animator == null) return;
+
+            // 이전에 남아 있을 수 있는 Trigger를 먼저 제거
+            animator.ResetTrigger("Jump");
+
+            animator.SetInteger("JumpIndex", index);
+            animator.SetTrigger("Jump");
+        }
+
+        // 지면 착지 시 애니메이터의 점프 인덱스를 0으로 초기화한다
+        public void ResetJumpIndex()
+        {
+            if (animator == null) return;
+
+            animator.SetInteger("JumpIndex", 0);
+            // 다음 점프 시 1단부터 정상 재생되도록 파라미터를 리셋한다
+        }
+
         // 외부 액션(PlayerJump 등)에서 수직 속도를 설정하기 위한 통로
         public void SetVerticalVelocity(float value)
         {
-            velocity.y = value; // 현재 수직 속도를 지정한 값으로 즉시 덮어쓴다
+            velocity.y = value;
         }
         #endregion
+
     }
 }

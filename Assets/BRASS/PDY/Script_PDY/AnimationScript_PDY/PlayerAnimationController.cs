@@ -8,17 +8,35 @@ namespace BRASS
     public class PlayerAnimationController : MonoBehaviour
     {
         #region Variables
-        [SerializeField] private Animator animator;           // 애니메이션 재생을 담당
-        [SerializeField] private PlayerState state;           // 플레이어 상태 참조를 담당
-        [SerializeField] private IdleAnimation idleAnimation; // Idle 변형 애니메이션 타이밍 제어를 담당
+        [SerializeField] private Animator animator;
+        // 애니메이션 재생을 담당
 
-        private int hashIsMoving;     // 이동 여부 파라미터 해시
-        private int hashIsSliding;    // 슬라이딩 상태 파라미터 해시
-        private int hashFastRun;      // 패스트런 애니메이션 배율 파라미터 해시
-        private int hashIsGrounded;   // 지면 접촉 여부 파라미터 해시
-        private int hashJump;         // 점프 트리거 파라미터 해시
-        private int hashJumpIndex;    // 점프 단계(1단/2단) 파라미터 해시
-        private int hashIdleDwarf;    // Idle_Dwarf 트리거 파라미터 해시
+        [SerializeField] private PlayerState state;
+        // 플레이어 상태 참조를 담당
+
+        [SerializeField] private IdleAnimation idleAnimation;
+        // Idle 변형 애니메이션 타이밍 제어를 담당
+
+        private int hashIsMoving;
+        // 이동 여부 파라미터 해시
+
+        private int hashIsSliding;
+        // 슬라이딩 상태 파라미터 해시
+
+        private int hashFastRun;
+        // 패스트런 애니메이션 배율 파라미터 해시
+
+        private int hashIsGrounded;
+        // 지면 접촉 여부 파라미터 해시
+
+        private int hashIsJumping;
+        // 점프 상태 유지 여부 파라미터 해시
+
+        private int hashJumpIndex;
+        // 점프 단계(1단/2단) 파라미터 해시
+
+        private int hashIdleDwarf;
+        // Idle_Dwarf 트리거 파라미터 해시
         #endregion
 
         #region Unity Event Method
@@ -36,7 +54,7 @@ namespace BRASS
             hashIsSliding = Animator.StringToHash("IsSliding");
             hashFastRun = Animator.StringToHash("FastRun");
             hashIsGrounded = Animator.StringToHash("IsGrounded");
-            hashJump = Animator.StringToHash("Jump");
+            hashIsJumping = Animator.StringToHash("IsJumping");
             hashJumpIndex = Animator.StringToHash("JumpIndex");
             hashIdleDwarf = Animator.StringToHash("Idle_Dwarf");
             // Animator에서 사용할 모든 파라미터 해시를 초기화한다
@@ -65,7 +83,10 @@ namespace BRASS
             animator.SetBool(hashIsGrounded, state.IsGrounded);
             // 캐릭터가 지면에 닿아 있는지 여부를 전달한다
 
-            animator.SetInteger(hashJumpIndex, state.JumpIndex);
+            animator.SetBool(hashIsJumping, state.IsJumping);
+            // 현재 점프 상태인지 여부를 전달한다
+
+            //animator.SetInteger(hashJumpIndex, state.JumpIndex);
             // 현재 점프 단계(0=없음, 1=1단, 2=2단)를 전달한다
 
             animator.SetFloat(
@@ -73,13 +94,6 @@ namespace BRASS
                 state.IsFastRun ? 1.2f : 1f
             );
             // 패스트런 상태일 때만 애니메이션 재생 속도를 증가시킨다
-
-            if (state.IsJumping)
-            {
-                animator.SetTrigger(hashJump);
-                state.IsJumping = false;
-                // 점프가 시작된 프레임에만 Jump 트리거를 1회 발생시키고 즉시 해제한다
-            }
 
             if (idleAnimation != null)
             {

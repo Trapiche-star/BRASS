@@ -36,8 +36,14 @@ namespace BRASS
             combat = GetComponentInChildren<PlayerCombat>();
             // Player 하위 오브젝트에서 PlayerCombat을 탐색하여 캐싱한다
 
-            jump = GetComponent<PlayerJump>();
-            // Player 오브젝트에 부착된 PlayerJump를 캐싱한다
+            jump = GetComponentInChildren<PlayerJump>();
+            // Player 하위 계층에서 PlayerJump를 탐색하여 캐싱한다
+
+            if (jump == null)
+            {
+                Debug.LogError("[PlayerInputHandler] PlayerJump not found in children.");
+            }
+            // PlayerJump가 존재하지 않을 경우 구조 오류를 명확히 로그로 알린다
         }
 
         private void OnEnable()
@@ -69,8 +75,7 @@ namespace BRASS
             playerInput.actions["Sliding"].performed += OnSlide;
             playerInput.actions["Sliding"].canceled += OnSlide;
 
-            playerInput.actions["Jump"].started += OnJump;
-            // 점프(R) 입력이 시작되었을 때 처리한다
+            playerInput.actions["Jump"].performed += OnJump;            
 
             playerInput.actions["BasicAttack"].started += OnBasicAttackStarted;
             playerInput.actions["BasicAttack"].canceled += OnBasicAttackCanceled;
@@ -105,8 +110,7 @@ namespace BRASS
             playerInput.actions["Sliding"].performed -= OnSlide;
             playerInput.actions["Sliding"].canceled -= OnSlide;
 
-            playerInput.actions["Jump"].started -= OnJump;
-            // 점프 입력 이벤트 구독을 해제한다
+            playerInput.actions["Jump"].performed -= OnJump;
 
             playerInput.actions["BasicAttack"].started -= OnBasicAttackStarted;
             playerInput.actions["BasicAttack"].canceled -= OnBasicAttackCanceled;
