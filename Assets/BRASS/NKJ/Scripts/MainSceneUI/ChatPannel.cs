@@ -68,8 +68,12 @@ public class ChatPanel : MonoBehaviour
             transparencySlider.value = 1f;
         }
 
-        // 시작 시 환영 메시지 (예시)
+        // 시작 시 테스트 메시지들
         AddSystemMessage("채팅 시스템이 시작되었습니다.");
+        AddMessage("테스트 메시지 1");
+        AddMessage("테스트 메시지 2 - 이것은 조금 긴 메시지입니다.");
+        AddMessage("테스트 메시지 3");
+        AddSystemMessage("시스템 메시지 테스트");
     }
 
     /// <summary>
@@ -123,7 +127,21 @@ public class ChatPanel : MonoBehaviour
     /// </summary>
     private void AddMessageInternal(string message, bool isSystemMessage)
     {
+        // 프리팹 체크
+        if (chatMessagePrefab == null)
+        {
+            Debug.LogError("ChatMessage Prefab이 설정되지 않았습니다!");
+            return;
+        }
+
+        if (contentContainer == null)
+        {
+            Debug.LogError("Content Container가 설정되지 않았습니다!");
+            return;
+        }
+
         GameObject newMessage = Instantiate(chatMessagePrefab, contentContainer);
+        Debug.Log($"메시지 생성됨: {message}, 위치: {newMessage.transform.position}");
 
         TextMeshProUGUI textComponent = newMessage.GetComponentInChildren<TextMeshProUGUI>();
         if (textComponent != null)
@@ -135,6 +153,10 @@ public class ChatPanel : MonoBehaviour
             {
                 textComponent.color = systemMessageColor;
             }
+        }
+        else
+        {
+            Debug.LogError("ChatMessage 프리팹에 TextMeshProUGUI 컴포넌트가 없습니다!");
         }
 
         messageObjects.Add(newMessage);
@@ -154,7 +176,23 @@ public class ChatPanel : MonoBehaviour
     /// </summary>
     private void ScrollToBottom()
     {
+        // 코루틴으로 다음 프레임에 스크롤 (튕김 방지)
+        StartCoroutine(ScrollToBottomCoroutine());
+    }
+
+    /// <summary>
+    /// 스크롤을 부드럽게 아래로 이동하는 코루틴
+    /// </summary>
+    private System.Collections.IEnumerator ScrollToBottomCoroutine()
+    {
+        // Layout이 완전히 재계산될 때까지 대기
+        yield return null; // 1프레임 대기
+
         Canvas.ForceUpdateCanvases();
+        scrollRect.verticalNormalizedPosition = 0f;
+
+        // 한 번 더 보정 (확실하게)
+        yield return null;
         scrollRect.verticalNormalizedPosition = 0f;
     }
 
@@ -228,6 +266,10 @@ public class ChatPanel : MonoBehaviour
         }
     }
 }
+
+
+/////////////////////////////////////////
+///
 
 
 /*using UnityEngine;
