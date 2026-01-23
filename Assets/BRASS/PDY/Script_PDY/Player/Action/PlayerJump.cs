@@ -3,123 +3,104 @@ using UnityEngine;
 namespace BRASS
 {
     /// <summary>
-    /// 점프 입력을 처리하며
-    /// 프레임 소모와 조건 분리를 통해 와다다 연타를 차단하고
-    /// 공중 점프 간격 제어로 2단 점프 타이밍을 보장한다
+    /// 점프 입력을 처리하고
+    /// 점프 횟수(JumpIndex)를 기준으로 2단 점프까지만 허용한다
+    /// 1단 점프에는 짧은 입력 쿨타임을 적용하여 연타를 방지하고
+    /// 2단 점프 이후에는 별도의 회복 쿨타임을 적용하여
+    /// 착지 직후 애니메이션이 씹히는 현상을 방지한다
     /// </summary>
     public class PlayerJump : MonoBehaviour
     {
         #region Variables
-        [SerializeField] private int maxJumpCount = 2;
-        // 최대 점프 횟수 (1단 + 2단)
+        [SerializeField] private int maxJumpCount = 2;            // 허용되는 최대 점프 횟수 (1단 + 2단)
+        [SerializeField] private float jumpForce = 5f;            // 점프 시 적용할 수직 속도
 
-        [SerializeField] private float jumpForce = 5f;
-        // 점프 시 적용할 수직 속도
+        [Header("Cooldown")]
+        [SerializeField] private float jumpInputCooldown = 0.15f;
+        // 1단 점프 포함 공통 입력 연타 방지용 쿨타임
 
-        [SerializeField] private float groundInputDebounce = 0.12f;
-        // 지면 점프 연타 방지를 위한 최소 입력 간격
+        [SerializeField] private float secondJumpCooldown = 0.25f;
+        // 2단 점프 사용 이후 적용되는 착지 애니메이션 보호용 쿨타임
 
-        [SerializeField] private float airJumpInterval = 0.25f;
-        // 공중 점프 간 최소 간격 (2단 점프용)
+        private PlayerController controller;                      // 수직 속도 적용을 담당하는 컨트롤러 참조
+        private PlayerState state;                                 // 점프 단계 및 접지 상태를 관리하는 상태 컨테이너
 
-        private int currentJumpCount;
-        // 현재 점프 사용 횟수
-
-        private float lastGroundJumpTime = -999f;
-        // 마지막 지면 점프 시점
-
-        private float lastAirJumpTime = -999f;
-        // 마지막 공중 점프 시점
-
-        private int lastProcessedFrame = -1;
-        // 같은 프레임 내 중복 점프 처리를 방지하기 위한 프레임 기록
-
-        private PlayerController controller;
-        // 수직 속도 적용 및 애니메이션 트리거 전달 담당
-
-        private PlayerState state;
-        // 지면 접촉 여부 및 점프 단계 상태 참조
+        private float lastJumpInputTime;                           // 마지막 점프 입력이 처리된 시각
+        private float secondJumpTime;                              // 마지막 2단 점프가 실행된 시각
+        private bool isSecondJumpCooldownActive;                   // 2단 점프 쿨타임 활성 여부
         #endregion
 
         #region Unity Event Method
         private void Awake()
         {
             controller = GetComponentInParent<PlayerController>();
-            // 부모 계층에서 PlayerController를 캐싱한다
+            // 부모 계층에서 PlayerController를 탐색하여 캐싱한다
 
             state = GetComponentInParent<PlayerState>();
-            // 부모 계층에서 PlayerState를 캐싱한다
+            // 부모 계층에서 PlayerState를 탐색하여 캐싱한다
         }
 
         private void Update()
         {
-            ResetJumpCountIfGrounded();
-            // 착지 시 점프 관련 상태를 초기화한다
+            CheckSecondJumpCooldown();
+            // 2단 점프 쿨타임 종료 여부를 감시한다
         }
         #endregion
 
         #region Custom Method
-        // 점프 입력이 들어왔을 때 호출되어 조건을 만족하면 점프를 실행한다
+        // 점프 입력이 들어왔을 때 호출되어 점프 가능 여부를 판단한다
         public void TryJump()
         {
-            float now = Time.time;
+            if (state == null || controller == null) return;
+            // 필수 참조가 없으면 점프 처리를 수행하지 않는다
 
-            // 같은 프레임에 이미 점프를 처리했다면 추가 입력을 무시한다
-            if (Time.frameCount == lastProcessedFrame) return;
+            if (Time.time < lastJumpInputTime + jumpInputCooldown)
+                return;
+            // 공통 입력 쿨타임이 남아 있으면 연타 입력을 차단한다
 
-            // 최대 점프 횟수 초과 방지
-            if (currentJumpCount >= maxJumpCount) return;
+            if (state.JumpIndex == 0 &&
+                isSecondJumpCooldownActive &&
+                Time.time < secondJumpTime + secondJumpCooldown)
+                return;
+            // 2단 점프 이후 착지 직후 보호 쿨타임이 남아 있으면 입력을 차단한다
 
-            // 1단 점프 (지면)
-            if (currentJumpCount == 0)
-            {
-                // 지면 점프 연타 방지
-                if (now - lastGroundJumpTime < groundInputDebounce) return;
+            if (state.JumpIndex >= maxJumpCount) return;
+            // 최대 점프 횟수를 초과한 경우 입력을 무시한다
 
-                lastGroundJumpTime = now;
-            }
-            // 2단 점프 (공중)
-            else
-            {
-                // 공중 점프 간 최소 간격 보장
-                if (now - lastAirJumpTime < airJumpInterval) return;
+            state.JumpIndex++;
+            // 점프 단계 증가 (0 → 1 → 2)
 
-                lastAirJumpTime = now;
-            }
-
-            lastProcessedFrame = Time.frameCount;
-            // 이번 프레임의 점프 처리를 소비 처리한다
+            state.IsJumping = true;
+            // 점프 펄스를 시작하여 Animator가 점프 상태를 인식하도록 한다
 
             controller.SetVerticalVelocity(jumpForce);
-            // 수직 속도를 설정하여 점프를 수행한다
+            // 실제 물리 점프를 수행한다
 
-            currentJumpCount++;
-            // 점프 사용 횟수를 증가시킨다
+            lastJumpInputTime = Time.time;
+            // 공통 입력 쿨타임 기준 시각을 기록한다
 
-            state.JumpIndex = currentJumpCount;
-            // 현재 점프 단계를 상태값으로 기록한다
-
-            controller.TriggerJumpAnimation(state.JumpIndex);
-            // 점프 단계에 맞는 애니메이션 트리거를 발생시킨다
+            if (state.JumpIndex == maxJumpCount)
+            {
+                secondJumpTime = Time.time;
+                isSecondJumpCooldownActive = true;
+                // 2단 점프가 실행된 시점에 보호 쿨타임을 활성화한다
+            }
         }
 
-        // 지면에 착지했을 때 점프 상태를 초기화한다
-        private void ResetJumpCountIfGrounded()
+        // 2단 점프 보호 쿨타임 종료 시점을 감지한다
+        private void CheckSecondJumpCooldown()
         {
-            // 공중 상태라면 초기화를 수행하지 않는다
-            if (!state.IsGrounded) return;
+            if (!isSecondJumpCooldownActive) return;
+            // 보호 쿨타임이 활성화되지 않았으면 검사하지 않는다
 
-            // 이미 초기화된 상태라면 중복 실행을 방지한다
-            if (currentJumpCount == 0) return;
+            if (Time.time >= secondJumpTime + secondJumpCooldown)
+            {
+                isSecondJumpCooldownActive = false;
+                // 보호 쿨타임 상태를 종료한다
 
-            currentJumpCount = 0;
-            // 점프 사용 횟수를 초기화한다
-
-            state.JumpIndex = 0;
-            // 점프 단계 상태값을 리셋한다
-
-            controller.ResetJumpIndex();
-            // 애니메이터의 JumpIndex 파라미터를 초기화한다
+                Debug.Log("[Jump] 2단 점프 보호 쿨타임 종료");
+                // 디버그용: 착지 직후 애니메이션 보호 구간 종료
+            }
         }
         #endregion
     }

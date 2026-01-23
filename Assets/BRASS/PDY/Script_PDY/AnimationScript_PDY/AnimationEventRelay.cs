@@ -11,8 +11,7 @@ namespace BRASS
         [SerializeField] private PlayerController controller;
         // 이동 로직을 담당하는 PlayerController 참조
 
-        [SerializeField] private PlayerJump jump;
-        // 점프 랜딩 이벤트를 전달할 PlayerJump 참조
+        [SerializeField] private PlayerJump jump;  // 점프 힘 정보를 가져오기 위한 PlayerJump 참조
         #endregion
 
         #region Unity Event Method
@@ -49,11 +48,15 @@ namespace BRASS
             // 슬라이딩 이동을 종료한다
         }
 
-        // 점프 랜딩 애니메이션 종료 이벤트
-        public void OnJumpLanding()
-        {          
-            if (jump == null) return;     
-        }
+        /*// 점프 애니메이션의 특정 프레임에서 호출된다
+        public void OnJumpImpulse()
+        {
+            if (controller == null || jump == null) return;
+            // 필수 참조가 없으면 점프를 실행하지 않는다
+
+            controller.ExecuteJumpImpulse(jump.CurrentJumpForce);
+            // PlayerJump 인스펙터에서 지정한 힘으로 점프를 실행한다
+        }*/
         #endregion
     }
 }
