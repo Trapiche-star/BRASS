@@ -1,76 +1,78 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.EventSystems;
+
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
 
 public class PlayerStatusManager : MonoBehaviour
 {
-    public static PlayerStatusManager Instance;
+    [System.Serializable]
+    public class WeaponData
+    {
+        public string weaponName;
+        public Sprite icon;
+        public int atk;
+        public int def;
+    }
 
-    [Header("Profile Info")]
-    public TextMeshProUGUI levelText;
-    public TextMeshProUGUI nickNameText;
+    [Header("Main UI Connection")]
+    public Image currentWeaponIcon;     // Current_Weapon_Slot의 Image
+    public TextMeshProUGUI atkValueText; // ATK_Value (자식 숫자 텍스트)
+    public TextMeshProUGUI defValueText; // DEF_Value (자식 숫자 텍스트)
 
-    [Header("Gauges (EXP -> HP -> MP 순서)")]
-    public Image expFill;
-    public Image hpFill;
-    public Image mpFill;
+    [Header("Popup System")]
+    public GameObject weaponPopup;       // Weapon_Select_Popup 오브젝트
+    public WeaponData[] availableWeapons; // 여기서 무기 정보를 자유롭게 수정하세요
 
-    [Header("Weapon & Stats")]
-    public Image weaponIcon;      // 게임기 모양 임시 이미지 위치
-    public TextMeshProUGUI atkText;
-    public TextMeshProUGUI defText;
-
-    [Header("Tooltip System")]
+    [Header("Tooltip")]
     public GameObject tooltipPanel;
     public TextMeshProUGUI tooltipText;
 
-    private void Awake()
+    void Awake()
     {
-        Instance = this;
-        if (tooltipPanel != null) tooltipPanel.SetActive(false);
+        if (weaponPopup) weaponPopup.SetActive(false);
+        if (tooltipPanel) tooltipPanel.SetActive(false);
     }
 
-    // 1. 상태 업데이트 (게이지 및 스탯)
-    public void UpdateAllStatus(float hp, float maxHp, float mp, float maxMp, float exp, float maxExp, int atk, int def)
+    void Update()
     {
-        if (hpFill) hpFill.fillAmount = hp / maxHp;
-        if (mpFill) mpFill.fillAmount = mp / maxMp;
-        if (expFill) expFill.fillAmount = exp / maxExp;
-
-        if (atkText) atkText.text = $"ATK  {atk}";
-        if (defText) defText.text = $"DEF  {def}";
-    }
-
-    // 2. 무기 아이콘 교체 (클릭 시 호출용)
-    public void ChangeWeapon(Sprite newWeaponSprite)
-    {
-        if (weaponIcon != null)
-        {
-            weaponIcon.sprite = newWeaponSprite;
-            Debug.Log("무기가 교체되었습니다!");
-        }
-    }
-
-    // 3. 툴팁 로직
-    public void ShowTooltip(string message)
-    {
-        if (tooltipPanel == null) return;
-        tooltipPanel.SetActive(true);
-        tooltipText.text = message;
-    }
-
-    public void HideTooltip()
-    {
-        if (tooltipPanel != null) tooltipPanel.SetActive(false);
-    }
-
-    private void Update()
-    {
-        // 툴팁이 마우스를 따라다니게 설정
+        // 툴팁 마우스 추적 (새 인풋 시스템 대응)
         if (tooltipPanel != null && tooltipPanel.activeSelf)
         {
-            tooltipPanel.transform.position = Input.mousePosition + new Vector3(15, 15, 0);
+            Vector2 mousePos;
+#if ENABLE_INPUT_SYSTEM
+            mousePos = Mouse.current.position.ReadValue();
+#else
+            mousePos = Input.mousePosition;
+#endif
+            tooltipPanel.transform.position = mousePos + new Vector2(15, 15);
         }
     }
+
+    public void OpenPopup() => weaponPopup.SetActive(true);
+    public void ClosePopup() => weaponPopup.SetActive(false);
+
+    public void SelectWeapon(int index)
+    {
+        if (index >= 0 && index < availableWeapons.Length)
+        {
+            WeaponData data = availableWeapons[index];
+            currentWeaponIcon.sprite = data.icon;
+            atkValueText.text = data.atk.ToString();
+            defValueText.text = data.def.ToString();
+            ClosePopup();
+        }
+    }
+
+    public void ShowTooltip(int index)
+    {
+        if (index < availableWeapons.Length)
+        {
+            tooltipPanel.SetActive(true);
+            tooltipText.text = availableWeapons[index].weaponName;
+        }
+    }
+    public void HideTooltip() => tooltipPanel.SetActive(false);
 }
