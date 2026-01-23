@@ -3,7 +3,9 @@ using UnityEngine;
 namespace BRASS
 {
     /// <summary>
-    /// PlayerState를 기반으로 Animator 파라미터와 점프·이동·Idle 연출을 제어한다
+    /// PlayerState를 기반으로 Animator 파라미터와
+    /// 이동·점프·Idle 연출을 단방향으로 반영한다
+    /// Animator는 상태를 판단하지 않고 결과만 재생한다
     /// </summary>
     public class PlayerAnimationController : MonoBehaviour
     {
@@ -17,26 +19,13 @@ namespace BRASS
         [SerializeField] private IdleAnimation idleAnimation;
         // Idle 변형 애니메이션 타이밍 제어를 담당
 
-        private int hashIsMoving;
-        // 이동 여부 파라미터 해시
-
-        private int hashIsSliding;
-        // 슬라이딩 상태 파라미터 해시
-
-        private int hashFastRun;
-        // 패스트런 애니메이션 배율 파라미터 해시
-
-        private int hashIsGrounded;
-        // 지면 접촉 여부 파라미터 해시
-
-        private int hashIsJumping;
-        // 점프 상태 유지 여부 파라미터 해시
-
-        private int hashJumpIndex;
-        // 점프 단계(1단/2단) 파라미터 해시
-
-        private int hashIdleDwarf;
-        // Idle_Dwarf 트리거 파라미터 해시
+        private int hashIsMoving;    // 이동 여부 파라미터 해시
+        private int hashIsSliding;   // 슬라이딩 상태 파라미터 해시
+        private int hashFastRun;     // 패스트런 애니메이션 배율 파라미터 해시
+        private int hashIsGrounded;  // 지면 접촉 여부 파라미터 해시
+        private int hashIsJumping;   // 공중 상태 여부 파라미터 해시
+        private int hashJumpIndex;   // 점프 단계(0 / 1 / 2) 파라미터 해시
+        private int hashIdleDwarf;   // Idle_Dwarf 트리거 파라미터 해시
         #endregion
 
         #region Unity Event Method
@@ -75,19 +64,19 @@ namespace BRASS
             // 필수 참조가 없으면 이 프레임에서는 애니메이션을 갱신하지 않는다
 
             animator.SetBool(hashIsMoving, state.IsMoving);
-            // 현재 이동 중인지 여부를 전달한다
+            // 이동 입력 또는 이동 벡터가 존재하는 상태를 전달한다
 
             animator.SetBool(hashIsSliding, state.IsSliding);
             // 슬라이딩 상태 여부를 전달한다
 
             animator.SetBool(hashIsGrounded, state.IsGrounded);
-            // 캐릭터가 지면에 닿아 있는지 여부를 전달한다
+            // 캐릭터가 지면에 접촉해 있는지 여부를 전달한다
 
             animator.SetBool(hashIsJumping, state.IsJumping);
-            // 현재 점프 상태인지 여부를 전달한다
+            // 공중 상태 여부를 전달한다 (IsGrounded의 반대 결과)
 
-            //animator.SetInteger(hashJumpIndex, state.JumpIndex);
-            // 현재 점프 단계(0=없음, 1=1단, 2=2단)를 전달한다
+            animator.SetInteger(hashJumpIndex, state.JumpIndex);
+            // 현재 점프 단계(0=지면, 1=1단, 2=2단)를 전달한다
 
             animator.SetFloat(
                 hashFastRun,
