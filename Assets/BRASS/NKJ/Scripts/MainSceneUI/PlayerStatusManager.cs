@@ -1,17 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.EventSystems;
 
-// 새 입력 시스템 에러 방지 (패키지가 설치되어 있을 경우)
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
 
 public class PlayerStatusManager : MonoBehaviour
 {
-    public static PlayerStatusManager Instance;
-
     [System.Serializable]
     public class WeaponData
     {
@@ -21,36 +17,29 @@ public class PlayerStatusManager : MonoBehaviour
         public int def;
     }
 
+    [Header("Main UI Connection")]
+    public Image currentWeaponIcon;     // Current_Weapon_Slot의 Image
+    public TextMeshProUGUI atkValueText; // ATK_Value (자식 숫자 텍스트)
+    public TextMeshProUGUI defValueText; // DEF_Value (자식 숫자 텍스트)
 
-
-    [Header("Current Status (UI Objects)")]
-    public Image currentWeaponIcon;
-    public TextMeshProUGUI atkText;
-    public TextMeshProUGUI defText;
-
-    [Header("Weapon Selection Popup")]
-    public GameObject weaponSelectPopup;
-    public WeaponData[] availableWeapons; // 인스펙터에서 무기 정보를 입력하세요
+    [Header("Popup System")]
+    public GameObject weaponPopup;       // Weapon_Select_Popup 오브젝트
+    public WeaponData[] availableWeapons; // 여기서 무기 정보를 자유롭게 수정하세요
 
     [Header("Tooltip")]
     public GameObject tooltipPanel;
     public TextMeshProUGUI tooltipText;
 
-    private void Awake()
+    void Awake()
     {
-        Instance = this;
-        if (weaponSelectPopup) weaponSelectPopup.SetActive(false);
+        if (weaponPopup) weaponPopup.SetActive(false);
         if (tooltipPanel) tooltipPanel.SetActive(false);
     }
 
-    private void Update()
+    void Update()
     {
-
-
-
-
-        // 2. 툴팁 마우스 추적 (새 입력 시스템 대응)
-        if (tooltipPanel && tooltipPanel.activeSelf)
+        // 툴팁 마우스 추적 (새 인풋 시스템 대응)
+        if (tooltipPanel != null && tooltipPanel.activeSelf)
         {
             Vector2 mousePos;
 #if ENABLE_INPUT_SYSTEM
@@ -62,48 +51,28 @@ public class PlayerStatusManager : MonoBehaviour
         }
     }
 
-    // --- 팝업 제어 ---
-    public void OpenWeaponMenu()
-    {
-        if (weaponSelectPopup) weaponSelectPopup.SetActive(true);
-    }
+    public void OpenPopup() => weaponPopup.SetActive(true);
+    public void ClosePopup() => weaponPopup.SetActive(false);
 
-    public void CloseWeaponMenu()
-    {
-        if (weaponSelectPopup) weaponSelectPopup.SetActive(false);
-    }
-
-    // --- 무기 교체 (이미지 + 스탯) ---
     public void SelectWeapon(int index)
     {
         if (index >= 0 && index < availableWeapons.Length)
         {
-            WeaponData selected = availableWeapons[index];
-
-            // 이미지 변경
-            if (currentWeaponIcon) currentWeaponIcon.sprite = selected.icon;
-
-            // 스탯 변경
-            if (atkText) atkText.text = $"ATK {selected.atk}";
-            if (defText) defText.text = $"DEF {selected.def}";
-
-            Debug.Log($"{selected.weaponName} 장착 완료!");
-            CloseWeaponMenu(); // 선택 후 팝업 닫기
+            WeaponData data = availableWeapons[index];
+            currentWeaponIcon.sprite = data.icon;
+            atkValueText.text = data.atk.ToString();
+            defValueText.text = data.def.ToString();
+            ClosePopup();
         }
     }
 
-    // --- 툴팁 제어 ---
-    public void ShowTooltip(string message)
+    public void ShowTooltip(int index)
     {
-        if (tooltipPanel && tooltipText)
+        if (index < availableWeapons.Length)
         {
             tooltipPanel.SetActive(true);
-            tooltipText.text = message;
+            tooltipText.text = availableWeapons[index].weaponName;
         }
     }
-
-    public void HideTooltip()
-    {
-        if (tooltipPanel) tooltipPanel.SetActive(false);
-    }
+    public void HideTooltip() => tooltipPanel.SetActive(false);
 }
