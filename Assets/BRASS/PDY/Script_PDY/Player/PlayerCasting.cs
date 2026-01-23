@@ -22,6 +22,7 @@ namespace BRASS
 
         public bool HasTarget { get; private set; }          // 현재 유효한 상호작용 대상 존재 여부
         public IInteractable CurrentTarget => currentTarget; // 외부(PlayerInteraction)에서 참조할 현재 대상
+
         #endregion
 
         #region Unity Event Method
@@ -48,7 +49,7 @@ namespace BRASS
 
         #region Custom Method
         private void Cast()
-        {        
+        {
             // 매 프레임 상태 초기화
             HasTarget = false;
             currentTarget = null;
@@ -78,7 +79,7 @@ namespace BRASS
                     currentTarget = target; // G 키 입력 시 실행 대상
                 }
             }
+            #endregion
         }
-        #endregion
     }
 }
