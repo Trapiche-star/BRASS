@@ -310,10 +310,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "1\uD0A4"
+  m_text: 1key
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 38c39d3fed1bf124aa3ceecc1dc95075, type: 2}
-  m_sharedMaterial: {fileID: 2294546976477449657, guid: 38c39d3fed1bf124aa3ceecc1dc95075, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ba3f858b5645ab842976def10cf2ac92, type: 2}
+  m_sharedMaterial: {fileID: -7275179226551164831, guid: ba3f858b5645ab842976def10cf2ac92, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
