@@ -6,6 +6,7 @@ namespace Team1
     {
         private int healAmount;
 
+        // ⭐ Data 쪽 호출 순서와 맞춤
         public HealPotion(string name, Sprite icon, int healAmount)
         {
             ItemName = name;
@@ -15,7 +16,12 @@ namespace Team1
 
         public override void Use(GameObject user)
         {
-            Debug.Log($"🧪 {ItemName} 사용! HP {healAmount} 회복!");
+            Debug.Log($"❤️ {ItemName} 사용 → 체력 {healAmount} 회복");
+        }
+
+        public override ConsumableItem Clone()
+        {
+            return new HealPotion(ItemName, Icon, healAmount);
         }
     }
 }
