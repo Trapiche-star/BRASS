@@ -45,15 +45,12 @@ namespace BRASS
         #region Custom Method
         private void OnInteract(InputAction.CallbackContext context)
         {
-            // 캐스팅 컴포넌트가 없으면 상호작용 불가
-            if (casting == null) return;
+            Debug.Log($"🎯 Interact 호출됨 / HasTarget = {casting.HasTarget}");
 
-            // 현재 프레임에 유효한 상호작용 대상이 없으면 처리 중단
             if (!casting.HasTarget) return;
-
-            // 감지된 대상에게 상호작용 실행 요청
             casting.CurrentTarget?.Interact();
         }
+
         #endregion
     }
 }

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c68b7009a7f694644b070082816b7715, type: 3}
+  m_Name: BattleAxe
+  m_EditorClassIdentifier: Assembly-CSharp::BattleAxe
+  itemId: 1
+  itemName: BattleAxe
+  weaponType: 1
+  weaponPrefab: {fileID: 3133853346939686604, guid: 615a8267458c3114aa43a2c1ce91ea0c, type: 3}

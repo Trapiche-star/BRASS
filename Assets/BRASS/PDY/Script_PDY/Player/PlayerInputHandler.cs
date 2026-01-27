@@ -203,7 +203,7 @@ namespace BRASS
             if (combat == null) return;
             // PlayerCombat이 없으면 처리를 중단한다
 
-            combat.OnBasicAttackCanceled();
+            //combat.OnBasicAttackCanceled();
             // 기본공격 버튼 해제를 전달한다
         }
         #endregion
