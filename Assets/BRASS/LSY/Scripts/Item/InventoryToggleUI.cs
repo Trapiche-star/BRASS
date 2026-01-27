@@ -1,40 +1,93 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Team1;
 
 namespace Team1
 {
     public class InventoryToggleUI : MonoBehaviour
     {
-        [Header("인벤토리 UI 루트")]
-        [SerializeField] private GameObject inventoryRoot;
+        [Header("상점 UI 루트")]
+        [SerializeField] private GameObject shopRoot;
 
-        private bool isOpen;
+        [Header("플레이어 입력")]
+        [SerializeField] private PlayerInput playerInput;
+
+        [Header("플레이어 이동 스크립트")]
+        [SerializeField] private MonoBehaviour playerMoveScript;
+
+        [Header("상호작용 컨트롤러")]
+        [SerializeField] private InteractionController interactionController;
+
+        public bool IsOpen => shopRoot != null && shopRoot.activeSelf;
 
         private void Awake()
         {
-            if (inventoryRoot != null)
-                inventoryRoot.SetActive(false);
+            if (shopRoot != null)
+                shopRoot.SetActive(false);
+
+            if (playerInput == null)
+                playerInput = FindObjectOfType<PlayerInput>();
+
+            if (interactionController == null)
+                interactionController = FindObjectOfType<InteractionController>();
         }
 
-        private void Update()
+        public void Open()
         {
-            if (Keyboard.current == null)
-                return;
+            if (shopRoot == null) return;
 
-            if (Keyboard.current.iKey.wasPressedThisFrame)
-            {
-                Toggle();
-            }
+            shopRoot.SetActive(true);
+
+            // ✅ 플레이어 입력 차단
+            if (playerInput != null)
+                playerInput.enabled = false;
+
+            // ✅ 이동 스크립트 차단 (중요!!)
+            if (playerMoveScript != null)
+                playerMoveScript.enabled = false;
+
+            // ✅ 상호작용 차단 (G키)
+            if (interactionController != null)
+                interactionController.enabled = false;
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+            Time.timeScale = 0f;
+
+            Debug.Log("🏪 상점 열림 - 모든 입력 차단");
         }
 
-        private void Toggle()
+        public void Close()
         {
-            isOpen = !isOpen;
+            if (shopRoot == null) return;
 
-            if (inventoryRoot != null)
-                inventoryRoot.SetActive(isOpen);
+            shopRoot.SetActive(false);
 
-            Debug.Log($"🎒 인벤토리 {(isOpen ? "열림" : "닫힘")}");
+            // ✅ 입력 복구
+            if (playerInput != null)
+                playerInput.enabled = true;
+
+            // ✅ 이동 복구
+            if (playerMoveScript != null)
+                playerMoveScript.enabled = true;
+
+            // ✅ 상호작용 복구
+            if (interactionController != null)
+                interactionController.enabled = true;
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
+            Time.timeScale = 1f;
+
+            Debug.Log("🏪 상점 닫힘 - 입력 복구");
+        }
+
+        public void Toggle()
+        {
+            if (IsOpen) Close();
+            else Open();
         }
     }
 }
