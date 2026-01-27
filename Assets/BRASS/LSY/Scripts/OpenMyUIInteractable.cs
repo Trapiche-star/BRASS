@@ -7,31 +7,42 @@ namespace Team1
     {
         [SerializeField] private GameObject myUI;
 
-        // 🔒 중복 호출 방지용
-        private float lastInteractTime = -1f;
-        private const float interactCooldown = 0.2f; // 0.2초 이내 중복 무시
+        private static OpenMyUIInteractable currentOpen;
 
         public void Interact()
         {
-            // 🚫 너무 짧은 시간에 다시 호출되면 무시
-            if (Time.time - lastInteractTime < interactCooldown)
-            {
-                return;
-            }
-
-            lastInteractTime = Time.time;
-
             if (myUI == null)
-            {
                 return;
+
+            // ✅ 다른 UI 열려있으면 닫기
+            if (currentOpen != null && currentOpen != this)
+            {
+                currentOpen.Close();
             }
 
-            // 실제 UI 활성 상태 기준으로 토글
-            bool nextState = !myUI.activeSelf;
-            myUI.SetActive(nextState);
+            // ✅ 토글
+            if (myUI.activeSelf)
+                Close();
+            else
+                Open();
         }
 
-        // Player 쪽에서 상태 볼 때도 실제 UI 기준
+        private void Open()
+        {
+            myUI.SetActive(true);
+            Time.timeScale = 0f;
+            currentOpen = this;
+        }
+
+        private void Close()
+        {
+            myUI.SetActive(false);
+            Time.timeScale = 1f;
+
+            if (currentOpen == this)
+                currentOpen = null;
+        }
+
         public bool IsOpen => myUI != null && myUI.activeSelf;
     }
 }
