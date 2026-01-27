@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Team1
@@ -37,6 +38,14 @@ namespace Team1
             {
                 Slots.RemoveAt(index);
             }
+        }
+        // ⭐ 카테고리 필터링
+        public List<InventorySlot> GetSlotsByCategory(ItemCategory category)
+        {
+            if (category == ItemCategory.All)
+                return Slots;
+
+            return Slots.Where(s => s.Item.Category == category).ToList();
         }
     }
 }

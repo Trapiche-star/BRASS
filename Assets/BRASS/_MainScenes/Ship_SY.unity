@@ -417,7 +417,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &16994501
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3681,103 +3681,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
---- !u!1001 &220173724
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1621140866}
-    m_Modifications:
-    - target: {fileID: 1362570963942193241, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-      propertyPath: m_Name
-      value: Steampunk PhoneBooth (Ver.1) (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 3618355207154846013, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3618355207154846013, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3618355207154846013, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3618355207154846013, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 5.11
-      objectReference: {fileID: 0}
-    - target: {fileID: 3618355207154846013, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -9.27166
-      objectReference: {fileID: 0}
-    - target: {fileID: 3618355207154846013, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 25.54815
-      objectReference: {fileID: 0}
-    - target: {fileID: 3618355207154846013, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 3618355207154846013, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3618355207154846013, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 3618355207154846013, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3618355207154846013, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3618355207154846013, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 3618355207154846013, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4321550414280243785, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-    - {fileID: 2191987421647358425, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-    - {fileID: 4918900582684057801, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-    - {fileID: 2680303725441593303, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-    - {fileID: 9038998771018430452, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-    - {fileID: 6844572158720154937, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-    - {fileID: 4236408767445200558, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-    - {fileID: 2512806044538070143, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-    - {fileID: 6335673134206197812, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-    - {fileID: 7523686402401066815, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-    - {fileID: 634733429334856872, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-    - {fileID: 7732287960581769389, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-    - {fileID: 8761677752909205505, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-    - {fileID: 4761143066344964634, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-    - {fileID: 6901170980228819213, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-    - {fileID: 5917523996669101418, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-    - {fileID: 822300662091049977, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-    - {fileID: 5049617193058316584, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-    - {fileID: 5653006669305459718, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-    - {fileID: 2073018632431327709, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-    - {fileID: 4254843027540062026, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-    - {fileID: 5534315366974424994, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-    - {fileID: 6983087406295142088, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
---- !u!4 &220173725 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3618355207154846013, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-  m_PrefabInstance: {fileID: 220173724}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &220959790
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26292,7 +26195,6 @@ Transform:
   - {fileID: 164739645}
   - {fileID: 763909467}
   - {fileID: 1736443307}
-  - {fileID: 220173725}
   - {fileID: 1407555608}
   - {fileID: 514822560}
   - {fileID: 1465342593}
@@ -27915,18 +27817,6 @@ PrefabInstance:
     - target: {fileID: 1362570963942193241, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
       propertyPath: m_Name
       value: Steampunk PhoneBooth (Ver.1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 3618355207154846013, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3618355207154846013, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3618355207154846013, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3618355207154846013, guid: 5b9d67f7d7bcba141b37ec81960b4703, type: 3}
       propertyPath: m_LocalPosition.x
