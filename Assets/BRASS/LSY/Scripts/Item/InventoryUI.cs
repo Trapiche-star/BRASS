@@ -11,7 +11,7 @@ namespace Team1
         private void Awake()
         {
             if (inventory == null)
-                inventory = FindObjectOfType<Inventory>();
+                inventory = Object.FindFirstObjectByType<Inventory>();
         }
 
         private void Update()
