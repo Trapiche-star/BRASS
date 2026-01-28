@@ -1,3 +1,7 @@
+//닉네임 앞에 있는거 추가
+
+
+  
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -81,7 +85,7 @@ public class ChatPanel : MonoBehaviour
         // Content 크기 초기화
         ResetContentSize();
 
-        // 테스트 메시지 - 실제 화면에 보일 거예요!
+        // 테스트 메시지
         AddSystemMessage("=== 채팅 시작 ===");
         AddMessage("첫 번째 메시지");
         AddMessage("두 번째 메시지입니다");
