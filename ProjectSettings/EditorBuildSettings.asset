@@ -11,5 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/BRASS/LSY/Tower.unity
     guid: f46421ad9f4b3f64a8d05625a8fbde28
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: e124ea60a688e3942ac1ebbdb562a8f3, type: 2}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: efc54bccae58642449556465e5733c43, type: 3}
   m_UseUCBPForAssetBundles: 0

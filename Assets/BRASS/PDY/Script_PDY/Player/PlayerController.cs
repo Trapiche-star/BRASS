@@ -64,13 +64,18 @@ namespace BRASS
         private void HandleMovement()
         {
             // 필수적인 컴포넌트 참조가 비어있다면 로직을 수행하지 않음
-            if (input == null || state == null || cameraPivot == null) return;           
+            if (input == null || state == null || cameraPivot == null) return;
 
             // 슬라이딩 입력이 감지되었을 때 상태를 전환하고 애니메이션을 트리거함
             if (input.SlidePressed && !slideInputConsumed)
             {
+                // 점프 중에는 슬라이드를 허용하지 않는다
+                if (state.IsJumping)
+                    return;
+                // 공중 상태에서 슬라이드 입력이 들어와도 무시한다
+
                 slideInputConsumed = true; // 입력 중복 처리 방지
-                isClickMoving = false; // 클릭 이동 중단
+                isClickMoving = false;     // 클릭 이동 중단
                 moveDirection = Vector3.zero; // 일반 이동 벡터 초기화
 
                 pendingSlideDirection = GetSlideDirection(); // 시점 기준 슬라이딩 방향 예약
@@ -92,34 +97,44 @@ namespace BRASS
                 ApplyGravity(); // 슬라이딩 중 중력 반영
 
                 AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0); // 현재 슬라이딩 애니메이션 정보 획득
-                float normalizedTime = Mathf.Clamp01(info.normalizedTime); // 애니메이션 진행도 보정
+                float normalizedTime = Mathf.Clamp01(info.normalizedTime);        // 애니메이션 진행도 보정
 
-                float curveValue = slideMoveCurve.Evaluate(normalizedTime); // 현재 시간대의 커브 값 추출
-                float deltaCurve = curveValue - lastSlideCurveValue; // 이전 프레임과의 변위차 계산
-                float moveDistance = deltaCurve * slideTotalDistance; // 실제 이동 거리 산출
+                float curveValue = slideMoveCurve.Evaluate(normalizedTime);       // 현재 시간대의 커브 값 추출
+                float deltaCurve = curveValue - lastSlideCurveValue;              // 이전 프레임과의 변위차 계산
+                float moveDistance = deltaCurve * slideTotalDistance;             // 실제 이동 거리 산출
 
                 // 커브 상 이동 거리가 발생한 경우 실제 물리 이동을 수행함
                 if (moveDistance > 0f)
                 {
-                    Vector3 slideMove = slideDirection * moveDistance; // 슬라이딩 방향 벡터 조합
-                    controller.Move(slideMove + velocity * Time.deltaTime); // 최종 물리 이동
+                    Vector3 slideMove = slideDirection * moveDistance;            // 슬라이딩 방향 벡터 조합
+                    controller.Move(slideMove + velocity * Time.deltaTime);       // 최종 물리 이동
                 }
 
                 lastSlideCurveValue = curveValue; // 현재 커브 기록값 갱신
                 return;
             }
 
-            HandleClickMoveInput(); // 마우스 클릭에 의한 목적지 설정 처리
-            CalculateClickMoveDirection(); // 클릭 이동 방향 산출
-            CalculateKeyboardMoveDirection(); // 키보드 입력에 따른 시점 기준 방향 산출
-            ApplyGravity(); // 중력 가속도 연산
-            UpdateState(); // 이동 및 달리기 상태 동기화
-            ApplyNormalMovement(); // 일반 이동 물리 반영            
+            HandleClickMoveInput();            // 마우스 클릭에 의한 목적지 설정 처리
+            CalculateClickMoveDirection();     // 클릭 이동 방향 산출
+            CalculateKeyboardMoveDirection();  // 키보드 입력에 따른 시점 기준 방향 산출
+            ApplyGravity();                    // 중력 가속도 연산
+            UpdateState();                     // 이동 및 달리기 상태 동기화
+            ApplyNormalMovement();             // 일반 이동 물리 반영
         }
+
+
 
         // 최종 결정된 방향과 속도를 이용하여 실제 물리 이동 및 회전을 수행함
         private void ApplyNormalMovement()
         {
+            // 공격 등으로 인해 입력 이동이 잠긴 상태라면
+            if (state.IsInputMovementLocked)
+            {
+                controller.Move(velocity * Time.deltaTime);
+                // 입력 이동은 차단하되 중력에 의한 수직 이동은 유지한다
+                return;
+            }
+
             float speed = state.IsFastRun ? fastRunSpeed : moveSpeed; // 상태에 따른 속도 선택
 
             // 이동 방향이 존재할 때만 로직을 실행함
@@ -260,6 +275,20 @@ namespace BRASS
         // 캐릭터의 현재 이동 및 고속 주행 상태를 PlayerState 컴포넌트에 동기화함
         private void UpdateState()
         {
+            // 공격 등으로 인해 입력 기반 이동이 잠긴 상태라면
+            if (state.IsInputMovementLocked)
+            {
+                state.IsMoving = false;
+                // 이동 입력이 들어와 있어도 '이동 중' 상태로 판단하지 않는다
+                // → 이동 애니메이션 차단용
+
+                state.IsFastRun = false;
+                // 이동 자체가 불가능하므로 달리기 상태도 함께 차단한다
+
+                return;
+                // 이동 상태 판단을 여기서 종료한다
+            }
+
             state.IsMoving = moveDirection != Vector3.zero; // 이동 벡터 유무에 따른 이동 판정
 
             // 키보드 이동 중이며 쉬프트 키가 눌려있을 때만 고속 이동 상태로 간주함
