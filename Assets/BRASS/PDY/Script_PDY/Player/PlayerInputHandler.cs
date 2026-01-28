@@ -3,208 +3,176 @@ using UnityEngine.InputSystem;
 
 namespace BRASS
 {
-    /// <summary>
-    /// 플레이어 입력을 수집하여 이동·카메라·행동 로직에 전달하는 클래스
-    /// </summary>
+    /// 플레이어 입력을 수집하여 이동, 카메라, 행동 로직에 전달하는 클래스
     public class PlayerInputHandler : MonoBehaviour
     {
         #region Variables
-        [SerializeField] private PlayerInput playerInput; // Input Action Asset을 통해 입력을 수신
+        [SerializeField] private PlayerInput playerInput; // 인풋 액션 에셋을 통해 데이터를 수신하는 컴포넌트
 
-        private PlayerCombat combat; // 기본공격 입력 전달 담당
-        private PlayerJump jump;     // 점프 입력 전달 담당
+        private PlayerCombat combat; // 기본 공격 입력을 처리할 전투 컴포넌트
+        private PlayerJump jump; // 점프 기능을 실행할 컴포넌트
+        private WeaponHandler weaponHandler; // 무기 장착 및 해제를 관리하는 핸들러
         #endregion
 
         #region Property
-        public Vector2 MoveInput { get; private set; }     // WASD 이동 입력값
-        public bool ClickMovePressed { get; private set; } // 좌클릭 이동 입력 여부
-        public Vector2 LookInput { get; private set; }     // 마우스 델타 회전 입력값
-        public Vector2 MousePosition { get; private set; } // 현재 마우스 스크린 좌표
-        public bool RotatePressed { get; private set; }    // 우클릭 회전 입력 여부
-        public float ZoomInput { get; private set; }       // 마우스 휠 줌 입력값
-        public bool IsKeyboardMove { get; private set; }   // WASD 이동 중 여부
-        public bool SlidePressed { get; private set; }     // 슬라이드 입력 여부
+        public Vector2 MoveInput { get; private set; } // 방향키 또는 WASD 입력 값
+        public bool ClickMovePressed { get; private set; } // 마우스 클릭 이동 버튼의 상태
+        public Vector2 LookInput { get; private set; } // 마우스 델타(회전) 입력 값
+        public Vector2 MousePosition { get; private set; } // 화면상의 마우스 좌표
+        public bool RotatePressed { get; private set; } // 카메라 회전 활성화 키 상태
+        public float ZoomInput { get; private set; } // 마우스 휠을 통한 줌 값
+        public bool IsKeyboardMove { get; private set; } // 현재 키보드 입력을 통해 이동 중인지 여부
+        public bool SlidePressed { get; private set; } // 슬라이딩 키 입력 상태
         #endregion
 
-        #region Unity Event Method
+        #region Unity Event Methods
         private void Awake()
         {
-            if (playerInput == null)
+            if (playerInput == null) // 할당되지 않았다면 컴포넌트에서 찾는다
                 playerInput = GetComponent<PlayerInput>();
-            // PlayerInput 참조가 없으면 같은 오브젝트에서 자동으로 탐색한다
 
+            // 모든 ActionMap을 명시적으로 비활성화
+            playerInput.actions.Disable();
+
+            // 자식 객체에서 필요한 기능적 컴포넌트들을 캐싱한다
             combat = GetComponentInChildren<PlayerCombat>();
-            // Player 하위 오브젝트에서 PlayerCombat을 탐색하여 캐싱한다
-
             jump = GetComponentInChildren<PlayerJump>();
-            // Player 하위 계층에서 PlayerJump를 탐색하여 캐싱한다
+            weaponHandler = GetComponentInChildren<WeaponHandler>();
 
-            if (jump == null)
-            {
+            if (jump == null) // 점프 컴포넌트 누락 시 경고
                 Debug.LogError("[PlayerInputHandler] PlayerJump not found in children.");
-            }
-            // PlayerJump가 존재하지 않을 경우 구조 오류를 명확히 로그로 알린다
+
+            if (weaponHandler == null) // 무기 핸들러 누락 시 경고
+                Debug.LogError("[PlayerInputHandler] WeaponHandler not found in children.");
         }
 
         private void OnEnable()
         {
             if (playerInput == null) return;
-            // PlayerInput이 없으면 입력 이벤트를 구독하지 않는다
 
-            playerInput.actions.FindActionMap("Player").Enable();
-            // 이동·카메라·점프 입력이 포함된 Player 맵을 활성화한다
+            // 필요한 ActionMap만 활성화
+            playerInput.actions.FindActionMap("Player", true).Enable();
+            playerInput.actions.FindActionMap("Attack", true).Enable();            
 
-            playerInput.actions.FindActionMap("Attack").Enable();
-            // 전투 입력이 포함된 Attack 맵을 활성화한다
-
+            // 각 입력 액션에 콜백 메서드를 등록한다
             playerInput.actions["Move"].performed += OnMove;
             playerInput.actions["Move"].canceled += OnMove;
-
             playerInput.actions["ClickMove"].performed += OnClickMove;
             playerInput.actions["ClickMove"].canceled += OnClickMove;
-
             playerInput.actions["Look"].performed += OnLook;
             playerInput.actions["Look"].canceled += OnLook;
-
             playerInput.actions["Rotate"].performed += OnRotate;
             playerInput.actions["Rotate"].canceled += OnRotate;
-
             playerInput.actions["Zoom"].performed += OnZoom;
             playerInput.actions["Zoom"].canceled += OnZoom;
-
             playerInput.actions["Sliding"].performed += OnSlide;
             playerInput.actions["Sliding"].canceled += OnSlide;
-
-            playerInput.actions["Jump"].performed += OnJump;            
-
+            playerInput.actions["Jump"].performed += OnJump;
             playerInput.actions["BasicAttack"].started += OnBasicAttackStarted;
             playerInput.actions["BasicAttack"].canceled += OnBasicAttackCanceled;
+            playerInput.actions["WeaponSlot1"].performed += OnWeaponSlot1;
         }
 
         private void OnDisable()
         {
             if (playerInput == null) return;
-            // PlayerInput이 없으면 이벤트 구독 해제를 수행하지 않는다
 
-            playerInput.actions.FindActionMap("Player").Disable();
-            // Player 맵을 비활성화하여 입력을 차단한다
-
-            playerInput.actions.FindActionMap("Attack").Disable();
-            // Attack 맵을 비활성화하여 입력을 차단한다
-
+            // 메모리 누수 방지를 위해 등록된 콜백을 모두 해제한다
             playerInput.actions["Move"].performed -= OnMove;
             playerInput.actions["Move"].canceled -= OnMove;
-
             playerInput.actions["ClickMove"].performed -= OnClickMove;
             playerInput.actions["ClickMove"].canceled -= OnClickMove;
-
             playerInput.actions["Look"].performed -= OnLook;
             playerInput.actions["Look"].canceled -= OnLook;
-
             playerInput.actions["Rotate"].performed -= OnRotate;
             playerInput.actions["Rotate"].canceled -= OnRotate;
-
             playerInput.actions["Zoom"].performed -= OnZoom;
             playerInput.actions["Zoom"].canceled -= OnZoom;
-
             playerInput.actions["Sliding"].performed -= OnSlide;
             playerInput.actions["Sliding"].canceled -= OnSlide;
-
             playerInput.actions["Jump"].performed -= OnJump;
-
             playerInput.actions["BasicAttack"].started -= OnBasicAttackStarted;
             playerInput.actions["BasicAttack"].canceled -= OnBasicAttackCanceled;
+            playerInput.actions["WeaponSlot1"].performed -= OnWeaponSlot1;
+
+            // ActionMap 개별 Disable 대신 전체 Disable
+            playerInput.actions.Disable();
         }
 
         private void Update()
         {
+            // 매 프레임 마우스의 현재 좌표를 갱신한다
             if (Mouse.current != null)
                 MousePosition = Mouse.current.position.ReadValue();
-            // 마우스가 존재하면 현재 스크린 좌표를 갱신한다
         }
         #endregion
 
-        #region Custom Method
-        // 휠 줌 입력을 초기화한다
+        #region Custom Methods
+        // 카메라 줌 입력 값을 0으로 초기화한다
         public void ClearZoom()
         {
             ZoomInput = 0f;
-            // 줌 입력 누적을 방지하기 위해 값을 초기화한다
         }
 
-        // WASD 이동 입력을 수집한다
         private void OnMove(InputAction.CallbackContext context)
         {
-            MoveInput = context.ReadValue<Vector2>();
-            // 이동 입력값을 갱신한다
-
-            IsKeyboardMove = MoveInput.sqrMagnitude > 0.01f;
-            // 입력이 존재하면 키보드 이동 중으로 판단한다
+            MoveInput = context.ReadValue<Vector2>(); // 2D 이동 벡터를 읽는다
+            IsKeyboardMove = MoveInput.sqrMagnitude > 0.01f; // 입력 세기가 유효한지 판단
         }
 
-        // 좌클릭 이동 입력을 수집한다
         private void OnClickMove(InputAction.CallbackContext context)
         {
-            ClickMovePressed = context.ReadValueAsButton();
-            // 클릭 입력 여부를 상태값으로 저장한다
+            ClickMovePressed = context.ReadValueAsButton(); // 클릭 이동 버튼 눌림 상태 저장
         }
 
-        // 마우스 회전 입력을 수집한다
         private void OnLook(InputAction.CallbackContext context)
         {
-            LookInput = context.ReadValue<Vector2>();
-            // 마우스 델타 회전 입력값을 갱신한다
+            LookInput = context.ReadValue<Vector2>(); // 마우스 델타 값 저장
         }
 
-        // 우클릭 회전 입력을 수집한다
         private void OnRotate(InputAction.CallbackContext context)
         {
-            RotatePressed = context.ReadValueAsButton();
-            // 우클릭 회전 입력 여부를 갱신한다
+            RotatePressed = context.ReadValueAsButton(); // 카메라 회전 모드 여부 저장
         }
 
-        // 휠 줌 입력을 수집한다
         private void OnZoom(InputAction.CallbackContext context)
         {
-            ZoomInput = context.ReadValue<float>();
-            // 마우스 휠 줌 입력값을 갱신한다
+            ZoomInput = context.ReadValue<float>(); // 마우스 휠 값 저장
         }
 
-        // 슬라이드 입력을 수집한다
         private void OnSlide(InputAction.CallbackContext context)
         {
-            SlidePressed = context.ReadValueAsButton();
-            // 슬라이드 입력 여부를 상태값으로 갱신한다
+            SlidePressed = context.ReadValueAsButton(); // 슬라이딩/회피 상태 저장
         }
 
-        // 점프 입력이 시작되었을 때 PlayerJump로 전달한다
         private void OnJump(InputAction.CallbackContext context)
         {
-            if (jump == null) return;
-            // PlayerJump가 없으면 점프를 처리하지 않는다
-
-            jump.TryJump();
-            // 점프 시도를 PlayerJump에 요청한다
+            if (jump == null) return; // 점프 컴포넌트가 없다면 무시
+            jump.TryJump(); // 실제 점프 로직 시도
         }
 
-        // 기본공격 입력 시작 처리
         private void OnBasicAttackStarted(InputAction.CallbackContext context)
         {
-            if (combat == null) return;
-            // PlayerCombat이 없으면 처리를 중단한다
-
-            combat.OnBasicAttackStarted();
-            // 기본공격 버튼이 눌렸음을 전달한다
+            if (combat == null) return; // 전투 컴포넌트가 없다면 무시
+            combat.OnBasicAttackStarted(); // 공격 시퀀스 시작
         }
 
-        // 기본공격 입력 종료 처리
         private void OnBasicAttackCanceled(InputAction.CallbackContext context)
         {
             if (combat == null) return;
-            // PlayerCombat이 없으면 처리를 중단한다
+            // 필요 시 공격 중단 혹은 장전 로직 등을 추가 가능
+        }
 
-            //combat.OnBasicAttackCanceled();
-            // 기본공격 버튼 해제를 전달한다
+        // 특정 무기 슬롯 입력을 받아 핸들러에 전달함
+        private void OnWeaponSlot1(InputAction.CallbackContext context)
+        {
+            if (!context.performed) // 수행 완료 시점이 아니라면 중단
+                return;
+
+            Debug.Log("WeaponSlot1 입력 수신"); // 무기 슬롯 1번 입력 확인
+
+            if (weaponHandler != null) // 무기 핸들러가 존재할 때만 실행
+                weaponHandler.ToggleWeaponByIndex(0);
         }
         #endregion
     }

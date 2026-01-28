@@ -54,6 +54,16 @@ namespace BRASS
             if (state == null || controller == null) return;
             // 필수 참조가 없으면 점프 처리를 수행하지 않는다
 
+            // 공격 중이라면 점프 입력으로 즉시 공격을 캔슬한다
+            if (state.IsInputMovementLocked)
+            {
+                GetComponent<PlayerCombat>()?.CancelAttack();
+            }
+
+            if (state.IsSliding)
+                return;
+            // 슬라이딩 중에는 점프를 허용하지 않는다
+
             if (Time.time < lastJumpInputTime + jumpInputCooldown)
                 return;
             // 공통 입력 쿨타임이 남아 있으면 연타 입력을 차단한다
