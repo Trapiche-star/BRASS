@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -119,3 +120,4 @@ public class WeaponSystemUI : MonoBehaviour
         if (currentWeaponDEF) currentWeaponDEF.text = data.defenseValue.ToString();
     }
 }
+
