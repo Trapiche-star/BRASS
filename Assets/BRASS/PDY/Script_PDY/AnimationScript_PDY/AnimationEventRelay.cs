@@ -45,17 +45,23 @@ namespace BRASS
         }
 
         // 캐릭터가 공격 판정을 시작하는 프레임에 호출
-        public void OnAttackStart()
+        public void OnAttackHitStart()
         {
             if (state == null) return; // 상태 관리자가 없으면 다음 코드를 실행하지 않는다
             state.IsAttacking = true; // 상태 플래그를 공격 중으로 변경하여 이동 등을 제한한다
+                                      
+            if (combat != null)
+                combat.OnAttackHitStart(); // Combat 스크립트에게 무기 판정을 시작하라고 전달
         }
 
         // 캐릭터의 공격 판정이 완전히 끝나는 프레임에 호출
-        public void OnAttackEnd()
+        public void OnAttackHitEnd()
         {
             if (state == null) return; // 참조가 없으면 상호작용을 중단한다
             state.IsAttacking = false; // 공격 중 상태를 해제하여 일반 상태로 복귀시킨다
+                                       
+            if (combat != null) 
+                combat.OnAttackHitEnd();    //Combat 스크립트에게 무기 판정을 종료하라고 전달
         }
 
         // 콤보 1타 애니메이션 중 미세 전진이 필요한 시점에 호출

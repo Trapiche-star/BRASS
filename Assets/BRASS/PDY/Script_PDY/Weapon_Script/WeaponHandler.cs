@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace BRASS
 {
@@ -7,8 +8,9 @@ namespace BRASS
     {
         #region Variables
         [SerializeField] private WeaponData[] weaponSlots; // 사용 가능한 무기 데이터 자산 배열
-        [SerializeField] private Transform weaponSocket; // 무기가 생성되어 부속될 손 위치 트랜스폼
-        [SerializeField] private PlayerState state; // 캐릭터의 장착 상태를 갱신하기 위한 상태 데이터 참조
+        [SerializeField] private Transform weaponSocket;   // 무기가 생성되어 부속될 손 위치 트랜스폼
+        [SerializeField] private PlayerState state;        // 캐릭터의 장착 상태를 갱신하기 위한 상태 데이터 참조
+        [SerializeField] private PlayerCombat combat;      // 무기 장착 상태에 따른 전투 로직 제어 참조
 
         private GameObject currentWeaponObject; // 씬에 생성된 실제 무기 게임 오브젝트
         #endregion
@@ -16,6 +18,19 @@ namespace BRASS
         #region Property
         public WeaponData CurrentWeapon { get; private set; } // 현재 논리적으로 장착된 무기 정보 (없으면 null)
         #endregion
+
+        #region Unity Event Method
+        private void Update()
+        {
+            // ] 키 입력 시 2번째 무기 슬롯 토글 (index 1)
+            if (Keyboard.current != null &&
+                Keyboard.current.rightBracketKey.wasPressedThisFrame)
+            {
+                ToggleWeaponByIndex(1);
+            }
+        }
+        #endregion
+
 
         #region Custom Methods
         // 인덱스를 기반으로 현재 무기와의 중복 여부를 확인해 장착 혹은 해제함
@@ -59,6 +74,13 @@ namespace BRASS
             currentWeaponObject.transform.localPosition = Vector3.zero;
             currentWeaponObject.transform.localRotation = Quaternion.identity;
 
+            // 생성된 무기에서 WeaponDamage 컴포넌트를 가져와서 Combat에 등록!
+            if (combat != null)
+            {
+                WeaponDamage weaponDamage = currentWeaponObject.GetComponent<WeaponDamage>();
+                combat.SetCurrentWeapon(weaponDamage); // 아까 만든 등록 함수 호출
+            }
+
             // 플레이어 상태 데이터(PlayerState)에 장착 여부와 종류를 기록한다
             if (state != null)
             {
@@ -76,6 +98,12 @@ namespace BRASS
             {
                 Destroy(currentWeaponObject);
                 currentWeaponObject = null;
+            }
+
+            // 3. [추가] 무기를 해제할 때는 리모컨 연결도 끊어줍니다.
+            if (combat != null)
+            {
+                combat.SetCurrentWeapon(null);
             }
 
             CurrentWeapon = null; // 장착 데이터 참조 제거

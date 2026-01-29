@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1619006818439139045}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Circular Saw 003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5970802798018950537}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Circular Saw 002_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2191231207046023583}
   - component: {fileID: 8967685010396359958}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Piston
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,8 +170,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5355450150336272813}
   - component: {fileID: 1844607372228639533}
-  - component: {fileID: 1572498662364174268}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -258,27 +257,6 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.01406309, y: 0.34801328, z: -0.00000013411045}
     m_Extent: {x: 0.5240663, y: 1.0320354, z: 0.17783862}
   m_DirtyAABB: 0
---- !u!65 &1572498662364174268
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2292676011121192537}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.0481327, y: 0.30920547, z: 2.0640702}
-  m_Center: {x: -0.01406312, y: 0.00722032, z: -0.35898674}
 --- !u!1 &3133853346939686604
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,7 +267,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7677082489301081275}
   - component: {fileID: 1795288952734673973}
-  m_Layer: 0
+  - component: {fileID: 8391123544773569155}
+  - component: {fileID: 4912592732136873645}
+  m_Layer: 8
   m_Name: SteampunkBattleAxe_PDY
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -336,6 +316,40 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8391123544773569155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3133853346939686604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d16a7c5a29f844047af7866d781eb846, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BRASS.WeaponDamage
+  damage: 20
+--- !u!65 &4912592732136873645
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3133853346939686604}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.0308928, y: 2.0059404, z: 0.32263485}
+  m_Center: {x: -0.0054432154, y: 0.37814975, z: 0.01713626}
 --- !u!1 &5516438561943903624
 GameObject:
   m_ObjectHideFlags: 0
@@ -345,7 +359,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8356948282790770920}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Circular Saw 002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -377,7 +391,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 774671204153877874}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -409,7 +423,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8669303085453450295}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Battle Axe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -443,7 +457,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6361685603454576019}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Circular Saw 003_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -474,7 +488,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8478848134807787218}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Circular Saw 001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -506,7 +520,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7548830634113817531}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Circular Saw 001_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}

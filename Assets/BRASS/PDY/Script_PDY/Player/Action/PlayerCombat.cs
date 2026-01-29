@@ -10,33 +10,21 @@ namespace BRASS
     public class PlayerCombat : MonoBehaviour
     {
         #region Variables
-        [SerializeField] private float comboInputWindow = 1.0f;
-        // 다음 콤보 입력을 허용하는 유효 시간 범위
-
-        [SerializeField] private PlayerAnimationController animationController;
-        // 공격 애니메이션 재생 제어 컴포넌트
-
-        [SerializeField] private PlayerController playerController;
-        // 콤보 스텝 이동 처리를 위한 컨트롤러 참조
-
-        [SerializeField] private PlayerState state;
-        // 공격 중 입력 이동 잠금 상태를 제어하기 위한 상태 컨테이너
+        [SerializeField] private float comboInputWindow = 1.0f;        // 다음 콤보 입력을 허용하는 유효 시간 범위
+        [SerializeField] private PlayerAnimationController animationController;        // 공격 애니메이션 재생 제어 컴포넌트
+        [SerializeField] private PlayerController playerController;        // 콤보 스텝 이동 처리를 위한 컨트롤러 참조
+        [SerializeField] private PlayerState state;        // 공격 중 입력 이동 잠금 상태를 제어하기 위한 상태 컨테이너
+        [SerializeField] private WeaponDamage currentWeapon; // 무기 스크립트 참조 추가
 
         [Header("Combo Step Move")]
-        [SerializeField] private float[] comboStepDistances = { 0.15f, 0.2f, 0.25f };
-        // 각 타수별 전진 거리 데이터
+        [SerializeField] private float[] comboStepDistances = { 0.15f, 0.2f, 0.25f };        // 각 타수별 전진 거리 데이터
 
-        private Vector3 cachedAttackDirection;
-        // 공격 시작 시 고정되는 카메라 기준 정면 수평 방향
+        private Vector3 cachedAttackDirection;        // 공격 시작 시 고정되는 카메라 기준 정면 수평 방향
+        private int attackInputCount;        // 현재 시퀀스 내 누적된 공격 입력 횟수
+        private float lastAttackInputTime;        // 마지막 공격 입력 시각
+        private bool isAttackSequenceActive;        // 공격 시퀀스 진행 여부
 
-        private int attackInputCount;
-        // 현재 시퀀스 내 누적된 공격 입력 횟수
-
-        private float lastAttackInputTime;
-        // 마지막 공격 입력 시각
-
-        private bool isAttackSequenceActive;
-        // 공격 시퀀스 진행 여부
+        
         #endregion
 
         #region Unity Event Method
@@ -63,6 +51,33 @@ namespace BRASS
         #endregion
 
         #region Custom Method
+
+        // 외부(WeaponHandler)에서 소환된 무기를 등록해주기 위한 구멍
+        public void SetCurrentWeapon(WeaponDamage newWeapon)
+        {
+            currentWeapon = newWeapon;
+
+            // 디버그용 (제대로 연결됐는지 콘솔창에 확인)
+            if (newWeapon != null)
+                Debug.Log($"리모컨에 무기 등록 완료: {newWeapon.gameObject.name}");
+            else
+                Debug.Log("리모컨 무기 등록 해제");
+        }
+
+        // 공격 판정 시작 (애니메이션의 "휘두르는" 시점에 배치)
+        public void OnAttackHitStart()
+        {
+            if (currentWeapon != null)
+                currentWeapon.StartAttack();
+        }
+
+        // 공격 판정 종료 (애니메이션의 "휘두르기가 끝나는" 시점에 배치)
+        public void OnAttackHitEnd()
+        {
+            if (currentWeapon != null)
+                currentWeapon.StopAttack();
+        }
+
         // 기본 공격 입력이 시작되었을 때 호출되어 공격 시퀀스를 개시한다
         public void OnBasicAttackStarted()
         {
