@@ -6968,75 +6968,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 471982, guid: 6a61beb91ee14785add56c8d67ee6e6a, type: 3}
   m_PrefabInstance: {fileID: 1321989801}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1332393984
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1621140866}
-    m_Modifications:
-    - target: {fileID: 4046281368326883519, guid: 4e92bdc736059f0459048878cbdf9731, type: 3}
-      propertyPath: m_Name
-      value: Steampunk Butterfly Cloche (Achromatic)
-      objectReference: {fileID: 0}
-    - target: {fileID: 8953501190010557573, guid: 4e92bdc736059f0459048878cbdf9731, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8953501190010557573, guid: 4e92bdc736059f0459048878cbdf9731, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8953501190010557573, guid: 4e92bdc736059f0459048878cbdf9731, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8953501190010557573, guid: 4e92bdc736059f0459048878cbdf9731, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.17899996
-      objectReference: {fileID: 0}
-    - target: {fileID: 8953501190010557573, guid: 4e92bdc736059f0459048878cbdf9731, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1.46
-      objectReference: {fileID: 0}
-    - target: {fileID: 8953501190010557573, guid: 4e92bdc736059f0459048878cbdf9731, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 17.847
-      objectReference: {fileID: 0}
-    - target: {fileID: 8953501190010557573, guid: 4e92bdc736059f0459048878cbdf9731, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071067
-      objectReference: {fileID: 0}
-    - target: {fileID: 8953501190010557573, guid: 4e92bdc736059f0459048878cbdf9731, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.7071069
-      objectReference: {fileID: 0}
-    - target: {fileID: 8953501190010557573, guid: 4e92bdc736059f0459048878cbdf9731, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8953501190010557573, guid: 4e92bdc736059f0459048878cbdf9731, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8953501190010557573, guid: 4e92bdc736059f0459048878cbdf9731, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8953501190010557573, guid: 4e92bdc736059f0459048878cbdf9731, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8953501190010557573, guid: 4e92bdc736059f0459048878cbdf9731, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 4e92bdc736059f0459048878cbdf9731, type: 3}
 --- !u!1001 &1336626557
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7298,11 +7229,6 @@ Transform:
   - {fileID: 877861571}
   m_Father: {fileID: 1309166255}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1421625247 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8953501190010557573, guid: 4e92bdc736059f0459048878cbdf9731, type: 3}
-  m_PrefabInstance: {fileID: 1332393984}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1425092941
 GameObject:
   m_ObjectHideFlags: 0
@@ -8814,7 +8740,6 @@ Transform:
   - {fileID: 904894247}
   - {fileID: 1839199466}
   - {fileID: 1587937573}
-  - {fileID: 1421625247}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1621625025
