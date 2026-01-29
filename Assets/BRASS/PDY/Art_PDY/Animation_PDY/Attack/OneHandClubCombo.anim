@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: One Hand Club Combo
+  m_Name: OneHandClubCombo
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -126706,14 +126706,21 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: OnAttackStart
+    functionName: OnComboStep1Move
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0
-    functionName: OnComboStep1Move
+  - time: 0.06666667
+    functionName: OnAttackHitStart
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.76666665
+    functionName: OnAttackHitEnd
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -126733,6 +126740,20 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 1
+    functionName: OnAttackHitStart
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.5666667
+    functionName: OnAttackHitEnd
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 1.6
     functionName: OnComboSection2End
     data: 
@@ -126747,8 +126768,15 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 3.6333334
-    functionName: OnSlideMoveEnd
+  - time: 1.7333333
+    functionName: OnAttackHitStart
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 2.3333333
+    functionName: OnAttackHitEnd
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
