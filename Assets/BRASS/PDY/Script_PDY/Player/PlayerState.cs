@@ -15,8 +15,16 @@ namespace BRASS
         public bool IsGrounded;  // 캐릭터가 지면에 접촉해 있는 상태
         public bool IsJumping;   // 점프 입력으로 인해 공중 상태로 판정된 상태
         public int JumpIndex;    // 0 = 지면, 1 = 1단 점프, 2 = 2단 점프
-        
-        #endregion      
+        public bool IsAttacking; // 현재 공격 애니메이션이 재생 중인지 여부
+       
+        public bool IsEquipped;  // 현재 무기를 장착 중인지 여부
+        public bool IsBattleAxeEquipped;        // 현재 장착 무기가 배틀액스인지 여부
+
+        public bool IsInputMovementLocked;   // 입력(WASD / 클릭 이동)에 의한 이동이 잠겨 있는 상태
+
+        // 현재 장착 무기가 배틀액스인지 여부
+
+        #endregion
 
         #region Property
         public bool IsIdle => !IsMoving && !IsSliding;

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c68b7009a7f694644b070082816b7715, type: 3}
+  m_Name: HarpoonGun
+  m_EditorClassIdentifier: Assembly-CSharp::BattleAxe
+  itemId: 2
+  itemName: HarpoonGun
+  weaponType: 2
+  weaponPrefab: {fileID: 108424551863749329, guid: b39d2aaad32641e4da81b8cdd5f7578e, type: 3}
+  bulletPrefab: {fileID: 2650562417226437747, guid: 3088d8ac26f79bd4ba2e645d34c51e31, type: 3}
+  firePointName: FirePoint
