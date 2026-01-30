@@ -24,7 +24,12 @@ namespace BRASS
         private float lastAttackInputTime;        // 마지막 공격 입력 시각
         private bool isAttackSequenceActive;        // 공격 시퀀스 진행 여부
 
-        
+
+        #endregion
+
+        #region Property
+        public bool IsAttackSequenceActive => isAttackSequenceActive;
+        // 현재 공격 시퀀스가 유효한 상태인지 외부에서 조회하기 위한 읽기 전용 프로퍼티
         #endregion
 
         #region Unity Event Method
@@ -81,11 +86,20 @@ namespace BRASS
         // 기본 공격 입력이 시작되었을 때 호출되어 공격 시퀀스를 개시한다
         public void OnBasicAttackStarted()
         {
+            Debug.Log("Combat.OnBasicAttackStarted 호출됨");
+
             float now = Time.time;
             // 현재 게임 시간 기록
 
             if (!isAttackSequenceActive)
             {
+                // 좌클릭 이동 강제 종료
+                if (playerController != null)
+                    playerController.CancelClickMove();
+
+                if (state != null)
+                    state.IsMoving = false; // 강제 이동 상태 해제
+
                 isAttackSequenceActive = true;
                 // 공격 시퀀스 시작
 
@@ -95,9 +109,9 @@ namespace BRASS
                 lastAttackInputTime = now;
                 // 입력 시각 기록
 
-                if (state != null)
+                /*if (state != null)
                     state.IsInputMovementLocked = true;
-                // 공격 입력 순간부터 입력 기반 이동을 즉시 잠근다
+                // 공격 입력 순간부터 입력 기반 이동을 즉시 잠근다*/
 
                 CacheAttackDirection();
                 // 공격 방향을 고정한다

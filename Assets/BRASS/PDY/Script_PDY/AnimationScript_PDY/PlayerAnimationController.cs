@@ -12,16 +12,17 @@ namespace BRASS
         [SerializeField] private PlayerState state; // 플레이어의 현재 상태 데이터 참조
         [SerializeField] private IdleAnimation idleAnimation; // 대기 상태 변형 애니메이션 제어기
 
-        private int hashIsMoving; // 이동 상태 파라미터 해시
-        private int hashIsSliding; // 슬라이딩 상태 파라미터 해시
-        private int hashFastRun; // 고속 달리기 배율 파라미터 해시
+        private int hashIsMoving;   // 이동 상태 파라미터 해시
+        private int hashIsSliding;  // 슬라이딩 상태 파라미터 해시
+        private int hashFastRun;     // 고속 달리기 배율 파라미터 해시
         private int hashIsGrounded; // 접지 여부 파라미터 해시
         private int hashIsJumping; // 점프 중 여부 파라미터 해시
         private int hashJumpIndex; // 점프 타수 인덱스 파라미터 해시
         private int hashIdleDwarf; // 대기 변형 동작 트리거 해시
-        private int hashAttack; // 공격 동작 트리거 해시
+        private int hashAttack;     // 공격 동작 트리거 해시
         private int hashIsEquipped; // 무기 장착 상태 파라미터 해시
         private int hashIsBattleAxeEquipped; // 배틀액스 장착 상태 파라미터 해시
+        private int hashIsGunEquipped;      // 하푼건 장착 상태 파라미터 해시
         #endregion
 
         #region Unity Event Method
@@ -44,6 +45,7 @@ namespace BRASS
             hashAttack = Animator.StringToHash("Attack");
             hashIsEquipped = Animator.StringToHash("IsEquipped");
             hashIsBattleAxeEquipped = Animator.StringToHash("IsBattleAxeEquipped");
+            hashIsGunEquipped = Animator.StringToHash("IsGunEquipped");
         }
 
         private void Update()
@@ -51,12 +53,27 @@ namespace BRASS
             UpdateAnimator(); // 매 프레임 플레이어의 논리 상태를 애니메이터에 동기화한다
         }
 
+        /*오리지널 루트 모션 사용 시 활성화
         private void OnAnimatorMove()
         {
+            //애니매이션 자체 루트 모션 사용시 부모 오브젝트에 위치를 반영하기 위한 처리
             // 애니메이터의 루트 모션 위치를 계산하여 부모 오브젝트의 위치에 반영한다
             Vector3 position = animator.rootPosition;   // 애니메이션에 의한 루트 위치 추출
             position.y = parent.position.y;             // 수직 위치는 기존 부모의 높이를 유지하여 튀는 현상을 방지한다
             parent.position = position;                 // 최종 계산된 위치를 부모 트랜스폼에 적용한다
+        }*/
+        
+        private void OnAnimatorMove()
+        {
+            // 스킬 중에는 유니티가 애니메이션 좌표를 물리 엔진에 적용하지 못하게 원천 차단
+            if (state != null && state.IsAttacking) return;
+
+            if (animator == null || parent == null) return;
+
+            // 평상시 이동 (CharacterController를 쓸 때는 보통 아래 코드가 필요 없거나 다르게 짜여있을 겁니다)
+            // 만약 평소에 루트 모션으로 걷는 게 아니라면 이 함수 전체를 주석 처리해도 됩니다.
+            parent.position = animator.rootPosition;
+            parent.rotation = animator.rootRotation;
         }
         #endregion
 
@@ -73,6 +90,7 @@ namespace BRASS
             animator.SetBool(hashIsGrounded, state.IsGrounded); // 접지 여부 반영
             animator.SetBool(hashIsJumping, state.IsJumping);   // 점프 여부 반영
             animator.SetInteger(hashJumpIndex, state.JumpIndex); // 현재 점프 단계 반영
+            animator.SetBool(hashIsGunEquipped, state.IsGunEquipped);   // 하푼건 장착 상태 반영
 
             animator.SetFloat(
                 hashFastRun,

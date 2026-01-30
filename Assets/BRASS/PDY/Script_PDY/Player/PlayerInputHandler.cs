@@ -12,6 +12,7 @@ namespace BRASS
         private PlayerCombat combat; // 기본 공격 입력을 처리할 전투 컴포넌트
         private PlayerJump jump; // 점프 기능을 실행할 컴포넌트
         private WeaponHandler weaponHandler; // 무기 장착 및 해제를 관리하는 핸들러
+        private MeleeSkill meleeSkill;  // 근접 스킬 사용을 처리할 컴포넌트
         #endregion
 
         #region Property
@@ -38,6 +39,10 @@ namespace BRASS
             combat = GetComponentInChildren<PlayerCombat>();
             jump = GetComponentInChildren<PlayerJump>();
             weaponHandler = GetComponentInChildren<WeaponHandler>();
+            meleeSkill = GetComponentInChildren<MeleeSkill>();
+
+            if (meleeSkill == null) // 근접 스킬 컴포넌트 누락 시 경고
+                Debug.LogError("[PlayerInputHandler] MeleeSkill not found in children.");
 
             if (jump == null) // 점프 컴포넌트 누락 시 경고
                 Debug.LogError("[PlayerInputHandler] PlayerJump not found in children.");
@@ -71,6 +76,9 @@ namespace BRASS
             playerInput.actions["BasicAttack"].started += OnBasicAttackStarted;
             playerInput.actions["BasicAttack"].canceled += OnBasicAttackCanceled;
             playerInput.actions["WeaponSlot1"].performed += OnWeaponSlot1;
+            playerInput.actions["Skill_1"].performed += OnSkill1;
+            playerInput.actions["Skill_2"].performed += OnSkill2;
+            playerInput.actions["Skill_3"].performed += OnSkill3;
         }
 
         private void OnDisable()
@@ -94,6 +102,9 @@ namespace BRASS
             playerInput.actions["BasicAttack"].started -= OnBasicAttackStarted;
             playerInput.actions["BasicAttack"].canceled -= OnBasicAttackCanceled;
             playerInput.actions["WeaponSlot1"].performed -= OnWeaponSlot1;
+            playerInput.actions["Skill_1"].performed -= OnSkill1;
+            playerInput.actions["Skill_2"].performed -= OnSkill2;
+            playerInput.actions["Skill_3"].performed -= OnSkill3;
 
             // ActionMap 개별 Disable 대신 전체 Disable
             playerInput.actions.Disable();
@@ -153,6 +164,8 @@ namespace BRASS
 
         private void OnBasicAttackStarted(InputAction.CallbackContext context)
         {
+            Debug.Log("E 입력 들어옴"); 
+
             if (combat == null) return; // 전투 컴포넌트가 없다면 무시
             combat.OnBasicAttackStarted(); // 공격 시퀀스 시작
         }
@@ -173,6 +186,21 @@ namespace BRASS
 
             if (weaponHandler != null) // 무기 핸들러가 존재할 때만 실행
                 weaponHandler.ToggleWeaponByIndex(0);
+        }
+        
+        private void OnSkill1(InputAction.CallbackContext context)      // 근접 스킬 1번 입력 처리
+        {
+            if (meleeSkill != null) meleeSkill.ExecuteSkill01();
+        }
+
+        private void OnSkill2(InputAction.CallbackContext context)      // 근접 스킬 2번 입력 처리
+        {
+            if (meleeSkill != null) meleeSkill.ExecuteSkill02();
+        }
+
+        private void OnSkill3(InputAction.CallbackContext context)      // 근접 스킬 3번 입력 처리
+        {
+            if (meleeSkill != null) meleeSkill.ExecuteSkill03();
         }
         #endregion
     }

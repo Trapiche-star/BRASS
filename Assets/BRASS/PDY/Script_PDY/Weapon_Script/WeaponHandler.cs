@@ -3,116 +3,117 @@ using UnityEngine.InputSystem;
 
 namespace BRASS
 {
-    /// 무기 슬롯 데이터를 관리하며, 무기를 소켓(손)에 장착하거나 해제하는 책임을 가진 클래스
+    /// 무기 데이터를 관리하며 타입별(Gun/Melee) 소켓 보정 및 상태 동기화를 담당하는 핸들러
     public class WeaponHandler : MonoBehaviour
     {
         #region Variables
-        [SerializeField] private WeaponData[] weaponSlots; // 사용 가능한 무기 데이터 자산 배열
-        [SerializeField] private Transform weaponSocket;   // 무기가 생성되어 부속될 손 위치 트랜스폼
-        [SerializeField] private PlayerState state;        // 캐릭터의 장착 상태를 갱신하기 위한 상태 데이터 참조
-        [SerializeField] private PlayerCombat combat;      // 무기 장착 상태에 따른 전투 로직 제어 참조
+        [SerializeField] private WeaponData[] weaponSlots; // 사용 가능한 무기 데이터 슬롯 배열
+        [SerializeField] private Transform weaponSocket; // 무기가 부착될 캐릭터의 손 소켓(Socket)
+        [SerializeField] private PlayerState state; // 장착 여부 및 타입 정보를 동기화할 상태 데이터
+        [SerializeField] private PlayerCombat combat; // 현재 무기의 대미지 판정 정보를 전달할 컴포넌트
 
-        private GameObject currentWeaponObject; // 씬에 생성된 실제 무기 게임 오브젝트
+        private GameObject currentWeaponObject; // 씬에 생성되어 현재 쥐고 있는 무기 오브젝트
         #endregion
 
         #region Property
-        public WeaponData CurrentWeapon { get; private set; } // 현재 논리적으로 장착된 무기 정보 (없으면 null)
+        public WeaponData CurrentWeapon { get; private set; } // 현재 논리적으로 장착된 무기 자산 정보
         #endregion
 
         #region Unity Event Method
         private void Update()
         {
-            // ] 키 입력 시 2번째 무기 슬롯 토글 (index 1)
-            if (Keyboard.current != null &&
-                Keyboard.current.rightBracketKey.wasPressedThisFrame)
+            // 테스트용: ] 키를 누르면 1번 슬롯의 무기를 토글한다
+            if (Keyboard.current != null && Keyboard.current.rightBracketKey.wasPressedThisFrame)
             {
                 ToggleWeaponByIndex(1);
             }
         }
         #endregion
 
-
         #region Custom Methods
-        // 인덱스를 기반으로 현재 무기와의 중복 여부를 확인해 장착 혹은 해제함
+        // 인덱스를 확인하여 무기를 장착하거나 이미 장착된 경우 해제 처리함
         public void ToggleWeaponByIndex(int index)
         {
-            // 슬롯 배열이 비어있거나 인덱스 범위가 잘못된 경우 처리를 중단한다
-            if (weaponSlots == null || index < 0 || index >= weaponSlots.Length)
-            {
-                Debug.LogWarning("무기 슬롯 인덱스 오류");
-                return;
-            }
+            if (weaponSlots == null || index < 0 || index >= weaponSlots.Length) return; // 슬롯 범위 초과 시 중단
 
             WeaponData targetWeapon = weaponSlots[index];
-            // 대상 무기 정보나 프리팹 데이터가 없는 경우 장착 절차를 진행하지 않는다
-            if (targetWeapon == null || targetWeapon.weaponPrefab == null)
-            {
-                Debug.LogWarning("무기 데이터 또는 프리팹 없음");
-                return;
-            }
+            if (targetWeapon == null || targetWeapon.weaponPrefab == null) return; // 데이터 누락 시 중단
 
-            if (CurrentWeapon == targetWeapon) // 이미 들고 있는 무기를 다시 선택한 경우
-            {
-                UnequipWeapon(); // 무기를 집어넣는다
-            }
-            else // 다른 무기를 선택했거나 빈손 상태인 경우
-            {
-                EquipWeapon(index); // 새로운 무기를 장착한다
-            }
+            if (CurrentWeapon == targetWeapon) // 이미 들고 있는 무기라면
+                UnequipWeapon(); // 무기 해제 실행
+            else // 새로운 무기라면
+                EquipWeapon(index); // 무기 장착 실행
         }
 
-        // 기존 무기 모델을 파괴하고 새로운 무기 모델을 생성하여 소켓에 부착함
+        // 선택한 슬롯의 무기 프리팹을 생성하고 타입에 따른 위치 보정을 수행함
         private void EquipWeapon(int index)
         {
-            if (currentWeaponObject != null) // 기존에 소환된 무기 오브젝트가 있다면
-                Destroy(currentWeaponObject); // 즉시 삭제한다
+            if (currentWeaponObject != null) // 기존 무기가 있다면
+                Destroy(currentWeaponObject); // 이전 무기를 파괴하여 정리한다
 
-            CurrentWeapon = weaponSlots[index]; // 현재 장착 데이터 갱신
+            CurrentWeapon = weaponSlots[index]; // 현재 무기 정보 갱신
+            currentWeaponObject = Instantiate(CurrentWeapon.weaponPrefab, weaponSocket); // 소켓 자식으로 무기 생성
 
-            // 프리팹을 소켓 자식으로 생성하고 위치와 회전값을 초기화한다
-            currentWeaponObject = Instantiate(CurrentWeapon.weaponPrefab, weaponSocket);
-            currentWeaponObject.transform.localPosition = Vector3.zero;
-            currentWeaponObject.transform.localRotation = Quaternion.identity;
+            // 총기(Gun) 타입 판별 (상태 플래그와 연결됨)
+            bool isGun = CurrentWeapon.weaponType == WeaponType.HarpoonGun;
 
-            // 생성된 무기에서 WeaponDamage 컴포넌트를 가져와서 Combat에 등록!
+            if (isGun) // 총기 타입인 경우 핸들 위치 보정 로직을 실행한다
+            {
+                Transform handle = currentWeaponObject.transform.Find("HandlePivot"); // 무기 내부의 Handle 오브젝트 탐색
+                if (handle != null) // 핸들이 존재한다면
+                {
+                    // 핸들이 소켓 좌표의 원점에 오도록 무기 루트의 상대 위치를 역계산한다
+                    currentWeaponObject.transform.localPosition = -handle.localPosition;
+                    currentWeaponObject.transform.localRotation = Quaternion.Inverse(handle.localRotation);
+                }
+                else // 핸들이 없다면 기본 정렬을 수행한다
+                {
+                    currentWeaponObject.transform.localPosition = Vector3.zero;
+                    currentWeaponObject.transform.localRotation = Quaternion.identity;
+                }
+            }
+            else // 총기가 아닐 경우 일반적인 원점 정렬을 수행한다
+            {
+                currentWeaponObject.transform.localPosition = Vector3.zero;
+                currentWeaponObject.transform.localRotation = Quaternion.identity;
+            }
+
+            // 전투 컴포넌트에 현재 무기의 대미지 스크립트를 등록한다
             if (combat != null)
             {
                 WeaponDamage weaponDamage = currentWeaponObject.GetComponent<WeaponDamage>();
-                combat.SetCurrentWeapon(weaponDamage); // 아까 만든 등록 함수 호출
+                combat.SetCurrentWeapon(weaponDamage); // 판정 시스템에 무기 연결
             }
 
-            // 플레이어 상태 데이터(PlayerState)에 장착 여부와 종류를 기록한다
+            // 플레이어 상태 데이터를 갱신하여 애니메이터와 레이어 시스템에 반영한다
             if (state != null)
             {
-                state.IsEquipped = true;
+                state.IsEquipped = true; // 장착 플래그 활성
                 state.IsBattleAxeEquipped = CurrentWeapon.weaponType == WeaponType.BattleAxe;
+                state.IsGunEquipped = isGun; // 총기 레이어(Layer) 활성화를 위해 전달
             }
 
-            Debug.Log($"무기 장착: {CurrentWeapon.name}");
+            Debug.Log($"무기 장착: {CurrentWeapon.name} (총기 여부: {isGun})");
         }
 
-        // 현재 씬의 무기 오브젝트를 제거하고 장착 관련 상태를 초기화함
+        // 현재 장착된 무기를 파괴하고 모든 상태 플래그를 초기화함
         private void UnequipWeapon()
         {
-            if (currentWeaponObject != null) // 삭제할 무기 실체가 존재하는 경우
+            if (currentWeaponObject != null) // 제거할 무기 실체가 있다면
             {
-                Destroy(currentWeaponObject);
-                currentWeaponObject = null;
+                Destroy(currentWeaponObject); // 오브젝트 제거
+                currentWeaponObject = null; // 참조 변수 비우기
             }
 
-            // 3. [추가] 무기를 해제할 때는 리모컨 연결도 끊어줍니다.
-            if (combat != null)
-            {
-                combat.SetCurrentWeapon(null);
-            }
+            if (combat != null) combat.SetCurrentWeapon(null); // 전투 컴포넌트 참조 초기화
 
-            CurrentWeapon = null; // 장착 데이터 참조 제거
+            CurrentWeapon = null; // 데이터 참조 초기화
 
-            // 플레이어 상태 데이터의 장착 관련 플래그를 모두 해제한다
-            if (state != null)
+            if (state != null) // 상태 데이터의 모든 장착 관련 플래그를 거짓으로 변경한다
             {
                 state.IsEquipped = false;
                 state.IsBattleAxeEquipped = false;
+                state.IsGunEquipped = false; // 총기 레이어 비활성화
             }
 
             Debug.Log("무기 해제");

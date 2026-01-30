@@ -222,6 +222,17 @@ namespace BRASS
                 // 광선이 어딘가에 충돌했다면 그 좌표를 목적지로 결정함
                 if (Physics.Raycast(ray, out RaycastHit hit))
                 {
+                    if (hit.collider.CompareTag("Enemy"))
+                    {
+                        // Enemy의 루트 트랜스폼을 현재 전투 타겟으로 등록
+                        state.CurrentTarget = hit.collider.transform.root;
+                    }
+                    else
+                    {
+                        // 적이 아닌 오브젝트를 클릭했다면 전투 타겟을 해제함
+                        state.CurrentTarget = null;
+                    }
+
                     clickDestination = hit.point; // 목적지 좌표 저장
                     isClickMoving = true; // 클릭 이동 모드 시작
                     clickBlockedTime = 0f; // 막힘 카운트 리셋
@@ -230,7 +241,10 @@ namespace BRASS
 
             // 키보드 입력을 시도하면 마우스 이동 모드를 즉시 해제함
             if (input.IsKeyboardMove)
-                isClickMoving = false;
+            {
+                isClickMoving = false;                             
+                state.CurrentTarget = null; // 키보드 이동은 명시적 조작이므로 전투 타겟을 해제한다   
+            }
         }
 
         // 현재 위치와 클릭 목적지 사이의 방향 벡터를 계산함
@@ -276,7 +290,7 @@ namespace BRASS
         private void UpdateState()
         {
             // 공격 등으로 인해 입력 기반 이동이 잠긴 상태라면
-            if (state.IsInputMovementLocked)
+            if (state.IsInputMovementLocked || state.IsAttacking)
             {
                 state.IsMoving = false;
                 // 이동 입력이 들어와 있어도 '이동 중' 상태로 판단하지 않는다
@@ -366,6 +380,14 @@ namespace BRASS
         public void MoveExternal(Vector3 worldDelta)
         {
             controller.Move(worldDelta);
+        }
+
+        // 클릭 이동 모드를 강제 종료하고 관련 변수를 초기화함
+        public void CancelClickMove()
+        {
+            isClickMoving = false;
+            moveDirection = Vector3.zero;
+            clickBlockedTime = 0f;
         }
         #endregion
     }

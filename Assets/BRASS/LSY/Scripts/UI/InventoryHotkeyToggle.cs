@@ -16,7 +16,7 @@ namespace Team1
                 inventoryRoot.SetActive(false);
 
             if (playerInput == null)
-                playerInput = FindObjectOfType<PlayerInput>();
+                playerInput = Object.FindFirstObjectByType<PlayerInput>();
         }
 
         private void Update()

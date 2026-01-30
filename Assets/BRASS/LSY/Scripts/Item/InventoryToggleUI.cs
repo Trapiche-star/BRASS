@@ -26,10 +26,10 @@ namespace Team1
                 shopRoot.SetActive(false);
 
             if (playerInput == null)
-                playerInput = FindObjectOfType<PlayerInput>();
+                playerInput = Object.FindFirstObjectByType<PlayerInput>();
 
             if (interactionController == null)
-                interactionController = FindObjectOfType<InteractionController>();
+                interactionController = Object.FindFirstObjectByType<InteractionController>();
         }
 
         public void Open()

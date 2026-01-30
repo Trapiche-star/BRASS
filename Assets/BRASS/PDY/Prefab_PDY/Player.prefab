@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 8741651830317480812}
   - component: {fileID: 3610623164113969810}
   - component: {fileID: 4022327356068056294}
+  - component: {fileID: 7528368777837458380}
   m_Layer: 6
   m_Name: PlayerAction
   m_TagString: Untagged
@@ -82,9 +83,9 @@ MonoBehaviour:
   state: {fileID: 1460145252192315750}
   currentWeapon: {fileID: 0}
   comboStepDistances:
-  - 0.15
-  - 0.2
-  - 0.25
+  - 0.3
+  - 0.3
+  - 0.3
 --- !u!114 &4022327356068056294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,6 +102,21 @@ MonoBehaviour:
   jumpForce: 5
   jumpInputCooldown: 0.5
   secondJumpCooldown: 1.5
+--- !u!114 &7528368777837458380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8800350220450372264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abfa71ea99b56cc448dfae7f23f0fee5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BRASS.MeleeSkill
+  state: {fileID: 1460145252192315750}
+  animController: {fileID: 2375009848050866468}
+  skill3Speed: 3
 --- !u!1 &9045392184721531494
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,11 +400,12 @@ MonoBehaviour:
   IsSliding: 0
   IsGrounded: 0
   IsJumping: 0
-  JumpIndex: 0
   IsAttacking: 0
-  IsEquipped: 0
+  IsInputMovementLocked: 0
   IsBattleAxeEquipped: 0
-  IsInputMovementLocked: 1
+  IsEquipped: 0
+  IsGunEquipped: 0
+  JumpIndex: 0
   maxHealth: 100
   currentHealth: 0
 --- !u!114 &7870249439411039288
@@ -855,7 +872,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4083346225557775380, guid: 1ed4bb4cbdac5574495dd3f394ac24e7, type: 3}
       propertyPath: m_AnimatePhysics
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4083346225557775380, guid: 1ed4bb4cbdac5574495dd3f394ac24e7, type: 3}
       propertyPath: m_ApplyRootMotion
@@ -1340,6 +1357,7 @@ MonoBehaviour:
   jump: {fileID: 4022327356068056294}
   combat: {fileID: 3610623164113969810}
   state: {fileID: 1460145252192315750}
+  meleeSkill: {fileID: 7528368777837458380}
 --- !u!114 &1494721823946716220
 MonoBehaviour:
   m_ObjectHideFlags: 0
