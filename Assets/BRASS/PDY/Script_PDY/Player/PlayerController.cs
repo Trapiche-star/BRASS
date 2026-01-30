@@ -23,6 +23,10 @@ namespace BRASS
         [Header("ClickMoveBlock")]
         [SerializeField] private float clickBlockedStopTime = 1f; // 장애물에 막혔을 때 클릭 이동을 강제 종료할 시간
 
+        [Header("Target Stop Area")]
+        [SerializeField] private float targetStopDistance = 1.8f; // 타겟 앞 정지 거리
+        [SerializeField] private float targetStopAngle = 35f;     // 정면 허용 각도
+
         private PlayerInputHandler input; // 플레이어의 입력을 처리하는 컴포넌트 참조
         private PlayerState state; // 캐릭터의 현재 상태(공격, 이동 등)를 관리하는 컴포넌트 참조
         private CharacterController controller; // 물리적 이동을 담당하는 캐릭터 컨트롤러 컴포넌트
@@ -250,20 +254,49 @@ namespace BRASS
         // 현재 위치와 클릭 목적지 사이의 방향 벡터를 계산함
         private void CalculateClickMoveDirection()
         {
-            if (!isClickMoving) return; // 클릭 이동 상태가 아니면 건너뜀
-
-            Vector3 dir = clickDestination - transform.position; // 거리 벡터 계산
-            dir.y = 0f; // 수평 이동만 고려함
-
-            // 설정된 정지 거리 이내로 좁혀지면 도착으로 간주함
-            if (dir.magnitude <= clickStopDistance)
+            // 타겟이 정면 기즈모 안에 있으면 이동을 멈춘다
+            if (IsTargetInFrontStopArea())
             {
-                isClickMoving = false; // 상태 해제
-                moveDirection = Vector3.zero; // 벡터 초기화
+                isClickMoving = false;  
+                moveDirection = Vector3.zero; 
                 return;
             }
 
-            moveDirection = dir.normalized; // 정규화된 방향 벡터 설정
+            if (!isClickMoving) return;
+
+            Vector3 dir = clickDestination - transform.position;  // 목적지까지의 방향 벡터 산출
+            dir.y = 0f;
+
+            // 목적지에 도달했다고 판단되면 정지
+            if (dir.magnitude <= clickStopDistance)
+            {
+                isClickMoving = false;
+                moveDirection = Vector3.zero;
+                return;
+            }
+
+            moveDirection = dir.normalized;
+        }
+
+        // 타겟이 캐릭터 정면 기즈모 영역 안에 있는지 판단한다
+        private bool IsTargetInFrontStopArea()
+        {
+            if (state == null || state.CurrentTarget == null)
+                return false;
+
+            Vector3 toTarget =
+                state.CurrentTarget.position - transform.position;
+            toTarget.y = 0f;
+
+            // 거리 체크
+            if (toTarget.magnitude > targetStopDistance)
+                return false;
+
+            // 각도 체크 (정면 기준)
+            float angle =
+                Vector3.Angle(transform.forward, toTarget);
+
+            return angle <= targetStopAngle;
         }
 
         // 키보드 입력값을 카메라 시점 기준으로 변환하여 이동 방향을 결정함
@@ -388,6 +421,35 @@ namespace BRASS
             isClickMoving = false;
             moveDirection = Vector3.zero;
             clickBlockedTime = 0f;
+        }
+
+        // 디버그 목적으로 타겟 정지 구역을 씬 뷰에 시각화함
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.red;
+            
+            Vector3 origin = transform.position;
+            Vector3 left = Quaternion.Euler(0, -targetStopAngle, 0) * transform.forward;    
+            Vector3 right = Quaternion.Euler(0, targetStopAngle, 0) * transform.forward;
+
+            Gizmos.DrawLine(origin, origin + left * targetStopDistance);
+            Gizmos.DrawLine(origin, origin + right * targetStopDistance);
+            Gizmos.DrawWireSphere(origin, targetStopDistance);
+        }
+
+        // 특정 월드 좌표가 플레이어 정면 공격 판정 영역 안에 있는지 검사
+        public bool IsInFrontAttackArea(Vector3 worldPos)
+        {
+            Vector3 toTarget = worldPos - transform.position;
+            toTarget.y = 0f;
+
+            // 거리 체크
+            if (toTarget.magnitude > targetStopDistance)
+                return false;
+
+            // 각도 체크
+            float angle = Vector3.Angle(transform.forward, toTarget);
+            return angle <= targetStopAngle;
         }
         #endregion
     }

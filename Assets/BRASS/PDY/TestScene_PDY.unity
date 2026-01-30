@@ -657,14 +657,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1460145252192315750, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
-      propertyPath: IsSliding
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1460145252192315750, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
-      propertyPath: CurrentTarget
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 1814818230512055200, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
       propertyPath: playerCamera
       value: 
@@ -712,10 +704,6 @@ PrefabInstance:
     - target: {fileID: 6290972978739155226, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7528368777837458380, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
-      propertyPath: damageLayer.m_Bits
-      value: 512
       objectReference: {fileID: 0}
     - target: {fileID: 9045392184721531494, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
       propertyPath: m_Name

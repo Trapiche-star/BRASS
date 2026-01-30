@@ -117,6 +117,16 @@ MonoBehaviour:
   state: {fileID: 1460145252192315750}
   animController: {fileID: 2375009848050866468}
   skill3Speed: 3
+  bareSkill1Damage: 15
+  bareSkill2Damage: 20
+  bareSkill3Damage: 25
+  axeSkill1Damage: 40
+  axeSkill2Damage: 60
+  axeSkill3Damage: 80
+  skillRange: 2.5
+  damageLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!1 &9045392184721531494
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,6 +393,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   slideTotalDistance: 5
   clickBlockedStopTime: 0.5
+  targetStopDistance: 0.8
+  targetStopAngle: 35
 --- !u!114 &1460145252192315750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -408,6 +420,7 @@ MonoBehaviour:
   JumpIndex: 0
   maxHealth: 100
   currentHealth: 0
+  CurrentTarget: {fileID: 0}
 --- !u!114 &7870249439411039288
 MonoBehaviour:
   m_ObjectHideFlags: 0
