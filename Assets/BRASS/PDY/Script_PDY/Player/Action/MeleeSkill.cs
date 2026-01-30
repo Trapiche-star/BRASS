@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 namespace BRASS
 {
@@ -60,6 +61,8 @@ namespace BRASS
         public void ExecuteSkill01()
         {
             if (!CanUseSkill()) return; // 사용 불가능 상태라면 실행하지 않고 메서드를 종료한다
+
+            FaceTargetIfExists();
             animator.SetTrigger("Skill_1"); // 애니메이터의 스킬 1 트리거를 활성화한다
         }
 
@@ -67,6 +70,8 @@ namespace BRASS
         public void ExecuteSkill02()
         {
             if (!CanUseSkill()) return; // 사용 조건 미충족 시 메서드 흐름을 차단한다
+
+            FaceTargetIfExists();
             animator.SetTrigger("Skill_2"); // 애니메이터의 스킬 2 트리거를 활성화한다
         }
 
@@ -74,6 +79,8 @@ namespace BRASS
         public void ExecuteSkill03()
         {
             if (!CanUseSkill()) return; // 현재 공격 중이거나 공중에 있다면 실행을 취소한다
+
+            FaceTargetIfExists();
             animator.SetTrigger("Skill_3"); // 애니메이터의 스킬 3 트리거를 활성화한다
         }
 
@@ -119,6 +126,20 @@ namespace BRASS
         {
             DealSkillDamage(GetSkillDamage(3)); // 3번 스킬의 데미지 수치를 계산하여 판정을 실행한다
         }
+        // 공격 시작 시 타겟이 있다면 해당 방향으로 캐릭터를 회전시킨다
+        private void FaceTargetIfExists()
+        {
+            if (state == null || state.CurrentTarget == null) return;
+
+            Vector3 dir =
+                state.CurrentTarget.position - transform.root.position;
+            dir.y = 0f;
+
+            if (dir.sqrMagnitude < 0.01f) return;
+
+            transform.root.rotation =
+                Quaternion.LookRotation(dir.normalized);
+        }
 
         // 무기 장착 여부에 따라 해당 스킬의 데미지 수치 결정
         private float GetSkillDamage(int skillIndex)
@@ -148,17 +169,40 @@ namespace BRASS
         // 구체 범위를 감지하여 대상에게 데미지 전달
         private void DealSkillDamage(float damage)
         {
-            Vector3 origin = transform.root.position + transform.root.forward * 1.2f; // 플레이어 앞쪽으로 판정 중심점 계산
-            Collider[] hits = Physics.OverlapSphere(origin, skillRange, damageLayer); // 특정 반경 내 대상 레이어의 콜라이더들을 수집한다
+            Vector3 origin;
 
-            foreach (Collider hit in hits) // 감지된 모든 콜라이더를 순회하며 처리한다
+            // 타겟이 있다면 플레이어- 타겟 중간 지점을 기준으로 판정
+            if (state != null && state.CurrentTarget != null)
             {
-                if (hit.transform.root == transform.root) continue; // 감지된 대상이 자기 자신이라면 반복문의 다음 단계로 건너뛴다
+                Vector3 dir = (state.CurrentTarget.position - transform.root.position); // 플레이어와 타겟 간의 방향 벡터 계산
+                dir.y = 0f; // 수직 성분 제거
 
-                IDamageable target = hit.GetComponentInParent<IDamageable>(); // 대상으로부터 데미지 인터페이스를 추출한다
-                if (target == null) continue; // 인터페이스가 존재하지 않는 대상이라면 무시하고 다음으로 넘어간다
+                float dist = Mathf.Min(dir.magnitude, skillRange);  // 타겟과의 거리와 스킬 범위 중 더 작은 값을 선택
+                origin = transform.root.position + dir.normalized * dist;    // 플레이어에서 타겟 방향으로 dist만큼 떨어진 지점을 판정 기준점으로 설정
+            }
+            else // 타겟이 없으면 플레이어 전방 1.2미터 지점을 기준으로 판정
+            {
+                origin = transform.root.position + transform.root.forward * 1.2f;   
+            }
 
-                target.TakeDamage(damage); // 인터페이스를 통해 최종 데미지를 전달한다
+            // 해당 지점에서 구체 범위 내의 모든 콜라이더를 감지
+            Collider[] hits = Physics.OverlapSphere(origin, skillRange, damageLayer);
+
+            foreach (Collider hit in hits)  // 감지된 콜라이더 각각에 대해 반복 처리
+            {
+                // 자신(플레이어)에게는 대미지를 주지 않도록 건너뛴다
+                if (hit.transform.root == transform.root) 
+                    continue; 
+
+                IDamageable target = hit.GetComponentInParent<IDamageable>();   // 대미지 수신 인터페이스를 구현한 컴포넌트를 탐색
+
+                if (target == null)
+                    continue;
+
+                target.TakeDamage(damage);
+
+                // 히트 스톱 (적중 확정 시점)
+                StartCoroutine(HitStop(0.06f));
             }
         }
 
@@ -166,6 +210,20 @@ namespace BRASS
         private bool CanUseSkill()
         {
             return !state.IsAttacking && state.IsGrounded; // 공격 중이 아니고 땅에 딛고 있는 상태에서만 참을 반환한다
+        }
+
+        // 스킬 적중 시 짧은 멈칫(히트 스톱)을 발생시킨다
+        private IEnumerator HitStop(float duration)
+        {
+            if (state == null)
+                yield break;
+
+            state.IsInputMovementLocked = true;
+            state.IsMoving = false;
+
+            yield return new WaitForSeconds(duration);
+
+            state.IsInputMovementLocked = false;
         }
         #endregion
     }
