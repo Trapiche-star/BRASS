@@ -169,39 +169,33 @@ namespace BRASS
         // 구체 범위를 감지하여 대상에게 데미지 전달
         private void DealSkillDamage(float damage)
         {
-            Vector3 origin;
+            Vector3 origin = transform.root.position;
 
-            // 타겟이 있다면 플레이어- 타겟 중간 지점을 기준으로 판정
-            if (state != null && state.CurrentTarget != null)
+            Collider[] hits = Physics.OverlapSphere(origin, skillRange, damageLayer);   // 지정된 범위 내의 충돌체를 모두 감지한다
+
+
+            PlayerController controller = GetComponentInParent<PlayerController>();     // 플레이어 컨트롤러 참조 획득
+
+            foreach (Collider hit in hits)  // 감지된 모든 충돌체에 대해 반복 처리
             {
-                Vector3 dir = (state.CurrentTarget.position - transform.root.position); // 플레이어와 타겟 간의 방향 벡터 계산
-                dir.y = 0f; // 수직 성분 제거
+                // 자기 자신 제외
+                if (hit.transform.root == transform.root)
+                    continue;
 
-                float dist = Mathf.Min(dir.magnitude, skillRange);  // 타겟과의 거리와 스킬 범위 중 더 작은 값을 선택
-                origin = transform.root.position + dir.normalized * dist;    // 플레이어에서 타겟 방향으로 dist만큼 떨어진 지점을 판정 기준점으로 설정
-            }
-            else // 타겟이 없으면 플레이어 전방 1.2미터 지점을 기준으로 판정
-            {
-                origin = transform.root.position + transform.root.forward * 1.2f;   
-            }
+                // 정면 공격 판정 영역 검사
+                if (controller != null &&
+                    !controller.IsInFrontAttackArea(hit.transform.position))
+                    continue;
 
-            // 해당 지점에서 구체 범위 내의 모든 콜라이더를 감지
-            Collider[] hits = Physics.OverlapSphere(origin, skillRange, damageLayer);
-
-            foreach (Collider hit in hits)  // 감지된 콜라이더 각각에 대해 반복 처리
-            {
-                // 자신(플레이어)에게는 대미지를 주지 않도록 건너뛴다
-                if (hit.transform.root == transform.root) 
-                    continue; 
-
-                IDamageable target = hit.GetComponentInParent<IDamageable>();   // 대미지 수신 인터페이스를 구현한 컴포넌트를 탐색
+                IDamageable target =
+                    hit.GetComponentInParent<IDamageable>();
 
                 if (target == null)
                     continue;
 
                 target.TakeDamage(damage);
 
-                // 히트 스톱 (적중 확정 시점)
+                // 히트 스톱
                 StartCoroutine(HitStop(0.06f));
             }
         }
@@ -221,7 +215,7 @@ namespace BRASS
             state.IsInputMovementLocked = true;
             state.IsMoving = false;
 
-            yield return new WaitForSeconds(duration);
+            yield return new WaitForSeconds(duration);  // 지정된 시간 동안 대기
 
             state.IsInputMovementLocked = false;
         }

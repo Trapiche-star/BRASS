@@ -436,6 +436,21 @@ namespace BRASS
             Gizmos.DrawLine(origin, origin + right * targetStopDistance);
             Gizmos.DrawWireSphere(origin, targetStopDistance);
         }
+
+        // 특정 월드 좌표가 플레이어 정면 공격 판정 영역 안에 있는지 검사
+        public bool IsInFrontAttackArea(Vector3 worldPos)
+        {
+            Vector3 toTarget = worldPos - transform.position;
+            toTarget.y = 0f;
+
+            // 거리 체크
+            if (toTarget.magnitude > targetStopDistance)
+                return false;
+
+            // 각도 체크
+            float angle = Vector3.Angle(transform.forward, toTarget);
+            return angle <= targetStopAngle;
+        }
         #endregion
     }
 }
