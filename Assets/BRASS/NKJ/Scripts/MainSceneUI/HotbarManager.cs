@@ -1,5 +1,103 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Team1; // 인벤토리 관련 스크립트 접근을 위해 추가
+
+public class HotbarManager : MonoBehaviour
+{
+    public SkillSlot[] slots;
+
+    [Header("UI Settings")]
+    public GameObject hotbarUI;
+
+    private CanvasGroup hotbarCanvasGroup;
+
+    void Start()
+    {
+        if (hotbarUI != null)
+        {
+            hotbarCanvasGroup = hotbarUI.GetComponent<CanvasGroup>();
+            if (hotbarCanvasGroup == null)
+            {
+                hotbarCanvasGroup = hotbarUI.AddComponent<CanvasGroup>();
+            }
+        }
+    }
+
+    void Update()
+    {
+        // 1. 인벤토리가 열려 있는지 확인 (입력 차단)
+        if (IsInventoryActive()) return;
+
+        Keyboard kb = Keyboard.current;
+        if (kb == null) return;
+
+        // 2. H 키: 핫바 시각적 토글
+        if (kb.hKey.wasPressedThisFrame)
+        {
+            ToggleHotbar();
+        }
+
+        // 3. Alt + 숫자키 (1~9) 스킬 사용 로직
+        // Alt 키가 눌린 상태에서만 숫자키 입력을 받습니다.
+        if (kb.altKey.isPressed)
+        {
+            if (kb.digit1Key.wasPressedThisFrame) { LogKeyAndUse("Alt+1", 0); }
+            if (kb.digit2Key.wasPressedThisFrame) { LogKeyAndUse("Alt+2", 1); }
+            if (kb.digit3Key.wasPressedThisFrame) { LogKeyAndUse("Alt+3", 2); }
+            if (kb.digit4Key.wasPressedThisFrame) { LogKeyAndUse("Alt+4", 3); }
+            if (kb.digit5Key.wasPressedThisFrame) { LogKeyAndUse("Alt+5", 4); }
+            if (kb.digit6Key.wasPressedThisFrame) { LogKeyAndUse("Alt+6", 5); }
+            if (kb.digit7Key.wasPressedThisFrame) { LogKeyAndUse("Alt+7", 6); }
+            if (kb.digit8Key.wasPressedThisFrame) { LogKeyAndUse("Alt+8", 7); }
+            if (kb.digit9Key.wasPressedThisFrame) { LogKeyAndUse("Alt+9", 8); }
+        }
+    }
+
+    // 인벤토리 상태를 체크하는 헬퍼 함수
+    bool IsInventoryActive()
+    {
+        // InventoryToggleUI 스크립트의 IsOpen 속성 확인
+        var toggleUI = Object.FindFirstObjectByType<InventoryToggleUI>();
+        if (toggleUI != null && toggleUI.IsOpen) return true;
+
+        // InventoryHotkeyToggle은 열릴 때 Time.timeScale을 0으로 만듭니다
+        if (Time.timeScale == 0f) return true;
+
+        return false;
+    }
+
+    void ToggleHotbar()
+    {
+        if (hotbarCanvasGroup != null)
+        {
+            bool isVisible = hotbarCanvasGroup.alpha > 0;
+            hotbarCanvasGroup.alpha = isVisible ? 0 : 1;
+            hotbarCanvasGroup.interactable = !isVisible;
+            hotbarCanvasGroup.blocksRaycasts = !isVisible;
+
+            Debug.Log($"핫바 가시성: {(!isVisible ? "보임" : "숨김")}");
+        }
+    }
+
+    void LogKeyAndUse(string keyName, int index)
+    {
+        Debug.Log($"{keyName} 키로 스킬 사용!");
+        CheckAndUse(index);
+    }
+
+    void CheckAndUse(int index)
+    {
+        if (slots == null || slots.Length <= index) return;
+        if (slots[index] == null) return;
+
+        slots[index].UseSkill();
+    }
+}
+
+
+/*
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class HotbarManager : MonoBehaviour
 {
@@ -78,6 +176,11 @@ public class HotbarManager : MonoBehaviour
         slots[index].UseSkill();
     }
 }
+*/
+
+
+
+
 /*
  * 단축키 수정
 using UnityEngine;

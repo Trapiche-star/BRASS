@@ -172,11 +172,29 @@ public class LevelSystem : MonoBehaviour
     // 저장 기능
     public void SaveGameData()
     {
-        PlayerPrefs.SetInt(SAVE_KEY_LEVEL, currentLevel);
-        PlayerPrefs.SetInt(SAVE_KEY_EXP, currentExp);
-        PlayerPrefs.Save(); // 즉시 디스크에 저장
 
-        Debug.Log($"Game Saved - Level: {currentLevel}, Exp: {currentExp}");
+        int savedLevel = PlayerPrefs.GetInt(SAVE_KEY_LEVEL, -1);
+        int savedExp = PlayerPrefs.GetInt(SAVE_KEY_EXP, -1);
+
+        // 값이 실제로 변경되었을 때만 저장 - 디버그 계속 올라가느거 방지
+        if (savedLevel != currentLevel || savedExp != currentExp)
+        {
+            PlayerPrefs.SetInt(SAVE_KEY_LEVEL, currentLevel);
+            PlayerPrefs.SetInt(SAVE_KEY_EXP, currentExp);
+            PlayerPrefs.Save();
+
+            Debug.Log($"Game Saved - Level: {currentLevel}, Exp: {currentExp}");
+        }
+
+
+        /*
+         *디버그 계속 올라감
+                PlayerPrefs.SetInt(SAVE_KEY_LEVEL, currentLevel);
+                PlayerPrefs.SetInt(SAVE_KEY_EXP, currentExp);
+                PlayerPrefs.Save(); // 즉시 디스크에 저장
+
+                Debug.Log($"Game Saved - Level: {currentLevel}, Exp: {currentExp}");
+        */
     }
 
     // 불러오기 기능
