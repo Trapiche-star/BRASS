@@ -14,11 +14,7 @@ namespace BRASS
         [SerializeField] private float gravity = -9.81f; // 캐릭터에 적용되는 중력 수치
         [SerializeField] private float rotationSpeed = 15f; // 이동 방향으로 캐릭터가 회전하는 속도
         [SerializeField] private Transform cameraPivot; // 카메라 시점의 기준이 되는 피벗 트랜스폼
-        [SerializeField] private float clickStopDistance = 0.1f; // 클릭 이동 시 목적지에 도달했다고 판단할 거리
-
-        [Header("Slide")]
-        [SerializeField] private AnimationCurve slideMoveCurve; // 슬라이딩 시 가속도를 제어하는 애니메이션 커브
-        [SerializeField] private float slideTotalDistance = 2.5f; // 슬라이딩으로 이동할 최대 거리
+        [SerializeField] private float clickStopDistance = 0.1f; // 클릭 이동 시 목적지에 도달했다고 판단할 거리        
 
         [Header("ClickMoveBlock")]
         [SerializeField] private float clickBlockedStopTime = 1f; // 장애물에 막혔을 때 클릭 이동을 강제 종료할 시간
@@ -33,16 +29,11 @@ namespace BRASS
         private Animator animator; // 애니메이션 제어를 위한 애니메이터 컴포넌트
 
         private Vector3 velocity; // 수직 이동(중력 등)을 저장하는 벡터
-        private Vector3 moveDirection; // 현재 프레임의 수평 이동 방향 벡터
-        private Vector3 pendingSlideDirection; // 슬라이딩 애니메이션 대기 중 저장된 방향
-        private Vector3 slideDirection; // 실제 슬라이딩이 진행되는 방향
+        private Vector3 moveDirection; // 현재 프레임의 수평 이동 방향 벡터        
 
         private Vector3 clickDestination; // 마우스 클릭으로 지정된 이동 목적지
-        private bool isClickMoving; // 클릭 이동 모드가 활성화되어 있는지 여부
-
-        private float lastSlideCurveValue; // 이전 프레임의 슬라이딩 커브 계산값
-        private float clickBlockedTime; // 클릭 이동 중 막힌 상태가 지속된 시간
-        private bool slideInputConsumed; // 슬라이딩 입력이 연속으로 처리되는 것을 방지하기 위한 플래그        
+        private bool isClickMoving; // 클릭 이동 모드가 활성화되어 있는지 여부        
+        private float clickBlockedTime; // 클릭 이동 중 막힌 상태가 지속된 시간                
 
         private bool prevIsGrounded; // 이전 프레임의 접지 상태 기록
         private bool prevIsJumping; // 이전 프레임의 점프 상태 기록
@@ -67,57 +58,16 @@ namespace BRASS
         // 이동 입력 처리 및 물리 연산의 전반적인 흐름을 제어함
         private void HandleMovement()
         {
-            // 필수적인 컴포넌트 참조가 비어있다면 로직을 수행하지 않음
-            if (input == null || state == null || cameraPivot == null) return;
-
-            // 슬라이딩 입력이 감지되었을 때 상태를 전환하고 애니메이션을 트리거함
-            if (input.SlidePressed && !slideInputConsumed)
-            {
-                // 점프 중에는 슬라이드를 허용하지 않는다
-                if (state.IsJumping)
-                    return;
-                // 공중 상태에서 슬라이드 입력이 들어와도 무시한다
-
-                slideInputConsumed = true; // 입력 중복 처리 방지
-                isClickMoving = false;     // 클릭 이동 중단
-                moveDirection = Vector3.zero; // 일반 이동 벡터 초기화
-
-                pendingSlideDirection = GetSlideDirection(); // 시점 기준 슬라이딩 방향 예약
-
-                // 애니메이터가 존재하면 슬라이딩 트리거 실행
-                if (animator != null)
-                    animator.SetTrigger("Slide");
-
-                return;
-            }
-
-            // 슬라이딩 입력 버튼이 해제되면 소모 플래그를 리셋함
-            if (!input.SlidePressed)
-                slideInputConsumed = false;
-
-            // 현재 슬라이딩 중이라면 애니메이션 커브 데이터에 기반해 물리적 위치를 이동시킴
             if (state.IsSliding)
             {
-                ApplyGravity(); // 슬라이딩 중 중력 반영
-
-                AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0); // 현재 슬라이딩 애니메이션 정보 획득
-                float normalizedTime = Mathf.Clamp01(info.normalizedTime);        // 애니메이션 진행도 보정
-
-                float curveValue = slideMoveCurve.Evaluate(normalizedTime);       // 현재 시간대의 커브 값 추출
-                float deltaCurve = curveValue - lastSlideCurveValue;              // 이전 프레임과의 변위차 계산
-                float moveDistance = deltaCurve * slideTotalDistance;             // 실제 이동 거리 산출
-
-                // 커브 상 이동 거리가 발생한 경우 실제 물리 이동을 수행함
-                if (moveDistance > 0f)
-                {
-                    Vector3 slideMove = slideDirection * moveDistance;            // 슬라이딩 방향 벡터 조합
-                    controller.Move(slideMove + velocity * Time.deltaTime);       // 최종 물리 이동
-                }
-
-                lastSlideCurveValue = curveValue; // 현재 커브 기록값 갱신
+                ApplyGravity();
+                controller.Move(velocity * Time.deltaTime);
                 return;
             }
 
+            // 필수적인 컴포넌트 참조가 비어있다면 로직을 수행하지 않음
+            if (input == null || state == null || cameraPivot == null) return;
+                     
             HandleClickMoveInput();            // 마우스 클릭에 의한 목적지 설정 처리
             CalculateClickMoveDirection();     // 클릭 이동 방향 산출
             CalculateKeyboardMoveDirection();  // 키보드 입력에 따른 시점 기준 방향 산출
@@ -125,8 +75,6 @@ namespace BRASS
             UpdateState();                     // 이동 및 달리기 상태 동기화
             ApplyNormalMovement();             // 일반 이동 물리 반영
         }
-
-
 
         // 최종 결정된 방향과 속도를 이용하여 실제 물리 이동 및 회전을 수행함
         private void ApplyNormalMovement()
@@ -326,6 +274,22 @@ namespace BRASS
             if (state.IsInputMovementLocked || state.IsAttacking)
             {
                 state.IsMoving = false;
+                state.IsFastRun = false;
+                return;
+            }
+
+            // 슬라이드 '요청' 중일 때도 이동 상태는 꺼야 함 (애니메이션 꼬임 방지)
+            if (state.SlideRequested || state.IsSliding)
+            {
+                state.IsMoving = false;
+                state.IsFastRun = false;
+                return;
+            }
+
+            // 공격 등으로 인해 입력 기반 이동이 잠긴 상태라면
+            if (state.IsInputMovementLocked || state.IsAttacking)
+            {
+                state.IsMoving = false;
                 // 이동 입력이 들어와 있어도 '이동 중' 상태로 판단하지 않는다
                 // → 이동 애니메이션 차단용
 
@@ -342,48 +306,6 @@ namespace BRASS
             state.IsFastRun = input.IsKeyboardMove &&
                               Keyboard.current != null &&
                               Keyboard.current.leftShiftKey.isPressed;
-        }
-
-        // 카메라 정면을 기준으로 슬라이딩을 수행할 방향을 산출함
-        private Vector3 GetSlideDirection()
-        {
-            Transform camTransform = Camera.main.transform; // 카메라 위치 정보
-            Vector3 forward = camTransform.forward; // 카메라 정면 방향
-            forward.y = 0f; // y축 무시
-
-            // 벡터 크기가 거의 없다면 방향 없음으로 반환함
-            if (forward.sqrMagnitude < 0.01f)
-                return Vector3.zero;
-
-            return forward.normalized; // 정규화된 정면 방향 반환
-        }
-
-        // 애니메이션 이벤트 등에서 대기 중이던 방향으로 슬라이딩을 강제 개시함
-        public void StartSlideFromPending()
-        {
-            StartSlide(pendingSlideDirection); // 대기 방향으로 슬라이딩 실행
-            pendingSlideDirection = Vector3.zero; // 대기열 비우기
-        }
-
-        // 입력된 방향을 기준으로 슬라이딩 상태를 활성화하고 캐릭터를 회전시킴
-        public void StartSlide(Vector3 direction)
-        {
-            if (direction == Vector3.zero) return; // 방향이 유효하지 않으면 취소
-
-            moveDirection = Vector3.zero; // 일반 이동 방향 초기화
-            direction.y = 0f; // 수평축 고정
-
-            slideDirection = direction.normalized; // 슬라이딩 방향 확정
-            transform.rotation = Quaternion.LookRotation(slideDirection); // 해당 방향을 즉시 바라보게 함
-
-            lastSlideCurveValue = 0f; // 커브 연산값 초기화
-            state.IsSliding = true; // 슬라이딩 상태 활성화
-        }
-
-        // 슬라이딩 상태를 비활성화함
-        public void EndSlide()
-        {
-            state.IsSliding = false; // 상태 해제
         }        
 
         // 애니메이터에 점프 트리거와 인덱스를 설정하여 애니메이션을 재생함
@@ -426,31 +348,17 @@ namespace BRASS
         // 디버그 목적으로 타겟 정지 구역을 씬 뷰에 시각화함
         private void OnDrawGizmosSelected()
         {
-            Gizmos.color = Color.red;
+            Gizmos.color = Color.red;            
             
-            Vector3 origin = transform.position;
-            Vector3 left = Quaternion.Euler(0, -targetStopAngle, 0) * transform.forward;    
-            Vector3 right = Quaternion.Euler(0, targetStopAngle, 0) * transform.forward;
+            Vector3 origin = transform.position;        // 기즈모 원점 위치
+            Vector3 left = Quaternion.Euler(0, -targetStopAngle, 0) * transform.forward;    // 왼쪽 경계 벡터
+            Vector3 right = Quaternion.Euler(0, targetStopAngle, 0) * transform.forward;    // 오른쪽 경계 벡터
 
-            Gizmos.DrawLine(origin, origin + left * targetStopDistance);
+            // 경계선과 원형 구역 그리기
+            Gizmos.DrawLine(origin, origin + left * targetStopDistance);   
             Gizmos.DrawLine(origin, origin + right * targetStopDistance);
             Gizmos.DrawWireSphere(origin, targetStopDistance);
-        }
-
-        // 특정 월드 좌표가 플레이어 정면 공격 판정 영역 안에 있는지 검사
-        public bool IsInFrontAttackArea(Vector3 worldPos)
-        {
-            Vector3 toTarget = worldPos - transform.position;
-            toTarget.y = 0f;
-
-            // 거리 체크
-            if (toTarget.magnitude > targetStopDistance)
-                return false;
-
-            // 각도 체크
-            float angle = Vector3.Angle(transform.forward, toTarget);
-            return angle <= targetStopAngle;
-        }
+        }       
         #endregion
     }
 }

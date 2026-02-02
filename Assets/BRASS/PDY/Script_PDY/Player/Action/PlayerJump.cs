@@ -55,9 +55,23 @@ namespace BRASS
             // 필수 참조가 없으면 점프 처리를 수행하지 않는다
 
             // 공격 중이라면 점프 입력으로 즉시 공격을 캔슬한다
-            if (state.IsInputMovementLocked)
+            if (state.IsAttacking || state.IsInputMovementLocked)
             {
+                // MeleeSkill의 전진 이동 및 상태 강제 종료
+                MeleeSkill melee = GetComponentInParent<MeleeSkill>();
+                if (melee != null)
+                {
+                    // 이전에 만든 ForceEndAttack 메서드가 있다면 호출, 
+                    // 없다면 아래처럼 직접 상태를 풀어줍니다.
+                    state.IsAttacking = false;
+                    state.IsInputMovementLocked = false;
+                    melee.OnSkill3MoveEnd(); // 스킬3 이동 중이었다면 정지
+                    melee.StopAllCoroutines(); // 히트스톱 등 코루틴 중단
+                }
+
                 GetComponent<PlayerCombat>()?.CancelAttack();
+
+                Debug.Log("[Jump] 공격 중 점프로 인한 상태 강제 초기화");
             }
 
             if (state.IsSliding)

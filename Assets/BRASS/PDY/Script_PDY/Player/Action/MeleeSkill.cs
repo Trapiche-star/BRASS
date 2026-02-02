@@ -31,6 +31,10 @@ namespace BRASS
         [Header("Skill Hit")]
         [SerializeField] private float skillRange = 2.5f; // 공격 판정을 시도할 구체 범위 반경
         [SerializeField] private LayerMask damageLayer; // 데미지 계산에 포함할 레이어 마스크
+
+        [Header("Attack Hit Area")]
+        [SerializeField] private float attackHitDistance = 2.5f; // 공격 판정 최대 거리
+        [SerializeField] private float attackHitAngle = 45f;     // 공격 판정 허용 각도
         #endregion
 
         #region Unity Event Method
@@ -171,20 +175,18 @@ namespace BRASS
         {
             Vector3 origin = transform.root.position;
 
-            Collider[] hits = Physics.OverlapSphere(origin, skillRange, damageLayer);   // 지정된 범위 내의 충돌체를 모두 감지한다
+            // 지정된 범위 내의 충돌체를 모두 감지한다
+            Collider[] hits =
+                Physics.OverlapSphere(origin, skillRange, damageLayer);
 
-
-            PlayerController controller = GetComponentInParent<PlayerController>();     // 플레이어 컨트롤러 참조 획득
-
-            foreach (Collider hit in hits)  // 감지된 모든 충돌체에 대해 반복 처리
+            foreach (Collider hit in hits)
             {
                 // 자기 자신 제외
                 if (hit.transform.root == transform.root)
                     continue;
 
-                // 정면 공격 판정 영역 검사
-                if (controller != null &&
-                    !controller.IsInFrontAttackArea(hit.transform.position))
+                // 공격 판정 기즈모 영역 검사 (여기가 맞는 위치)
+                if (!IsInAttackHitArea(hit.transform.position))
                     continue;
 
                 IDamageable target =
@@ -218,6 +220,60 @@ namespace BRASS
             yield return new WaitForSeconds(duration);  // 지정된 시간 동안 대기
 
             state.IsInputMovementLocked = false;
+        }
+
+        // 특정 월드 좌표가 근접 공격 판정 영역 안에 있는지 검사
+        private bool IsInAttackHitArea(Vector3 worldPos)
+        {
+            Vector3 toTarget = worldPos - transform.root.position;
+            toTarget.y = 0f;
+
+            // 거리 체크
+            if (toTarget.magnitude > attackHitDistance)
+                return false;
+
+            // 각도 체크 (플레이어 전방 기준)
+            float angle =
+                Vector3.Angle(transform.root.forward, toTarget);
+
+            return angle <= attackHitAngle;
+        }
+
+        // 공격 적중 판정 영역을 씬 뷰에 시각화한다
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.yellow;
+
+            Transform root = transform.root;
+            if (root == null) return;
+
+            Vector3 origin = root.position;
+
+            Vector3 left =
+                Quaternion.Euler(0, -attackHitAngle, 0) * root.forward;
+            Vector3 right =
+                Quaternion.Euler(0, attackHitAngle, 0) * root.forward;
+
+            Gizmos.DrawLine(origin, origin + left * attackHitDistance);
+            Gizmos.DrawLine(origin, origin + right * attackHitDistance);
+            Gizmos.DrawWireSphere(origin, attackHitDistance);
+        }
+
+        // 외부에서 공격 상태를 강제 종료할 때 호출
+        public void ForceEndAttack()
+        {
+            isSkill3Moving = false; // 스킬 3 이동 중단
+
+            if (state != null)
+            {
+                state.IsAttacking = false;
+                state.IsInputMovementLocked = false;
+            }
+
+            // 혹시 실행 중일지 모르는 코루틴 중단
+            StopAllCoroutines();
+
+            Debug.Log("[MeleeSkill] 점프로 인해 공격 상태가 강제 해제되었습니다.");
         }
         #endregion
     }

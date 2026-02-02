@@ -18,6 +18,7 @@ namespace BRASS
         public bool IsBattleAxeEquipped; // 현재 배틀액스를 주 무기로 장착했는지 여부
         public bool IsEquipped; // 어떠한 무기라도 장착 중인지 여부
         public bool IsGunEquipped;  // 하푼건 장착 여부 추가
+        public bool SlideRequested; // 슬라이드 입력이 요청되었는지 여부
 
         public int JumpIndex; // 연속 점프 중 현재 몇 번째 점프인지 기록
 
@@ -38,7 +39,7 @@ namespace BRASS
         private void Awake()
         {
             currentHealth = maxHealth; // 게임 시작 시 현재 체력을 최대치로 설정하여 초기화한다
-        }
+        }        
         #endregion
 
         #region Custom Methods

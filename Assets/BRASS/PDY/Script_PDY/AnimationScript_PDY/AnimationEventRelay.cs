@@ -6,7 +6,7 @@ namespace BRASS
     public class AnimationEventRelay : MonoBehaviour
     {
         #region Variables
-        [SerializeField] private PlayerController controller; // 이동 로직 제어 컴포넌트
+        [SerializeField] private PlayerSlide slide; // 슬라이드 전용 로직 컴포넌트
         [SerializeField] private PlayerJump jump; // 점프 로직 제어 컴포넌트
         [SerializeField] private PlayerCombat combat; // 전투 및 콤보 로직 제어 컴포넌트
         [SerializeField] private PlayerState state; // 캐릭터 상태 플래그 관리 컴포넌트
@@ -19,8 +19,8 @@ namespace BRASS
         {
             //  각 컴포넌트 참조가 할당되어 있지 않다면 부모 오브젝트에서 찾아 할당한다
 
-            if (controller == null) // 만약 이동 컨트롤러 참조가 없다면
-                controller = GetComponentInParent<PlayerController>(); // 부모 오브젝트에서 해당 컴포넌트를 찾아 할당한다
+            if (slide == null) // 만약 이동 컨트롤러 참조가 없다면
+                slide = GetComponentInParent<PlayerSlide>(); // 부모 오브젝트에서 해당 컴포넌트를 찾아 할당한다
 
             if (jump == null) // 만약 점프 컴포넌트 참조가 없다면
                 jump = GetComponentInParent<PlayerJump>(); // 부모 오브젝트에서 해당 컴포넌트를 찾아 할당한다
@@ -40,15 +40,18 @@ namespace BRASS
         // 슬라이딩 이동이 시작될 때 호출
         public void OnSlideMoveStart()
         {
-            if (controller == null) return; // 컨트롤러가 없으면 이 메서드의 로직을 수행하지 않는다
-            controller.StartSlide(transform.forward); // 현재 모델의 정면 방향으로 슬라이딩 물리 이동을 시작한다
+            Debug.Log("[Slide] OnSlideMoveStart 이벤트 수신"); // ★ 추가
+
+            if (slide == null) return; // 컨트롤러가 없으면 이 메서드의 로직을 수행하지 않는다
+            slide.BeginSlide(transform.forward); // 현재 모델의 정면 방향으로 슬라이딩 물리 이동을 시작한다
         }
 
         // 슬라이딩 이동이 종료될 때 호출
         public void OnSlideMoveEnd()
         {
-            if (controller == null) return; // 참조가 유효하지 않으면 동작을 취소한다
-            controller.EndSlide(); // 이동 로직의 슬라이딩 상태를 해제한다
+            Debug.Log("[Slide] OnSlideMoveEnd 이벤트 수신"); // ★ 추가
+            if (slide == null) return; // 참조가 유효하지 않으면 동작을 취소한다
+            slide.EndSlide(); // 이동 로직의 슬라이딩 상태를 해제한다
         }
 
         // 캐릭터가 공격 판정을 시작하는 프레임에 호출
