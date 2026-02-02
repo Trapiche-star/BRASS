@@ -19,11 +19,15 @@ namespace BRASS
         [Header("Combo Step Move")]
         [SerializeField] private float[] comboStepDistances = { 0.15f, 0.2f, 0.25f };        // 각 타수별 전진 거리 데이터
 
+        [Header("Auto Approach - Basic Attack")]
+        [SerializeField] private float basicAttackApproachDistance = 2.5f; // 기본 공격 진입 거리
+        [SerializeField] private float basicAttackApproachAngle = 45f; // 기본 공격 진입 각도
+
         private Vector3 cachedAttackDirection;        // 공격 시작 시 고정되는 카메라 기준 정면 수평 방향
-        private int attackInputCount;        // 현재 시퀀스 내 누적된 공격 입력 횟수
+        private int attackInputCount;           // 현재 시퀀스 내 누적된 공격 입력 횟수
         private float lastAttackInputTime;        // 마지막 공격 입력 시각
         private bool isAttackSequenceActive;        // 공격 시퀀스 진행 여부
-
+        private bool basicAttackPending;        // 범위 진입 후 공격 실행 대기
 
         #endregion
 
@@ -42,16 +46,19 @@ namespace BRASS
 
         private void LateUpdate()
         {
+            // 기본 공격 대기 상태가 걸려있다면 실행을 시도한다
+            TryExecutePendingBasicAttack();
+
+            // 공격 시퀀스가 활성 상태라면 캐싱된 방향으로 모델을 회전시킨다
             if (!isAttackSequenceActive)
                 return;
-            // 공격 중이 아니면 회전 고정을 수행하지 않는다
 
+            // 방향 데이터가 유효하지 않다면 회전을 수행하지 않는다
             if (cachedAttackDirection == Vector3.zero)
                 return;
-            // 유효한 공격 방향이 없으면 회전하지 않는다
 
+            // 캐싱된 공격 방향으로 모델을 회전시킨다
             transform.rotation = Quaternion.LookRotation(cachedAttackDirection);
-            // 공격 시퀀스 동안 캐릭터 회전을 고정한다
         }
         #endregion
 
@@ -86,52 +93,50 @@ namespace BRASS
         // 기본 공격 입력이 시작되었을 때 호출되어 공격 시퀀스를 개시한다
         public void OnBasicAttackStarted()
         {
-            Debug.Log("Combat.OnBasicAttackStarted 호출됨");
-
             float now = Time.time;
-            // 현재 게임 시간 기록
 
-            if (!isAttackSequenceActive)
+            // 콤보 처리
+            if (isAttackSequenceActive)
             {
-                // 좌클릭 이동 강제 종료
-                if (playerController != null)
-                    playerController.CancelClickMove();
-
-                if (state != null)
-                    state.IsMoving = false; // 강제 이동 상태 해제
-
-                isAttackSequenceActive = true;
-                // 공격 시퀀스 시작
-
-                attackInputCount = 1;
-                // 첫 타 입력 처리
-
-                lastAttackInputTime = now;
-                // 입력 시각 기록
-
-                /*if (state != null)
-                    state.IsInputMovementLocked = true;
-                // 공격 입력 순간부터 입력 기반 이동을 즉시 잠근다*/
-
-                CacheAttackDirection();
-                // 공격 방향을 고정한다
-
-                if (animationController != null)
-                    animationController.PlayAttack();
-                // 첫 공격 애니메이션 실행
-
+                if (Time.time - lastAttackInputTime <= comboInputWindow)
+                {
+                    attackInputCount++;
+                    lastAttackInputTime = Time.time;
+                }
                 return;
             }
 
-            if (now - lastAttackInputTime <= comboInputWindow)
-            {
-                attackInputCount++;
-                // 콤보 연계를 위한 추가 입력 처리
+            playerController?.CancelClickMove();
+            state.IsMoving = false;
 
-                lastAttackInputTime = now;
-                // 마지막 입력 시각 갱신
+            // 타겟 없으면 허공 공격
+            if (state.CurrentTarget == null)
+            {
+                StartAttackSequence(now);
+                return;
             }
+
+            // 전투 상태라도 거리/각도 체크는 무조건 한다
+            if (IsInAttackStartArea(
+                state.CurrentTarget,
+                basicAttackApproachDistance,
+                basicAttackApproachAngle))
+            {
+                state.IsEngagedWithTarget = true;
+                StartAttackSequence(now);
+                return;
+            }
+
+            // 사거리 밖이면 무조건 다시 자동 접근
+            state.IsEngagedWithTarget = true;
+            basicAttackPending = true;
+
+            playerController.StartAutoApproach(
+                state.CurrentTarget,
+                basicAttackApproachDistance
+            );
         }
+
 
         // 애니메이션 이벤트 지점에서 호출되어 다음 콤보 진행 가능 여부를 판단한다
         public bool OnComboSectionReached(int sectionIndex)
@@ -189,7 +194,34 @@ namespace BRASS
         public void CancelAttack()
         {
             ForceEndAttack();
+            basicAttackPending = false;
         }
+
+        // 공격 시퀀스를 시작하는 내부 메서드
+        private void StartAttackSequence(float now)
+        {
+            // 타겟이 있으면 타겟을 바라봄
+            if (state != null && state.CurrentTarget != null)
+            {
+                Vector3 toTarget = state.CurrentTarget.position - transform.position;
+                toTarget.y = 0f;
+
+                if (toTarget.sqrMagnitude > 0.001f)
+                    transform.rotation = Quaternion.LookRotation(toTarget.normalized);
+
+                state.IsEngagedWithTarget = true;
+            }
+
+            state.IsAttacking = true;
+
+            isAttackSequenceActive = true;
+            attackInputCount = 1;
+            lastAttackInputTime = now;
+
+            CacheAttackDirection();
+            animationController?.PlayAttack();
+        }
+
 
         // 공격 시퀀스를 강제로 종료하고 상태를 초기화한다
         private void ForceEndAttack()
@@ -207,35 +239,73 @@ namespace BRASS
             // 시간 기록 초기화
 
             if (state != null)
+            {
+                state.IsAttacking = false;
                 state.IsInputMovementLocked = false;
-            // 공격 종료 시 입력 이동 잠금을 해제한다
-
-            if (animationController != null)
-                animationController.StopAttack();
-            // 애니메이션을 대기 상태로 복귀시킨다
+            }
+            animationController?.StopAttack();
+            basicAttackPending = false;
         }
 
         // 현재 카메라 기준 공격 방향을 수평 벡터로 캐싱한다
         private void CacheAttackDirection()
         {
-            Camera cam = Camera.main;
-            // 메인 카메라 참조
-
-            if (cam == null)
-            {
-                cachedAttackDirection = Vector3.zero;
-                return;
-            }
-
-            Vector3 forward = cam.transform.forward;
+            Vector3 forward = transform.forward;
             forward.y = 0f;
-            // 수평 방향만 사용한다
 
             cachedAttackDirection = forward.sqrMagnitude < 0.01f
                 ? Vector3.zero
                 : forward.normalized;
-            // 유효한 방향만 정규화하여 저장한다
         }
+
+        // 기본 공격 대기 상태가 걸려있다면 실행을 시도한다
+
+        private void TryExecutePendingBasicAttack()
+        {
+            if (!basicAttackPending)
+                return;
+
+            if (state == null || playerController == null)
+                return;
+
+            if (state.CurrentTarget == null)
+            {
+                basicAttackPending = false;
+                return;
+            }
+
+            Vector3 toTarget = state.CurrentTarget.position - transform.position;
+            toTarget.y = 0f;
+
+            // 거리만 확인 (각도 제거)
+            if (toTarget.magnitude <= basicAttackApproachDistance)
+            {
+                basicAttackPending = false;
+
+                // 타겟을 확실히 바라보게 만든다
+                if (toTarget.sqrMagnitude > 0.001f)
+                    transform.rotation = Quaternion.LookRotation(toTarget.normalized);
+
+                state.IsEngagedWithTarget = true;
+                StartAttackSequence(Time.time);
+            }
+        }
+
+        // 대상이 지정된 거리와 각도 내에 있는지 검사한다
+        private bool IsInAttackStartArea(Transform target, float distance, float angle) // 대상이 지정된 거리와 각도 내에 있는지 검사
+        {
+            // 거리 계산 및 각도 계산
+            Vector3 toTarget = target.position - transform.position;    
+            toTarget.y = 0f;
+
+            // 만약 타겟이 지정된 거리보다 멀다면 false 반환
+            if (toTarget.magnitude > distance)  // 거리 계산
+                return false;   // 거리 내에 있지 않으면 false 반환
+
+            // 만약 타겟이 지정된 각도보다 벗어난다면 false 반환
+            float a = Vector3.Angle(transform.forward, toTarget);   // 플레이어 전방과 타겟 방향 사이의 각도 계산
+            return a <= angle;  // 각도 내에 있으면 true 반환
+        }        
         #endregion
     }
 }

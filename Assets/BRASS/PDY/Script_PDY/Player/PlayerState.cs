@@ -9,18 +9,22 @@ namespace BRASS
         [Header("Action States")]
         public bool IsMoving; // 현재 캐릭터가 이동 입력 중인지 여부
         public bool IsFastRun; // 캐릭터가 고속 달리기 상태인지 여부
-        public bool IsSliding; // 슬라이딩 동작을 수행 중인지 여부
-        public bool IsGrounded; // 캐릭터가 지면에 닿아 있는지 여부
-        public bool IsJumping; // 현재 점프 상승 또는 낙하 중인지 여부        
-        public bool IsAttacking; // 캐릭터가 공격 동작을 수행 중인지 여부        
         public bool IsInputMovementLocked; // 외부 요인으로 인해 이동 입력을 차단해야 하는지 여부
-                                           
-        public bool IsBattleAxeEquipped; // 현재 배틀액스를 주 무기로 장착했는지 여부
-        public bool IsEquipped; // 어떠한 무기라도 장착 중인지 여부
-        public bool IsGunEquipped;  // 하푼건 장착 여부 추가
+        public bool IsAutoApproaching; // 타겟 자동 접근 이동 중인지 여부
+
+        public bool IsSliding; // 슬라이딩 동작을 수행 중인지 여부
         public bool SlideRequested; // 슬라이드 입력이 요청되었는지 여부
 
+        public bool IsGrounded; // 캐릭터가 지면에 닿아 있는지 여부
+        public bool IsJumping; // 현재 점프 상승 또는 낙하 중인지 여부
         public int JumpIndex; // 연속 점프 중 현재 몇 번째 점프인지 기록
+        public bool IsAttacking; // 캐릭터가 공격 동작을 수행 중인지 여부      
+
+        public bool IsBattleAxeEquipped; // 현재 배틀액스를 주 무기로 장착했는지 여부
+        public bool IsEquipped; // 어떠한 무기라도 장착 중인지 여부
+        public bool IsGunEquipped;  // 하푼건 장착 여부 추가       
+
+        public bool IsEngagedWithTarget; // 타겟과 전투가 시작된 상태인지 여부
 
         [Header("Health Settings")]
         [SerializeField] private float maxHealth = 100f; // 캐릭터가 가질 수 있는 최대 체력
@@ -37,8 +41,8 @@ namespace BRASS
 
         #region Unity Methods
         private void Awake()
-        {
-            currentHealth = maxHealth; // 게임 시작 시 현재 체력을 최대치로 설정하여 초기화한다
+        {          
+            currentHealth = maxHealth; // 게임 시작 시 현재 체력을 최대치로 설정하여 초기화한다           
         }        
         #endregion
 

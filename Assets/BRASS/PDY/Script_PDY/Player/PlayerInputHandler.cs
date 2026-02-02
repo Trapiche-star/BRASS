@@ -1,5 +1,7 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 namespace BRASS
 {
@@ -13,6 +15,8 @@ namespace BRASS
         private PlayerJump jump; // 점프 기능을 실행할 컴포넌트
         private WeaponHandler weaponHandler; // 무기 장착 및 해제를 관리하는 핸들러
         private MeleeSkill meleeSkill;  // 근접 스킬 사용을 처리할 컴포넌트
+        private PlayerState state;  // 가장 가까운 적을 타겟으로 설정하기 위한 상태 컨테이너
+        private PlayerController controller; // 자동 접근 취소 호출용
         #endregion
 
         #region Property
@@ -24,6 +28,8 @@ namespace BRASS
         public float ZoomInput { get; private set; } // 마우스 휠을 통한 줌 값
         public bool IsKeyboardMove { get; private set; } // 현재 키보드 입력을 통해 이동 중인지 여부
         public bool SlidePressed { get; private set; } // 슬라이딩 키 입력 상태
+        public bool EscPressed { get; private set; }    // Esc 키 입력 상태
+        public bool TabPressed { get; private set; }    // Tab 키 입력 상태
         #endregion
 
         #region Unity Event Methods
@@ -40,7 +46,10 @@ namespace BRASS
             jump = GetComponentInChildren<PlayerJump>();
             weaponHandler = GetComponentInChildren<WeaponHandler>();
             meleeSkill = GetComponentInChildren<MeleeSkill>();
+            state = GetComponent<PlayerState>();
+            controller = GetComponent<PlayerController>();
 
+            // 누락된 컴포넌트에 대해 경고 로그 출력
             if (meleeSkill == null) // 근접 스킬 컴포넌트 누락 시 경고
                 Debug.LogError("[PlayerInputHandler] MeleeSkill not found in children.");
 
@@ -79,6 +88,8 @@ namespace BRASS
             playerInput.actions["Skill_1"].performed += OnSkill1;
             playerInput.actions["Skill_2"].performed += OnSkill2;
             playerInput.actions["Skill_3"].performed += OnSkill3;
+            playerInput.actions["Esc"].performed += OnEsc;
+            playerInput.actions["Tab"].performed += OnTab;
         }
 
         private void OnDisable()
@@ -105,6 +116,8 @@ namespace BRASS
             playerInput.actions["Skill_1"].performed -= OnSkill1;
             playerInput.actions["Skill_2"].performed -= OnSkill2;
             playerInput.actions["Skill_3"].performed -= OnSkill3;
+            playerInput.actions["Esc"].performed -= OnEsc;
+            playerInput.actions["Tab"].performed -= OnTab;
 
             // ActionMap 개별 Disable 대신 전체 Disable
             playerInput.actions.Disable();
@@ -129,11 +142,17 @@ namespace BRASS
         {
             MoveInput = context.ReadValue<Vector2>(); // 2D 이동 벡터를 읽는다
             IsKeyboardMove = MoveInput.sqrMagnitude > 0.01f; // 입력 세기가 유효한지 판단
+
+            // 자동 접근이 활성화된 상태에서 키보드 이동 입력이 들어오면 자동 접근을 취소한다
+            if (IsKeyboardMove && controller != null) controller.CancelAutoApproach();
         }
 
         private void OnClickMove(InputAction.CallbackContext context)
         {
             ClickMovePressed = context.ReadValueAsButton(); // 클릭 이동 버튼 눌림 상태 저장
+
+            // 자동 접근이 활성화된 상태에서 클릭 이동 입력이 들어오면 자동 접근을 취소한다
+            if (ClickMovePressed && controller != null) controller.CancelAutoApproach();
         }
 
         private void OnLook(InputAction.CallbackContext context)
@@ -201,6 +220,19 @@ namespace BRASS
         private void OnSkill3(InputAction.CallbackContext context)      // 근접 스킬 3번 입력 처리
         {
             if (meleeSkill != null) meleeSkill.ExecuteSkill03();
+        }
+
+        // Esc 키 입력 상태를 관리하는 메서드
+        private void OnEsc(InputAction.CallbackContext context)
+        {
+            // 단순히 눌렸을 때 true, 떼졌을 때 false 상태만 관리
+            EscPressed = context.ReadValueAsButton();
+        }
+
+        // Tab 키 입력 상태를 관리하는 메서드
+        private void OnTab(InputAction.CallbackContext context)
+        {
+            TabPressed = context.ReadValueAsButton();
         }
         #endregion
     }

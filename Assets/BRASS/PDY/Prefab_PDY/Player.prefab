@@ -87,6 +87,8 @@ MonoBehaviour:
   - 0.3
   - 0.3
   - 0.3
+  basicAttackApproachDistance: 2.5
+  basicAttackApproachAngle: 45
 --- !u!114 &4022327356068056294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,6 +132,7 @@ MonoBehaviour:
     m_Bits: 512
   attackHitDistance: 1.6
   attackHitAngle: 45
+  playerController: {fileID: 4379256836293682995}
 --- !u!114 &2634345829813032580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,6 +373,8 @@ MonoBehaviour:
   clickBlockedStopTime: 0.5
   targetStopDistance: 0.8
   targetStopAngle: 35
+  autoApproachStopDistance: 0.15
+  autoApproachRepathInterval: 0.1
 --- !u!114 &1460145252192315750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -384,16 +389,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BRASS.PlayerState
   IsMoving: 0
   IsFastRun: 0
+  IsInputMovementLocked: 0
+  IsAutoApproaching: 0
   IsSliding: 0
+  SlideRequested: 0
   IsGrounded: 0
   IsJumping: 0
+  JumpIndex: 0
   IsAttacking: 0
-  IsInputMovementLocked: 0
   IsBattleAxeEquipped: 0
   IsEquipped: 0
   IsGunEquipped: 0
-  SlideRequested: 0
-  JumpIndex: 0
   maxHealth: 100
   currentHealth: 0
   CurrentTarget: {fileID: 0}
