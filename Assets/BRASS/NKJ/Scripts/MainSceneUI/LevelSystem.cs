@@ -1,4 +1,258 @@
-//로컬저장 추가
+using UnityEngine;
+using TMPro;
+// using UnityEngine.UI;
+
+public class LevelSystem : MonoBehaviour
+{
+    [Header("Level Settings")]
+    [SerializeField] private int currentLevel = 1;
+    [SerializeField] private int maxLevel = 99;
+    [SerializeField] private int currentExp = 0;
+    [SerializeField] private int expToLevelUp = 100;
+
+    [Header("UI Reference")]
+    [SerializeField] private TextMeshProUGUI levelText;
+    // [SerializeField] private Text levelText;
+
+    [Header("Gauge Reference")]
+    [SerializeField] private GaugeController gaugeController;
+
+    // PlayerPrefs 키 이름
+    private const string SAVE_KEY_LEVEL = "PlayerLevel";
+    private const string SAVE_KEY_EXP = "PlayerExp";
+
+    // 마지막 저장 값 추적 (로그 중복 방지용)
+    private int lastSavedLevel = -1;
+    private int lastSavedExp = -1;
+
+    void Start()
+    {
+        LoadGameData();
+
+        if (gaugeController != null)
+        {
+            gaugeController.currentExp = currentExp;
+            if (gaugeController.expFill != null)
+            {
+                gaugeController.expFill.fillAmount = (float)currentExp / expToLevelUp;
+            }
+        }
+
+        UpdateLevelUI();
+        UpdateExpGauge();
+
+        Debug.Log($"Game Started - Level: {currentLevel}, Exp: {currentExp}");
+    }
+
+    void OnValidate()
+    {
+        currentLevel = Mathf.Clamp(currentLevel, 1, maxLevel);
+        currentExp = Mathf.Max(0, currentExp);
+        expToLevelUp = Mathf.Max(1, expToLevelUp);
+
+        if (Application.isPlaying)
+        {
+            UpdateLevelUI();
+            UpdateExpGauge();
+        }
+    }
+
+    void Update()
+    {
+        CheckLevelUp();
+    }
+
+    private void CheckLevelUp()
+    {
+        bool leveledUp = false;
+
+        while (currentExp >= expToLevelUp && currentLevel < maxLevel)
+        {
+            currentExp -= expToLevelUp;
+            currentLevel++;
+            leveledUp = true;
+            Debug.Log($"Level Up! Current Level: {currentLevel}");
+            UpdateLevelUI();
+        }
+
+        if (leveledUp)
+        {
+            ResetExpGauge();
+            SaveGameData(true); // 레벨업시 로그 출력
+        }
+        else
+        {
+            UpdateExpGauge();
+        }
+
+        if (currentLevel >= maxLevel)
+        {
+            currentLevel = maxLevel;
+            currentExp = Mathf.Min(currentExp, expToLevelUp - 1);
+            UpdateExpGauge();
+        }
+
+        if (currentLevel < 1)
+        {
+            currentLevel = 1;
+            currentExp = 0;
+            UpdateLevelUI();
+            UpdateExpGauge();
+        }
+    }
+
+    public void AddExperience(int amount)
+    {
+        if (currentLevel >= maxLevel)
+        {
+            Debug.Log("Max level reached! No more experience gained.");
+            return;
+        }
+
+        currentExp += amount;
+        currentExp = Mathf.Max(0, currentExp);
+
+        Debug.Log($"Experience added: {amount}, Current Exp: {currentExp}/{expToLevelUp}");
+
+        // 경험치 변경시 즉시 저장 (로그는 안 찍음)
+        SaveGameData(false);
+    }
+
+    private void UpdateLevelUI()
+    {
+        if (levelText != null)
+        {
+            levelText.text = currentLevel.ToString();
+        }
+        else
+        {
+            Debug.LogError("Level Text is not assigned!");
+        }
+    }
+
+    private void UpdateExpGauge()
+    {
+        if (gaugeController != null)
+        {
+            gaugeController.maxExp = expToLevelUp;
+            gaugeController.SetExp(currentExp);
+        }
+    }
+
+    private void ResetExpGauge()
+    {
+        if (gaugeController != null)
+        {
+            gaugeController.maxExp = expToLevelUp;
+            gaugeController.currentExp = 0;
+            if (gaugeController.expFill != null)
+            {
+                gaugeController.expFill.fillAmount = 0;
+            }
+            gaugeController.SetExp(currentExp);
+        }
+    }
+
+    // 저장 기능 (showLog = 로그 출력 여부)
+    public void SaveGameData(bool showLog = true)
+    {
+        // 값이 실제로 변경되었을 때만 저장
+        if (lastSavedLevel != currentLevel || lastSavedExp != currentExp)
+        {
+            PlayerPrefs.SetInt(SAVE_KEY_LEVEL, currentLevel);
+            PlayerPrefs.SetInt(SAVE_KEY_EXP, currentExp);
+            PlayerPrefs.Save();
+
+            lastSavedLevel = currentLevel;
+            lastSavedExp = currentExp;
+
+            // 중요한 순간(레벨업)에만 로그 출력
+            if (showLog)
+            {
+                Debug.Log($"[SAVED] Level: {currentLevel}, Exp: {currentExp}");
+            }
+        }
+    }
+
+    public void LoadGameData()
+    {
+        if (PlayerPrefs.HasKey(SAVE_KEY_LEVEL))
+        {
+            currentLevel = PlayerPrefs.GetInt(SAVE_KEY_LEVEL, 1);
+            currentExp = PlayerPrefs.GetInt(SAVE_KEY_EXP, 0);
+
+            currentLevel = Mathf.Clamp(currentLevel, 1, maxLevel);
+            currentExp = Mathf.Max(0, currentExp);
+
+            lastSavedLevel = currentLevel;
+            lastSavedExp = currentExp;
+
+            Debug.Log($"[LOADED] Level: {currentLevel}, Exp: {currentExp}");
+        }
+        else
+        {
+            currentLevel = 1;
+            currentExp = 0;
+            Debug.Log("No save data found. Starting new game.");
+        }
+    }
+
+    public void ResetGameData()
+    {
+        currentLevel = 1;
+        currentExp = 0;
+
+        PlayerPrefs.DeleteKey(SAVE_KEY_LEVEL);
+        PlayerPrefs.DeleteKey(SAVE_KEY_EXP);
+        PlayerPrefs.Save();
+
+        lastSavedLevel = -1;
+        lastSavedExp = -1;
+
+        UpdateLevelUI();
+        ResetExpGauge();
+
+        Debug.Log("Game data reset!");
+    }
+
+    void OnApplicationQuit()
+    {
+        SaveGameData(true);
+    }
+
+    void OnApplicationPause(bool pause)
+    {
+        if (pause)
+        {
+            SaveGameData(false);
+        }
+    }
+
+    public void SetLevel(int level)
+    {
+        currentLevel = Mathf.Clamp(level, 1, maxLevel);
+        UpdateLevelUI();
+        UpdateExpGauge();
+        SaveGameData(false);
+    }
+
+    public void SetExperience(int exp)
+    {
+        if (currentLevel >= maxLevel)
+            return;
+
+        currentExp = Mathf.Max(0, exp);
+        UpdateExpGauge();
+        SaveGameData(false);
+    }
+
+    public int GetCurrentLevel() => currentLevel;
+    public int GetCurrentExp() => currentExp;
+    public int GetExpToLevelUp() => expToLevelUp;
+    public int GetMaxLevel() => maxLevel;
+}
+
+/*//로컬저장 추가
 using UnityEngine;
 using TMPro;
 // using UnityEngine.UI;
@@ -187,14 +441,14 @@ public class LevelSystem : MonoBehaviour
         }
 
 
-        /*
+        *//*
          *디버그 계속 올라감
                 PlayerPrefs.SetInt(SAVE_KEY_LEVEL, currentLevel);
                 PlayerPrefs.SetInt(SAVE_KEY_EXP, currentExp);
                 PlayerPrefs.Save(); // 즉시 디스크에 저장
 
                 Debug.Log($"Game Saved - Level: {currentLevel}, Exp: {currentExp}");
-        */
+        *//*
     }
 
     // 불러오기 기능
@@ -273,7 +527,7 @@ public class LevelSystem : MonoBehaviour
     public int GetExpToLevelUp() => expToLevelUp;
     public int GetMaxLevel() => maxLevel;
 }
-/*
+*//*
  * 로컬저장 없는 기본
 
 using UnityEngine;

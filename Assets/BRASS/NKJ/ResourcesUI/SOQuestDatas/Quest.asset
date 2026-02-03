@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Quest
   m_EditorClassIdentifier: Assembly-CSharp::QuestData
   questID: 1
-  questName: kill
-  description: kill target
+  questName: "[\uC870\uC0AC] \uC783\uC5B4\uBC84\uB9B0 \uACE0\uB3C4\uC758 \uC720\uC0B0"
+  description: "\uD6FC\uC190\uB41C \uBE44\uD589\uC120\uC744 \uC870\uC0AC\uD558\uB77C!\n\uBE44\uD589\uC120\uC758
+    \uC794\uD574 \uADFC\uCC98\uB97C \uBC30\uD68C\uD558\uB294 \uD0DC\uC5FD \uBAAC\uC2A4\uD130\uB4E4\uC744
+    \uC870\uC2EC\uD558\uC2ED\uC2DC\uC624."
   targetCount: 10
   rewardGold: 100
