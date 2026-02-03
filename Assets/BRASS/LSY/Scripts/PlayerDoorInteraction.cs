@@ -1,25 +1,11 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-using BRASS;
 
 namespace Team1
 {
+    // ⚠️ 주의: InteractionController와 기능이 겹칩니다. 
+    // 가급적 이 컴포넌트를 플레이어 오브젝트에서 제거(Remove Component) 하는 것을 추천합니다.
     public class PlayerDoorInteraction : MonoBehaviour
     {
-        [SerializeField] private PlayerCasting casting;
-
-        private void Update()
-        {
-            if (casting == null)
-                return;
-
-            if (!casting.HasTarget)
-                return;
-
-            if (Keyboard.current != null && Keyboard.current.gKey.wasPressedThisFrame)
-            {
-                casting.CurrentTarget?.Interact();
-            }
-        }
+        // 로직을 비워둡니다. InteractionController가 대신 처리합니다.
     }
 }

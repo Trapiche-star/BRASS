@@ -25,8 +25,12 @@ public class HotbarManager : MonoBehaviour
 
     void Update()
     {
-        // 1. 인벤토리가 열려 있는지 확인 (입력 차단)
-        if (IsInventoryActive()) return;
+        // ✅ UI가 하나라도 열려 있으면 핫바 입력 전부 차단
+        if (Team1.UIManager_SY.Instance != null &&
+    Team1.UIManager_SY.Instance.IsAnyUIOpen)
+        {
+            return;
+        }
 
         Keyboard kb = Keyboard.current;
         if (kb == null) return;
@@ -53,18 +57,6 @@ public class HotbarManager : MonoBehaviour
         }
     }
 
-    // 인벤토리 상태를 체크하는 헬퍼 함수
-    bool IsInventoryActive()
-    {
-        // InventoryToggleUI 스크립트의 IsOpen 속성 확인
-        var toggleUI = Object.FindFirstObjectByType<InventoryToggleUI>();
-        if (toggleUI != null && toggleUI.IsOpen) return true;
-
-        // InventoryHotkeyToggle은 열릴 때 Time.timeScale을 0으로 만듭니다
-        if (Time.timeScale == 0f) return true;
-
-        return false;
-    }
 
     void ToggleHotbar()
     {

@@ -1,10 +1,11 @@
 using UnityEngine;
 using TMPro;
+using System;
 
 public class GoldManager : MonoBehaviour
 {
-    [Header("UI References")]
-    [SerializeField] private TextMeshProUGUI goldText;
+    [Header("UI References (HUD)")]
+    [SerializeField] private TextMeshProUGUI mainGoldText;
 
     [Header("Gold Settings")]
     [SerializeField] private int maxGold = 999999;
@@ -16,6 +17,9 @@ public class GoldManager : MonoBehaviour
 #endif
 
     private const string GOLD_SAVE_KEY = "PlayerGold";
+
+    // ✅ 방송국 역할: 골드가 변할 때마다 등록된 모든 UI에게 신호를 보냄
+    public static event Action<int> OnGoldChanged;
 
     public static GoldManager Instance { get; private set; }
 
@@ -35,55 +39,56 @@ public class GoldManager : MonoBehaviour
     private void Start()
     {
         LoadGold();
-        UpdateGoldUI();
+        // UI 시스템이 완전히 로드된 후 갱신되도록 약간의 지연 호출
+        Invoke(nameof(UpdateGoldUI), 0.1f);
     }
 
     public void AddGold(int amount)
     {
-        if (amount < 0)
-        {
-            Debug.LogWarning("골드는 음수로 추가할 수 없습니다.");
-            return;
-        }
-
+        if (amount < 0) return;
         currentGold = Mathf.Min(currentGold + amount, maxGold);
-        SaveGold();
-        UpdateGoldUI();
+        SaveAndRefresh();
     }
 
     public bool RemoveGold(int amount)
     {
-        if (amount < 0)
-        {
-            Debug.LogWarning("차감 금액은 양수여야 합니다.");
-            return false;
-        }
-
-        if (currentGold < amount)
-        {
-            Debug.Log("골드가 부족합니다!");
-            return false;
-        }
-
+        if (amount < 0 || currentGold < amount) return false;
         currentGold -= amount;
-        SaveGold();
-        UpdateGoldUI();
+        SaveAndRefresh();
         return true;
     }
 
+    // ✅ GoldTester와 연동을 위해 SetGold 함수 유지
     public void SetGold(int amount)
     {
         currentGold = Mathf.Clamp(amount, 0, maxGold);
+        SaveAndRefresh();
+    }
+
+    // ✅ GoldTester와 연동을 위해 ResetGold 함수 유지
+    public void ResetGold()
+    {
+        currentGold = 0;
+        SaveAndRefresh();
+        Debug.Log("<color=white>골드가 초기화되었습니다.</color>");
+    }
+
+    private void SaveAndRefresh()
+    {
         SaveGold();
         UpdateGoldUI();
     }
 
-    private void UpdateGoldUI()
+    public void UpdateGoldUI()
     {
-        if (goldText != null)
+        // 1. 메인 HUD(항상 보이는 화면) 갱신
+        if (mainGoldText != null)
         {
-            goldText.text = currentGold.ToString("N0");
+            mainGoldText.text = currentGold.ToString("N0");
         }
+
+        // 2. 이 방송을 듣고 있는 인벤토리 등 모든 UI에게 전달
+        OnGoldChanged?.Invoke(currentGold);
     }
 
     private void SaveGold()
@@ -92,20 +97,8 @@ public class GoldManager : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    private void LoadGold()
-    {
-        currentGold = PlayerPrefs.GetInt(GOLD_SAVE_KEY, 0);
-    }
-
-    public void ResetGold()
-    {
-        currentGold = 0;
-        SaveGold();
-        UpdateGoldUI();
-        Debug.Log("골드 초기화 완료");
-    }
+    private void LoadGold() => currentGold = PlayerPrefs.GetInt(GOLD_SAVE_KEY, 0);
 
     public int GetCurrentGold() => currentGold;
-    public int GetMaxGold() => maxGold;
     public bool HasEnoughGold(int amount) => currentGold >= amount;
 }

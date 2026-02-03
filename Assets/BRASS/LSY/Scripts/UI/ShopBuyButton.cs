@@ -31,27 +31,21 @@ namespace Team1
                 letterUI.SetActive(false);
         }
 
-        // ➕ 버튼
         public void IncreaseQuantity()
         {
             quantity++;
-            if (quantity > maxQuantity)
-                quantity = maxQuantity;
-
+            if (quantity > maxQuantity) quantity = maxQuantity;
             UpdateQuantityUI();
         }
 
-        // ➖ 버튼
         public void DecreaseQuantity()
         {
             quantity--;
-            if (quantity < 1)
-                quantity = 1;
-
+            if (quantity < 1) quantity = 1;
             UpdateQuantityUI();
         }
 
-        // 🛒 Sell 버튼
+        // 🛒 Sell 버튼 (이름은 Sell이지만 로직은 구매인 버튼)
         public void Buy()
         {
             if (itemData == null || inventory == null)
@@ -60,26 +54,44 @@ namespace Team1
                 return;
             }
 
-            for (int i = 0; i < quantity; i++)
+            // 1. 총 가격 계산 (단가 * 수량)
+            int totalPrice = itemData.price * quantity;
+
+            // 2. 골드 매니저 확인 및 골드 차감 시도
+            if (GoldManager.Instance != null)
             {
-                ConsumableItem newItem = itemData.CreateItem();
-                inventory.AddItem(newItem);
+                // RemoveGold가 내부적으로 잔액 체크 후 부족하면 false를 뱉음
+                if (GoldManager.Instance.RemoveGold(totalPrice))
+                {
+                    // 3. 차감 성공 시 아이템 인벤토리 추가
+                    for (int i = 0; i < quantity; i++)
+                    {
+                        ConsumableItem newItem = itemData.CreateItem();
+                        inventory.AddItem(newItem);
+                    }
+
+                    Debug.Log($"🛒 {itemData.itemName} x{quantity} 구매 완료! 총 {totalPrice}G 차감.");
+                    ShowLetterUI();
+                }
+                else
+                {
+                    // 4. 골드 부족 시 처리
+                    Debug.LogWarning($"❌ 골드가 부족합니다! (필요: {totalPrice}G / 현재: {GoldManager.Instance.GetCurrentGold()}G)");
+                    // 여기에 "골드가 부족합니다"라는 별도의 팝업을 띄워주면 좋습니다.
+                }
             }
-
-            Debug.Log($"🛒 {itemData.itemName} x{quantity} 구매 완료");
-
-            ShowLetterUI();
+            else
+            {
+                Debug.LogError("❌ GoldManager 인스턴스를 찾을 수 없습니다.");
+            }
         }
 
-        // 📩 편지 UI 표시 + 자동 닫기
         private void ShowLetterUI()
         {
-            if (letterUI == null)
-                return;
+            if (letterUI == null) return;
 
             letterUI.SetActive(true);
 
-            // 기존 코루틴 중복 방지
             if (letterRoutine != null)
                 StopCoroutine(letterRoutine);
 
@@ -97,9 +109,9 @@ namespace Team1
             if (quantityText != null)
                 quantityText.text = quantity.ToString();
         }
+
         private void OnDisable()
         {
-            // 🧹 상점이 꺼질 때 편지 UI 강제 정리
             if (letterRoutine != null)
             {
                 StopCoroutine(letterRoutine);

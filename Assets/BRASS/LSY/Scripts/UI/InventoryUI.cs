@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace Team1
@@ -8,6 +9,9 @@ namespace Team1
         [SerializeField] private Inventory inventory;
         [SerializeField] private List<InventorySlotUI> slotUIs = new();
 
+        [Header("Gold UI")]
+        [SerializeField] private TextMeshProUGUI goldText;
+
         private ItemCategory currentCategory = ItemCategory.All;
 
         private void Awake()
@@ -16,9 +20,16 @@ namespace Team1
                 inventory = Object.FindFirstObjectByType<Inventory>();
         }
 
+        private void OnEnable()
+        {
+            Refresh();
+            RefreshGold();
+        }
+
         private void Update()
         {
             Refresh();
+            RefreshGold();
         }
 
         // ======================
@@ -66,6 +77,15 @@ namespace Team1
                 else
                     slotUIs[i].Clear();
             }
+        }
+        private void RefreshGold()
+        {
+            if (goldText == null || GoldManager.Instance == null)
+                return;
+
+            goldText.text = GoldManager.Instance
+                .GetCurrentGold()
+                .ToString("N0");
         }
     }
 }

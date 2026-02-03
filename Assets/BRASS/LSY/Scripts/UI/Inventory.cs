@@ -8,6 +8,8 @@ namespace Team1
     {
         public List<InventorySlot> Slots { get; private set; } = new();
 
+
+
         public void AddItem(IItem item)
         {
             foreach (var slot in Slots)

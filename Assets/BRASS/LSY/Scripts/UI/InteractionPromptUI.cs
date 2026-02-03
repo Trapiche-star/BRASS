@@ -15,13 +15,18 @@ namespace Team1
         public void Show()
         {
             if (root != null && !root.activeSelf)
+            {
+                Debug.Log("<color=green>프롬프트 ON</color>"); // 로그 추가
                 root.SetActive(true);
+            }
         }
 
         public void Hide()
         {
             if (root != null && root.activeSelf)
+            {
                 root.SetActive(false);
+            }
         }
     }
 }
