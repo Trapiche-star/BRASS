@@ -6,6 +6,7 @@ namespace Team1
     {
         public string itemName;
         public Sprite icon;
+        public int price;   // 💰 구매 가격
 
         public abstract ConsumableItem CreateItem();
     }

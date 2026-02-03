@@ -5,23 +5,27 @@ namespace Team1
     public class HealPotion : ConsumableItem
     {
         private int healAmount;
+        private PotionSize size;
 
-        // ⭐ Data 쪽 호출 순서와 맞춤
-        public HealPotion(string name, Sprite icon, int healAmount)
+        public HealPotion(string name, Sprite icon, int price, int healAmount, PotionSize size)
         {
             ItemName = name;
             Icon = icon;
+            Price = price;
             this.healAmount = healAmount;
+            this.size = size;
         }
 
         public override void Use(GameObject user)
         {
-            Debug.Log($"❤️ {ItemName} 사용 → 체력 {healAmount} 회복");
+            Debug.Log(
+                $" {ItemName} ({size}) 사용 → 체력 {healAmount} 회복"
+            );
         }
 
         public override ConsumableItem Clone()
         {
-            return new HealPotion(ItemName, Icon, healAmount);
+            return new HealPotion(ItemName, Icon, Price, healAmount, size);
         }
     }
 }

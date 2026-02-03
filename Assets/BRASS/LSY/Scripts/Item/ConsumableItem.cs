@@ -6,8 +6,8 @@ namespace Team1
     {
         public string ItemName { get; protected set; }
         public Sprite Icon { get; protected set; }
+        public int Price { get; protected set; }   // 💰 가격
 
-        // 소비 아이템은 기본적으로 Consumable
         public ItemCategory Category => ItemCategory.Consumable;
 
         public abstract void Use(GameObject user);
