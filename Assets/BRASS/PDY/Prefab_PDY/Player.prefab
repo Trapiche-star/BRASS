@@ -80,15 +80,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BRASS.PlayerCombat
   comboInputWindow: 1
   animationController: {fileID: 2375009848050866468}
-  playerController: {fileID: 4379256836293682995}
   state: {fileID: 1460145252192315750}
+  playerController: {fileID: 4379256836293682995}
   currentWeapon: {fileID: 0}
   comboStepDistances:
   - 0.3
   - 0.3
   - 0.3
-  basicAttackApproachDistance: 2.5
-  basicAttackApproachAngle: 45
 --- !u!114 &4022327356068056294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,13 +124,12 @@ MonoBehaviour:
   axeSkill1Damage: 40
   axeSkill2Damage: 60
   axeSkill3Damage: 80
+  attackHitDistance: 1.6
+  attackHitAngle: 45
   skillRange: 2.5
   damageLayer:
     serializedVersion: 2
     m_Bits: 512
-  attackHitDistance: 1.6
-  attackHitAngle: 45
-  playerController: {fileID: 4379256836293682995}
 --- !u!114 &2634345829813032580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,6 +186,7 @@ GameObject:
   - component: {fileID: 8488641150117180251}
   - component: {fileID: 4379256836293682995}
   - component: {fileID: 1460145252192315750}
+  - component: {fileID: 5322709142018044263}
   - component: {fileID: 7870249439411039288}
   - component: {fileID: 1814818230512055200}
   - component: {fileID: 9016333228378592141}
@@ -371,10 +369,6 @@ MonoBehaviour:
   cameraPivot: {fileID: 0}
   clickStopDistance: 0.1
   clickBlockedStopTime: 0.5
-  targetStopDistance: 0.8
-  targetStopAngle: 35
-  autoApproachStopDistance: 0.15
-  autoApproachRepathInterval: 0.1
 --- !u!114 &1460145252192315750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,7 +384,6 @@ MonoBehaviour:
   IsMoving: 0
   IsFastRun: 0
   IsInputMovementLocked: 0
-  IsAutoApproaching: 0
   IsSliding: 0
   SlideRequested: 0
   IsGrounded: 0
@@ -400,9 +393,28 @@ MonoBehaviour:
   IsBattleAxeEquipped: 0
   IsEquipped: 0
   IsGunEquipped: 0
+  IsEngagedWithTarget: 0
   maxHealth: 100
   currentHealth: 0
   CurrentTarget: {fileID: 0}
+--- !u!114 &5322709142018044263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9045392184721531494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d552a344b8b3b0d4f82aa07410e4525b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BRASS.PlayerTargeting
+  input: {fileID: 8488641150117180251}
+  state: {fileID: 1460145252192315750}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  targetRange: 15
 --- !u!114 &7870249439411039288
 MonoBehaviour:
   m_ObjectHideFlags: 0

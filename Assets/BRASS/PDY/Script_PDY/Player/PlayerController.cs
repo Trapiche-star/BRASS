@@ -1,257 +1,119 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace BRASS
 {
-    /// <summary>
-    /// CharacterController 기반의 이동 및 물리 처리를 담당하는 클래스
-    /// </summary>
+    /// CharacterController를 활용하여 플레이어의 이동, 중력, 클릭 및 키보드 입력을 제어하는 클래스
     public class PlayerController : MonoBehaviour
     {
         #region Variables
-        [SerializeField] private float moveSpeed = 5f; // 기본적인 이동 속도
-        [SerializeField] private float fastRunSpeed = 8f; // 고속 이동(달리기) 시의 속도
-        [SerializeField] private float gravity = -9.81f; // 캐릭터에 적용되는 중력 수치
-        [SerializeField] private float rotationSpeed = 15f; // 이동 방향으로 캐릭터가 회전하는 속도
-        [SerializeField] private Transform cameraPivot; // 카메라 시점의 기준이 되는 피벗 트랜스폼
-        [SerializeField] private float clickStopDistance = 0.1f; // 클릭 이동 시 목적지에 도달했다고 판단할 거리   
-        [SerializeField] private PlayerCombat playerCombat; // 전투 컴포넌트 참조
+        [SerializeField] private float moveSpeed = 5f;            // 일반 걷기 이동 속도
+        [SerializeField] private float fastRunSpeed = 8f;         // Shift 키를 누른 빠른 달기 속도
+        [SerializeField] private float gravity = -9.81f;          // 캐릭터에게 적용될 중력 값
+        [SerializeField] private float rotationSpeed = 15f;       // 캐릭터가 회전할 때의 부드러움 정도
+        [SerializeField] private Transform cameraPivot;           // 카메라의 방향을 기준으로 이동하기 위한 참조값
+        [SerializeField] private float clickStopDistance = 0.1f;  // 클릭 이동 시 목적지에 도달했다고 판단할 거리
 
         [Header("ClickMoveBlock")]
-        [SerializeField] private float clickBlockedStopTime = 1f; // 장애물에 막혔을 때 클릭 이동을 강제 종료할 시간
+        [SerializeField] private float clickBlockedStopTime = 1f; // 벽 등에 막혔을 때 클릭 이동을 취소할 시간
 
-        [Header("Target Stop Area")]
-        [SerializeField] private float targetStopDistance = 1.8f; // 타겟 앞 정지 거리
-        [SerializeField] private float targetStopAngle = 35f;     // 정면 허용 각도
+        private PlayerInputHandler input;         // 입력 처리를 담당하는 스크립트 참조
+        private PlayerState state;                // 현재 캐릭터의 상태(이동 중 등) 참조
+        private CharacterController controller;   // 실제 물리 이동을 처리하는 컴포넌트
+        private Animator animator;                // 애니메이션 재생 제어
 
-        [Header("Auto Approach")]
-        [SerializeField] private float autoApproachStopDistance = 0.15f; // 자동 접근 목적지 도달 판정 거리
-        [SerializeField] private float autoApproachRepathInterval = 0.1f; // 목적지 재계산 주기       
+        private Vector3 velocity;                 // 수직 속도(중력) 계산용 변수
+        private Vector3 moveDirection;            // 평면상에서의 이동 방향
 
-        private Vector3 autoApproachDestination; // 자동 접근 목적지
-        private float nextAutoRepathTime; // 다음 목적지 재계산 시각
+        private Vector3 clickDestination;         // 마우스 클릭으로 설정된 목적지 좌표
+        private bool isClickMoving;               // 현재 클릭으로 인한 자동 이동 상태인지 여부
 
-        private PlayerInputHandler input; // 플레이어의 입력을 처리하는 컴포넌트 참조
-        private PlayerState state; // 캐릭터의 현재 상태(공격, 이동 등)를 관리하는 컴포넌트 참조
-        private CharacterController controller; // 물리적 이동을 담당하는 캐릭터 컨트롤러 컴포넌트
-        private Animator animator; // 애니메이션 제어를 위한 애니메이터 컴포넌트
+        private Vector3 lastMovePosition;         // 이전 프레임의 위치 (막힘 감지용)
+        private float clickBlockedTime;           // 장애물에 막혀 이동하지 못한 누적 시간
 
-        private Vector3 velocity; // 수직 이동(중력 등)을 저장하는 벡터
-        private Vector3 moveDirection; // 현재 프레임의 수평 이동 방향 벡터        
+        private bool wasAttackingLastFrame;       // 이전 프레임에 공격 상태였는지 추적하여 공격 종료 직후 프레임을 감지하기 위한 플래그  
 
-        private Vector3 clickDestination; // 마우스 클릭으로 지정된 이동 목적지
-        private bool isClickMoving; // 클릭 이동 모드가 활성화되어 있는지 여부        
-        private float clickBlockedTime; // 클릭 이동 중 막힌 상태가 지속된 시간                
-
-        private bool prevIsGrounded; // 이전 프레임의 접지 상태 기록
-        private bool prevIsJumping; // 이전 프레임의 점프 상태 기록
-
-        private int currentTargetIndex = -1;    // 현재 타겟 인덱스 기록
-        private bool prevEscPressed;    // 이전 프레임의 Esc 키 입력 상태 기록
-        private bool prevTabPressed;    // 이전 프레임의 Tab 키 입력 상태 기록
+        //디버그용 임시 변수
+        private bool prevIsGrounded;
+        private bool prevIsJumping;
         #endregion
 
         #region Unity Event Method
         private void Awake()
         {
-            input = GetComponent<PlayerInputHandler>(); // 입력 처리기 연결
-            state = GetComponent<PlayerState>(); // 상태 관리기 연결
-            controller = GetComponent<CharacterController>(); // 캐릭터 컨트롤러 연결
-            animator = GetComponentInChildren<Animator>(); // 애니메이터 연결
+            input = GetComponent<PlayerInputHandler>();
+            state = GetComponent<PlayerState>();
+            controller = GetComponent<CharacterController>();
+            animator = GetComponentInChildren<Animator>();
         }
 
         private void Update()
         {
-            HandleCombatDisengage(); // 전투 이탈 판정
-            HandleTargetingInput(); // 매 프레임 타겟팅 입력 처리
-            HandleMovement(); // 매 프레임 캐릭터의 이동 로직을 갱신함
+            HandleMovement();
         }
         #endregion
 
         #region Custom Method
-        // 이동 입력 처리 및 물리 연산의 전반적인 흐름을 제어함
+        // 전체적인 이동 흐름(클릭 이동, 키보드 이동)을 제어한다
         private void HandleMovement()
         {
-            // 슬라이딩 중일 때는 슬라이드 물리 이동만 수행함
-            if (state.IsSliding)    // 슬라이딩 상태라면
-            {
-                ApplyGravity(); // 중력 적용
-                controller.Move(velocity * Time.deltaTime); // 수직 속도만 반영
-                return; // 이후 이동 로직을 수행하지 않음
-            }
-
-            // 자동 접근 모드일 때는 별도의 이동 처리 로직을 수행함
-            if (state.IsAutoApproaching)    // 자동 접근 상태라면
-            {
-                HandleAutoApproachMovement();  
-                ApplyGravity();
-
-                // 자동 접근 중엔 강제로 이동 상태 처리
-                state.IsMoving = true;
-                state.IsFastRun = false;
-
-                return;
-            }
-
-            // 필수적인 컴포넌트 참조가 비어있다면 로직을 수행하지 않음
             if (input == null || state == null || cameraPivot == null) return;
-                     
-            HandleClickMoveInput();            // 마우스 클릭에 의한 목적지 설정 처리
-            CalculateClickMoveDirection();     // 클릭 이동 방향 산출
-            CalculateKeyboardMoveDirection();  // 키보드 입력에 따른 시점 기준 방향 산출
-            ApplyGravity();                    // 중력 가속도 연산
-            UpdateState();                     // 이동 및 달리기 상태 동기화
-            ApplyNormalMovement();             // 일반 이동 물리 반영
-        }
 
-        // 최종 결정된 방향과 속도를 이용하여 실제 물리 이동 및 회전을 수행함
-        private void ApplyNormalMovement()
-        {
-            // 공격 등으로 인해 입력 이동이 잠긴 상태라면
-            if (state.IsInputMovementLocked)
+            // 공격 종료 직후 프레임 처리
+            if (wasAttackingLastFrame && !state.IsAttacking)
             {
-                controller.Move(velocity * Time.deltaTime);
-                // 입력 이동은 차단하되 중력에 의한 수직 이동은 유지한다
+                moveDirection = Vector3.zero;
+                isClickMoving = false;
+            }
+
+            // 공격 중 이동 차단 (루트모션 전용 구간)
+            if (state.IsAttacking)
+            {
+                ApplyGravity();
+                wasAttackingLastFrame = true;
                 return;
             }
-            float speed = state.IsFastRun ? fastRunSpeed : moveSpeed; // 상태에 따른 속도 선택
 
-            // 이동 방향이 존재할 때만 로직을 실행함
-            if (state.IsMoving)
-            {
-                Vector3 before = transform.position; // 이동 전 위치 기록
-                controller.Move((moveDirection * speed + velocity) * Time.deltaTime); // 물리 이동 실행
+            // 이동 입력 처리
+            HandleClickMoveInput();            // 클릭 이동 입력을 처리하여 목적지 설정/취소를 수행한다
+            CalculateClickMoveDirection();            // 클릭 목적지 기준 이동 방향을 계산한다
+            CalculateKeyboardMoveDirection();            // 키보드 입력 기준 이동 방향을 계산한다
+            ApplyGravity();            // 중력 누적 및 접지/점프 상태 동기화를 수행한다
+            UpdateState();            // 이동/패스트런 등 상태값을 갱신한다
+            ApplyNormalMovement();            // 최종 이동 벡터를 CharacterController에 적용한다
 
-                Vector3 lookDir = moveDirection;    // 바라볼 방향 벡터                
-
-                if (lookDir.sqrMagnitude > 0.0001f) // 유효한 방향 벡터인지 확인
-                {
-                    Quaternion targetRot = Quaternion.LookRotation(lookDir);
-                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotationSpeed * Time.deltaTime);   // 부드러운 회전 보간 실행
-                }
-
-                // 클릭 이동 모드일 경우 장애물에 의한 정체 현상을 감지함
-                if (isClickMoving)
-                {
-                    float moved = Vector3.Distance(transform.position, before); // 실질적 이동 거리 계산
-
-                    // 이동량이 극히 적다면 막힘 시간을 누적함
-                    if (moved < 0.001f)
-                        clickBlockedTime += Time.deltaTime;
-                    else
-                        clickBlockedTime = 0f;
-
-                    // 특정 시간 이상 막혀있다면 목적지 도달 불가능으로 판단하여 정지함
-                    if (clickBlockedTime >= clickBlockedStopTime)
-                    {
-                        isClickMoving = false; // 클릭 이동 모드 종료
-                        moveDirection = Vector3.zero; // 이동 벡터 리셋
-                    }
-                }               
-            }
-            else
-            {
-                controller.Move(velocity * Time.deltaTime); // 정지 중에도 중력에 의한 수직 속도는 반영함
-
-                // 공격 중일 때는 타겟을 향해 회전하도록 함
-                if (state.CurrentTarget != null && state.IsAttacking)
-                {
-                    Vector3 targetDir = state.CurrentTarget.position - transform.position;
-                    targetDir.y = 0f;
-
-                    if (targetDir.sqrMagnitude > 0.01f)
-                    {
-                        Quaternion targetRot = Quaternion.LookRotation(targetDir.normalized);
-                        transform.rotation = Quaternion.Slerp(
-                            transform.rotation,
-                            targetRot,
-                            rotationSpeed * Time.deltaTime
-                        );
-                    }
-                }
-            }
-            
+            // 이전 프레임의 공격 상태를 갱신한다
+            wasAttackingLastFrame = state.IsAttacking;
         }
 
-        // 지면 접지 상태를 확인하고 중력 및 수직 속도를 물리 엔진에 반영함
-        private void ApplyGravity()
-        {
-            bool groundedNow = controller.isGrounded; // 현재 컨트롤러의 접지 여부 확인
-
-            // 캐릭터가 땅에 닿아있고 낙하 중이라면 수직 속도를 보정함
-            if (groundedNow && velocity.y <= 0f)
-            {
-                state.IsGrounded = true; // 접지 상태 활성화
-
-                // 이전 프레임에 공중이었다면 점프 상태를 해제함
-                if (!prevIsGrounded)
-                {
-                    state.IsJumping = false; // 점프 상태 종료
-                    state.JumpIndex = 0; // 점프 인덱스 초기화
-                }
-
-                velocity.y = -2f; // 바닥에 안정적으로 밀착시키기 위한 최소 하중
-            }
-            else
-            {               
-                state.IsGrounded = false; // 공중 상태 활성화
-                state.IsJumping = state.JumpIndex > 0; // 점프 횟수가 있다면 점프 중으로 간주
-            }
-
-            prevIsGrounded = state.IsGrounded; // 상태값 기록 갱신
-            prevIsJumping = state.IsJumping;
-
-            velocity.y += gravity * Time.deltaTime; // 중력 가속도 적용
-        }
-
-        // 마우스 클릭 시 월드 좌표로 변환하여 이동 목적지를 설정함
+        // 마우스 좌클릭 시 목적지를 설정한다
         private void HandleClickMoveInput()
         {
-            //  좌클릭 입력이 없으면 아무 것도 하지 않음
-            if (!input.ClickMovePressed)
-                return;
-
-            // 기존 클릭 이동이든, 타겟 이동이든 무조건 종료
-            isClickMoving = false;
-            clickBlockedTime = 0f;
-            moveDirection = Vector3.zero;
-
-            // 마우스 좌표를 월드 좌표로 변환하여 레이캐스트 수행
-            Ray ray = Camera.main.ScreenPointToRay(input.MousePosition);
-
-            // 레이캐스트가 히트한 지점에 따라 이동 목적지 및 타겟 설정
-            if (Physics.Raycast(ray, out RaycastHit hit))   // 레이캐스트 히트 시
+            if (input.ClickMovePressed)
             {
-                if (hit.collider.CompareTag("Enemy"))   // 히트한 오브젝트가 적이라면
-                {
-                    state.CurrentTarget = hit.collider.transform.root;  // 적을 타겟으로 설정
-                }
+                Ray ray = Camera.main.ScreenPointToRay(input.MousePosition);
 
-                // 새 클릭 이동 시작
-                clickDestination = hit.point;
-                isClickMoving = true;
+                if (Physics.Raycast(ray, out RaycastHit hit))
+                {
+                    clickDestination = hit.point;
+                    isClickMoving = true;
+                    clickBlockedTime = 0f;
+                    lastMovePosition = transform.position;
+                }
             }
+
+            if (input.IsKeyboardMove)
+                isClickMoving = false;
         }
 
-        // 현재 위치와 클릭 목적지 사이의 방향 벡터를 계산함
+        // 클릭 목적지까지의 방향 벡터를 계산한다
         private void CalculateClickMoveDirection()
         {
-            // 타겟 앞 정지 구역에 진입했다면 클릭 이동을 강제 종료함
-            if (isClickMoving && IsTargetInFrontStopArea())
-            {
-                isClickMoving = false;
-                moveDirection = Vector3.zero;
-                return;
-            }
-
             if (!isClickMoving) return;
 
-            Vector3 dir = clickDestination - transform.position;  // 목적지까지의 방향 벡터 산출
+            Vector3 dir = clickDestination - transform.position;
             dir.y = 0f;
 
-            // 목적지에 도달했다고 판단되면 정지
             if (dir.magnitude <= clickStopDistance)
             {
                 isClickMoving = false;
@@ -262,429 +124,123 @@ namespace BRASS
             moveDirection = dir.normalized;
         }
 
-        // 타겟이 캐릭터 정면 기즈모 영역 안에 있는지 판단한다
-        private bool IsTargetInFrontStopArea()
-        {
-            if (state == null || state.CurrentTarget == null)
-                return false;
-
-            Vector3 toTarget = state.CurrentTarget.position - transform.position;
-            toTarget.y = 0f;
-
-            // 거리 체크
-            if (toTarget.magnitude > targetStopDistance)
-                return false;
-
-            // 각도 체크 (정면 기준)
-            float angle = Vector3.Angle(transform.forward, toTarget);
-            return angle <= targetStopAngle;
-        }
-
-        // 키보드 입력값을 카메라 시점 기준으로 변환하여 이동 방향을 결정함
+        // 카메라가 보는 방향을 기준으로 키보드 이동 방향을 계산한다
         private void CalculateKeyboardMoveDirection()
         {
-            // WASD 입력이 들어오면 클릭 이동 즉시 중단
-            if (input.IsKeyboardMove && isClickMoving)
-            {
-                isClickMoving = false;
-                clickBlockedTime = 0f;
-            }
+            if (isClickMoving) return;
 
-            if (isClickMoving) return; // 클릭 이동이 우선이면 키보드 계산 안 함
+            moveDirection = Vector3.zero;
 
-            moveDirection = Vector3.zero; // 초기값 설정
-            if (!input.IsKeyboardMove) return; // 키보드 입력이 없으면 리턴
+            if (!input.IsKeyboardMove) return;
 
-            Transform cam = Camera.main.transform; // 카메라 참조
-            Vector3 forward = cam.forward; // 카메라 정면 방향
-            Vector3 right = cam.right; // 카메라 우측 방향
+            Transform cam = Camera.main.transform;
+            Vector3 forward = cam.forward;
+            Vector3 right = cam.right;
 
-            forward.y = 0f; // 수평 평면 벡터화
+            forward.y = 0f;
             right.y = 0f;
 
-            // 카메라 기준 수평 벡터들에 입력값을 조합하여 방향 결정
-            moveDirection = (forward.normalized * input.MoveInput.y + right.normalized * input.MoveInput.x).normalized;
+            moveDirection = (forward.normalized * input.MoveInput.y +
+                             right.normalized * input.MoveInput.x).normalized;
         }
 
-        // 캐릭터의 현재 이동 및 고속 주행 상태를 PlayerState 컴포넌트에 동기화함
+        // PlayerState에 현재 이동/패스트런 상태를 전달한다
         private void UpdateState()
         {
-            // 자동 접근 중에는 이동 애니메이션 허용
-            if (state.IsAutoApproaching)
-            {
-                state.IsMoving = true;
-                state.IsFastRun = false;
-                return;
-            }
+            state.IsMoving = moveDirection != Vector3.zero;
 
-            // 공격 등으로 인해 입력 기반 이동이 잠긴 상태라면
-            if (state.IsInputMovementLocked || state.IsAttacking)
-            {
-                state.IsMoving = false;
-                state.IsFastRun = false;
-                return;
-            }
-
-            // 슬라이드 '요청' 중일 때도 이동 상태는 꺼야 함 (애니메이션 꼬임 방지)
-            if (state.SlideRequested || state.IsSliding)
-            {
-                state.IsMoving = false;
-                state.IsFastRun = false;
-                return;
-            }
-
-            // 공격 등으로 인해 입력 기반 이동이 잠긴 상태라면
-            if (state.IsInputMovementLocked || state.IsAttacking)
-            {
-                state.IsMoving = false;
-                // 이동 입력이 들어와 있어도 '이동 중' 상태로 판단하지 않는다
-                // → 이동 애니메이션 차단용
-
-                state.IsFastRun = false;
-                // 이동 자체가 불가능하므로 달리기 상태도 함께 차단한다
-
-                return;
-                // 이동 상태 판단을 여기서 종료한다
-            }
-
-            state.IsMoving = moveDirection != Vector3.zero; // 이동 벡터 유무에 따른 이동 판정
-
-            // 키보드 이동 중이며 쉬프트 키가 눌려있을 때만 고속 이동 상태로 간주함
-            state.IsFastRun = input.IsKeyboardMove && Keyboard.current != null && Keyboard.current.leftShiftKey.isPressed;
-
-        }        
-
-        // 애니메이터에 점프 트리거와 인덱스를 설정하여 애니메이션을 재생함
-        public void TriggerJumpAnimation(int index)
-        {
-            if (animator == null) return; // 애니메이터가 없으면 무시
-
-            animator.ResetTrigger("Jump"); // 이전 점프 트리거 초기화
-            animator.SetInteger("JumpIndex", index); // 점프 단계(인덱스) 설정
-            animator.SetTrigger("Jump"); // 애니메이션 재생 트리거
+            state.IsFastRun = input.IsKeyboardMove &&
+                              Keyboard.current != null &&
+                              Keyboard.current.leftShiftKey.isPressed;
         }
 
-        // 애니메이터의 점프 관련 인덱스 데이터를 초기화함
-        public void ResetJumpIndex()
+        // 계산된 방향과 속도를 바탕으로 실제 이동을 적용한다
+        private void ApplyNormalMovement()
         {
-            if (animator == null) return;
-            animator.SetInteger("JumpIndex", 0); // 인덱스 변수 리셋
-        }
+            float speed = state.IsFastRun ? fastRunSpeed : moveSpeed;
 
-        // 캐릭터의 현재 수직 속도값을 직접 수정함 (점프력 부여 등)
-        public void SetVerticalVelocity(float value)
-        {
-            velocity.y = value; // 속도값 덮어쓰기
-        }
-
-        // 외부 시스템(Combat 등)에서 캐릭터를 월드 기준으로 이동시키기 위한 최소 인터페이스
-        public void MoveExternal(Vector3 worldDelta)
-        {
-            controller.Move(worldDelta);
-        }
-
-        // 클릭 이동 모드를 강제 종료하고 관련 변수를 초기화함
-        public void CancelClickMove()
-        {
-            isClickMoving = false;
-            moveDirection = Vector3.zero;
-            clickBlockedTime = 0f;
-        }
-
-        // 디버그 목적으로 타겟 정지 구역을 씬 뷰에 시각화함
-        private void OnDrawGizmosSelected()
-        {
-            Gizmos.color = Color.red;            
-            
-            Vector3 origin = transform.position;        // 기즈모 원점 위치
-            Vector3 left = Quaternion.Euler(0, -targetStopAngle, 0) * transform.forward;    // 왼쪽 경계 벡터
-            Vector3 right = Quaternion.Euler(0, targetStopAngle, 0) * transform.forward;    // 오른쪽 경계 벡터
-
-            // 경계선과 원형 구역 그리기
-            Gizmos.DrawLine(origin, origin + left * targetStopDistance);   
-            Gizmos.DrawLine(origin, origin + right * targetStopDistance);
-            Gizmos.DrawWireSphere(origin, targetStopDistance);
-        }
-
-        // 타겟팅 관련 입력 처리 로직
-        private void HandleTargetingInput()
-        {
-            if (input == null || state == null) return;
-
-            bool escPressed = input.EscPressed;
-            bool tabDown = input.TabPressed && !prevTabPressed;
-
-            // Esc 키: 눌려 있으면 무조건 타겟 해제
-            if (escPressed && state.CurrentTarget != null)
+            if (state.IsMoving)
             {
-                state.CurrentTarget = null;
-                currentTargetIndex = -1;
-                state.IsEngagedWithTarget = false;
+                Vector3 before = transform.position;
 
-                playerCombat?.CancelAttack();
+                controller.Move((moveDirection * speed + velocity) * Time.deltaTime);
 
-                Debug.Log("[Target] 타겟팅 해제 (Esc)");
-            }
-
-            // Tab 키: 눌린 순간에만 처리
-            if (tabDown)
-            {
-                HandleTabTargeting();
-            }
-
-            // 이전 프레임 상태 저장
-            prevEscPressed = escPressed;
-            prevTabPressed = input.TabPressed;
-        }
-
-        // Tab 키 입력에 따른 타겟 선택 및 순환 처리
-        private void HandleTabTargeting()
-        {
-            Transform[] enemies = FindEnemiesInRange(15f);
-
-            if (enemies.Length == 0)
-            {
-                state.CurrentTarget = null;
-                currentTargetIndex = -1;
-                return;
-            }
-
-            // 🔥 핵심: 타겟이 없거나, 인덱스가 깨졌으면 새로 시작
-            if (state.CurrentTarget == null ||
-                currentTargetIndex < 0 ||
-                currentTargetIndex >= enemies.Length)
-            {
-                currentTargetIndex = 0;
-                state.CurrentTarget = enemies[currentTargetIndex];
-
-                Debug.Log("[Target] 새 타겟 선택");
-                return;
-            }
-
-            // 정상 순환
-            currentTargetIndex = (currentTargetIndex + 1) % enemies.Length;
-            state.CurrentTarget = enemies[currentTargetIndex];
-
-            Debug.Log("[Target] 타겟 순환");
-        }
-
-        // 현재 타겟을 기준으로 다음 타겟을 반환함
-        private Transform[] FindEnemiesInRange(float range)
-        {
-            Collider[] hits = Physics.OverlapSphere(transform.position, range);
-
-            List<Transform> enemies = new List<Transform>();
-
-            foreach (var hit in hits)
-            {
-                if (hit.CompareTag("Enemy"))
+                if (isClickMoving)
                 {
-                    enemies.Add(hit.transform.root);
+                    float moved = Vector3.Distance(transform.position, before);
+
+                    if (moved < 0.001f)
+                        clickBlockedTime += Time.deltaTime;
+                    else
+                        clickBlockedTime = 0f;
+
+                    if (clickBlockedTime >= clickBlockedStopTime)
+                    {
+                        isClickMoving = false;
+                        moveDirection = Vector3.zero;
+                    }
+
+                    lastMovePosition = transform.position;
+                }
+
+                Quaternion targetRot = Quaternion.LookRotation(moveDirection);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotationSpeed * Time.deltaTime);
+            }
+            else
+            {
+                controller.Move(velocity * Time.deltaTime);
+            }
+        }
+
+        // 중력을 적용하고 접지 및 점프 상태를 갱신한다
+        private void ApplyGravity()
+        {
+            bool groundedNow = controller.isGrounded;
+
+            if (groundedNow && velocity.y <= 0f)
+            {
+                state.IsGrounded = true;
+
+                if (!prevIsGrounded)
+                {
+                    state.IsJumping = false;
+                    state.JumpIndex = 0;                  
+                }
+
+                velocity.y = -2f;
+            }
+            else
+            {
+                state.IsGrounded = false;
+
+                if (state.JumpIndex > 0)
+                {
+                    state.IsJumping = true;
+                }
+                else
+                {
+                    state.IsJumping = false;
                 }
             }
 
-            return enemies.ToArray();
+            prevIsGrounded = state.IsGrounded;
+            prevIsJumping = state.IsJumping;
+
+            velocity.y += gravity * Time.deltaTime;
+        }
+        #endregion
+
+        #region Public Method
+        // 외부에서 수직 속도를 강제 설정 (주로 점프 기능에서 호출)
+        public void SetVerticalVelocity(float y)
+        {
+            velocity.y = y; // 전달받은 수치를 수직 속도 값에 대입한다
         }
 
-        // 현재 타겟을 기준으로 다음 타겟을 반환함
-        private Transform FindClosestEnemy(Transform[] enemies)
+        // 외부 시스템에 의해 캐릭터를 강제로 물리 이동 (밀려남 등)
+        public void MoveExternal(Vector3 delta)
         {
-            Transform closest = null;
-            float minDist = float.MaxValue;
-
-            foreach (var enemy in enemies)
-            {
-                float dist = Vector3.Distance(transform.position, enemy.position);
-                if (dist < minDist)
-                {
-                    minDist = dist;
-                    closest = enemy;
-                }
-            }
-
-            return closest;
-        }
-
-        // 현재 타겟을 기준으로 다음 타겟을 반환함
-        private Transform GetNextTarget(Transform[] enemies, Transform current)
-        {
-            // 방어 1: 배열 자체가 비어있으면 null
-            if (enemies == null || enemies.Length == 0)
-                return null;
-
-            // 거리 기준 정렬
-            List<Transform> sorted = enemies
-                .Where(e => e != null)
-                .OrderBy(e => Vector3.Distance(transform.position, e.position))
-                .ToList();
-
-            // 방어 2: 정렬 후에도 비었으면 null
-            if (sorted.Count == 0)
-                return null;
-
-            // current가 없거나 리스트에 없으면 첫 타겟
-            if (current == null || !sorted.Contains(current))
-                return sorted[0];
-
-            int index = sorted.IndexOf(current);
-            int nextIndex = (index + 1) % sorted.Count;
-
-            return sorted[nextIndex];
-        }
-
-        private void HandleAutoApproachMovement()
-        {
-            if (state == null || controller == null)
-                return;
-
-            if (state.CurrentTarget == null)
-            {
-                CancelAutoApproach();
-                return;
-            }
-
-            // 유저 이동 입력이 들어오면 자동 접근 즉시 취소
-            if (input != null)
-            {
-                if (input.IsKeyboardMove || input.ClickMovePressed)
-                {
-                    CancelAutoApproach();
-                    playerCombat?.CancelAttack();
-                    return;
-                }
-            }
-
-            // 일정 주기로 목적지를 재계산하여 타겟 움직임 대응
-            if (Time.time >= nextAutoRepathTime)    // 재계산 시점 도래
-            {
-                // 다음 재계산 시점 갱신
-                nextAutoRepathTime = Time.time + autoApproachRepathInterval;
-
-                Vector3 toTarget = state.CurrentTarget.position - transform.position; // 타겟까지의 벡터
-                toTarget.y = 0f;
-
-                // 타겟과 너무 가까워서 방향을 알 수 없으면 재계산하지 않음
-                if (toTarget.sqrMagnitude > 0.01f)  // 유효한 벡터인지 확인
-                {
-                    Vector3 dirToTarget = toTarget.normalized;  // 타겟 방향 단위 벡터
-                    autoApproachDestination = state.CurrentTarget.position - dirToTarget * 1.5f;    // 타겟 앞쪽으로 접근할 목적지 재설정
-                }
-            }
-
-            // 자동 접근 목적지로 이동
-            Vector3 toDest = autoApproachDestination - transform.position;
-            toDest.y = 0f;
-
-            // 목적지에 도달했는지 판정
-            if (toDest.magnitude <= autoApproachStopDistance)   // 만약 도달했다면
-            {
-                CancelAutoApproach();   // 자동 접근 종료
-                return;
-            }
-
-            // 이동 및 회전 처리
-            Vector3 dir = toDest.normalized;
-            float speed = state.IsFastRun ? fastRunSpeed : moveSpeed;   // 상태에 따른 속도 선택
-
-            // 실제 이동 적용
-            controller.Move((dir * speed + velocity) * Time.deltaTime);
-
-            // 회전 적용
-            if (dir.sqrMagnitude > 0.01f)   // 만약 유효한 방향 벡터라면
-            {
-                Quaternion targetRot = Quaternion.LookRotation(dir);    // 목표 회전 계산
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotationSpeed * Time.deltaTime); // 부드러운 회전 보간 적용
-            }
-        }
-
-        // 자동 접근 모드를 시작함
-        public void StartAutoApproach(Transform target, float stopDistance)
-        {
-            if (state == null || target == null)
-                return;
-
-            state.CurrentTarget = target;
-            state.IsAutoApproaching = true;            
-
-            // 클릭 이동/기존 이동 종료
-            CancelClickMove();
-            moveDirection = Vector3.zero;
-            clickBlockedTime = 0f;
-
-            // "기즈모 범위로 들어가면 공격" 기준을 그대로 목적지로 삼지 않고,
-            // 일단 타겟 앞쪽으로 접근하게 한 뒤, 실제 공격 실행 여부는 Combat/Skill에서 판정한다.
-            // 목적지는 타겟 근처로 설정하고, 판정은 IsTargetInFrontStopArea 확장판으로 처리한다.
-            Vector3 toTarget = target.position - transform.position;
-            toTarget.y = 0f;
-
-            if (toTarget.sqrMagnitude < 0.01f)
-                return;
-
-            Vector3 dirToTarget = toTarget.normalized;
-
-            // 타겟 방향으로 "일단" 접근할 목적지
-            autoApproachDestination = target.position - dirToTarget * Mathf.Max(0.1f, stopDistance - 0.2f);
-
-            nextAutoRepathTime = Time.time;
-        }
-
-        // 자동 접근 모드를 종료함
-        public void CancelAutoApproach()
-        {
-            if (state == null) return;
-
-            // 이동 관련 플래그만 해제 (플레이어 조작 권한 복구)
-            state.IsAutoApproaching = false;
-            state.IsInputMovementLocked = false;
-
-            if (state.CurrentTarget == null)
-            {
-                state.IsEngagedWithTarget = false;
-                currentTargetIndex = -1;
-                return;
-            }
-
-            float dist = Vector3.Distance(transform.position, state.CurrentTarget.position);
-
-            // 거리가 멀어지면 '전투 상태'만 해제
-            if (dist > targetStopDistance + 1.0f)
-            {
-                state.IsEngagedWithTarget = false;
-                playerCombat?.CancelAttack();
-            }
-        }
-
-        private void HandleCombatDisengage()
-        {
-            if (state == null)
-                return;
-
-            // 자동 접근 중에는 전투 이탈 판단 안 함
-            if (state.IsAutoApproaching)
-                return;
-
-            // 전투 중이 아니면 검사할 필요 없음
-            if (!state.IsEngagedWithTarget)
-                return;
-
-            // 타겟이 사라지면 즉시 전투 해제
-            if (state.CurrentTarget == null)
-            {
-                state.IsEngagedWithTarget = false;
-                currentTargetIndex = -1;
-                return;
-            }
-
-            float dist = Vector3.Distance(
-                transform.position,
-                state.CurrentTarget.position
-            );
-
-            // 완전히 떨어졌다고 판단되는 거리
-            if (dist > targetStopDistance + 1.0f)
-            {
-                state.IsEngagedWithTarget = false;                
-            }
+            controller.Move(delta); // 인자로 받은 벡터만큼 컨트롤러를 즉시 움직인다
         }
         #endregion
     }

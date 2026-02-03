@@ -829,17 +829,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 10, y: 2.220446e-16, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1558383189 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3610623164113969810, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
-  m_PrefabInstance: {fileID: 2001438395869426045}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1730ef3c4cc584458aae2cde35b6916, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BRASS.PlayerCombat
 --- !u!1 &1729563458
 GameObject:
   m_ObjectHideFlags: 0
@@ -985,17 +974,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1015891370}
     - target: {fileID: 3610623164113969810, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
-      propertyPath: m_Enabled
-      value: 1
+      propertyPath: bareAttackAngle
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610623164113969810, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
+      propertyPath: bareAttackDistance
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610623164113969810, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
+      propertyPath: damageLayer.m_Bits
+      value: 512
       objectReference: {fileID: 0}
     - target: {fileID: 4379256836293682995, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
       propertyPath: cameraPivot
       value: 
       objectReference: {fileID: 1774497029381582749}
-    - target: {fileID: 4379256836293682995, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
-      propertyPath: playerCombat
-      value: 
-      objectReference: {fileID: 1558383189}
     - target: {fileID: 6290972978739155226, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7.09
@@ -1035,10 +1028,6 @@ PrefabInstance:
     - target: {fileID: 6290972978739155226, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8800350220450372264, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9045392184721531494, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
       propertyPath: m_Name
