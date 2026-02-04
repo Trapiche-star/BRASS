@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6165b963740484f4fbc391c962763968, type: 3}
   m_Name: BossRewardTable
   m_EditorClassIdentifier: Assembly-CSharp::BossRewardTable
-  possibleItems: []
+  possibleItems:
+  - {fileID: 11400000, guid: f77b8a85ba0bb7f4c96fdfc385cee575, type: 2}
+  - {fileID: 11400000, guid: 3f238c6b0a8bafb40b81a13d73bb4eda, type: 2}
+  - {fileID: 11400000, guid: b7cecf3d487edc144b9d97498398c6de, type: 2}

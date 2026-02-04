@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10c7ed18b824ef54fbd16db731b87234, type: 3}
   m_Name: CoreItem
   m_EditorClassIdentifier: Assembly-CSharp::Team1.EnhancementItemData
-  itemName: 
-  icon: {fileID: 0}
-  price: 0
+  itemName: Core
+  icon: {fileID: -4531694429024335586, guid: 78d1f73ae35a549409595d6b7e60fe56, type: 3}
+  price: 300
   itemCategory: 2
   successRate: 0.5
   upgradePower: 1
