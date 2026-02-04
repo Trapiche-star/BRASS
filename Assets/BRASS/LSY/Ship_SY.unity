@@ -24506,9 +24506,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b543637c47432254dbeb0263e5de13b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GoldManager
-  mainGoldText: {fileID: 0}
+  mainGoldText: {fileID: 77554182}
   maxGold: 999999
-  currentGold: 0
+  currentGold: 1000
 --- !u!1 &1398415670
 GameObject:
   m_ObjectHideFlags: 0
