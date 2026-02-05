@@ -11,7 +11,6 @@ public class UIManager : MonoBehaviour
     [Header("UI Panels")]
     public GameObject mainPanel;
     public GameObject gameHUD;
-    public GameObject subMenu;
     public GameObject optionPanel;
 
     // 게임 상태 정의
@@ -34,7 +33,6 @@ public class UIManager : MonoBehaviour
         // 모든 패널 일단 끄기
         mainPanel.SetActive(false);
         gameHUD.SetActive(false);
-        subMenu.SetActive(false);
         optionPanel.SetActive(false);
 
         // 현재 상태에 맞는 패널만 켜기
@@ -48,14 +46,11 @@ public class UIManager : MonoBehaviour
                 break;
             case UIState.SubMenu:
                 gameHUD.SetActive(true);
-                subMenu.SetActive(true);
                 break;
             case UIState.Options:
                 optionPanel.SetActive(true);
                 break;
         }
-
-        Debug.Log($"현재 UI 상태: {newState}");
     }
 
     // 버튼 클릭 이벤트를 위한 헬퍼 함수들
