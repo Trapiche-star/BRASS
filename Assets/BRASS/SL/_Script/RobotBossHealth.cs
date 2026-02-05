@@ -3,32 +3,32 @@ using UnityEngine;
 
 public class RobotBossHealth : MonoBehaviour, IDamageable
 {
-    private float hp = 1000.0f;
+    private bool isDead = false;
+    [SerializeField]
+    private float maxHp = 1000.0f;
+
+    private float currentHealth;
     public float Hp
     {
-        get
+        get => currentHealth;
+        private set
         {
-            return hp;
-        }
-        set
-        {
-            if (hp > 0f && hp <= 1000f)
+            currentHealth = Mathf.Clamp(value, 0f, maxHp);
+
+            if (currentHealth <= 0f && !isDead)
             {
-                hp = value;
-                isDaed = false;
-            }
-            else if (hp <= 0f)
-            {
-                hp = 0f;
-                isDaed = true;
+                Die();
             }
         }
     }
     
-    private bool isDaed = false;
     public void TakeDamage(float damageAmount)
     {
         Hp -= damageAmount;
     }
 
+    void Die()
+    {
+        isDead = true;
+    }
 }

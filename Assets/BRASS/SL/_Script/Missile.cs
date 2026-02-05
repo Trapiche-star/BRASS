@@ -1,29 +1,74 @@
 using BRASS;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class Missile : MonoBehaviour
+public class Missile : MonoBehaviour, IDamageable
 {
+    [SerializeField]
+    private float maxHp = 10f;
+
+    private float currentHp;
+    public float CurrentHp
+    {
+        get { return currentHp; }
+        private set
+        {
+            currentHp = Mathf.Clamp(value, 0, maxHp);
+            if (currentHp <= 0f && !isDestroy)
+            {
+                Destroy();
+            }
+        }
+    }
+    private bool isDestroy = false;
+
     Transform target;
-    Vector3 targetDir;
     public float attackDamage = 5.0f;
+    public float speed = 25.0f;
+    public float rotationSpeed = 5.0f; // 회전 속도 조절 변수
 
     void Start()
     {
-        target = FindAnyObjectByType<PlayerController>().transform;
+        var player = FindAnyObjectByType<PlayerController>();
+        if (player != null) target = player.transform;
     }
 
-    // Update is called once per frame
     void Update()
     {
-       targetDir = (target.position - transform.position).normalized;
-       transform.Translate(targetDir * Time.deltaTime);
+        if (target == null) return;
+
+        Vector3 targetDir = (target.position - transform.position).normalized;
+
+        if (targetDir != Vector3.zero)
+        {
+            Quaternion lookRotation = Quaternion.LookRotation(targetDir);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+        }
+
+        transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        other.CompareTag("Player");
-        other.GetComponent<IDamageable>().TakeDamage(attackDamage);
-        Destroy(this);
+        if (other.CompareTag("Player"))
+        {
+            var damageable = other.GetComponent<IDamageable>();
+            if (damageable != null)
+            {
+                damageable.TakeDamage(attackDamage);
+            }
+
+        }
+        Destroy(gameObject);
+    }
+
+    public void TakeDamage(float damageAmount)
+    {
+        CurrentHp -= damageAmount;
+    }
+    void Destroy()
+    {
+        Destroy(gameObject);
+        isDestroy = true;
     }
 }
