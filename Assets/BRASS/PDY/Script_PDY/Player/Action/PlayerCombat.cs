@@ -132,7 +132,7 @@ namespace BRASS
             // 타겟이 있을 때만 방향 스냅 회전
             if (state.CurrentTarget != null)    // 타겟이 존재한다면
             {
-                Vector3 toTarget = state.CurrentTarget.position - transform.position;   // 타겟까지의 방향 벡터 계산
+                Vector3 toTarget = state.CurrentTarget.position - transform.root.position;      // 타겟까지의 벡터 계산
 
                 toTarget.y = 0f;    // 수평 회전만 고려
 
@@ -177,10 +177,11 @@ namespace BRASS
         // 현재 캐릭터의 전방 방향을 수평 벡터로 추출하여 저장
         private void CacheAttackDirection()
         {
-            Vector3 forward = transform.forward; // 트랜스폼의 전방 획득
-            forward.y = 0f; // 수직 성분 제거
+            Vector3 forward = transform.root.forward; // ⭐ 루트 기준 전방 사용
+            forward.y = 0f;
 
-            cachedAttackDirection = forward.sqrMagnitude < 0.01f ? Vector3.zero : forward.normalized; // 유효성 검사 후 정규화하여 저장
+            cachedAttackDirection =
+                forward.sqrMagnitude < 0.01f ? Vector3.zero : forward.normalized;
         }
 
         // 애니메이션 이벤트: 콤보 단계별 전진 이동 명령 수행

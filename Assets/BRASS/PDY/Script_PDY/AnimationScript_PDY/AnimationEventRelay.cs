@@ -6,30 +6,25 @@ namespace BRASS
     public class AnimationEventRelay : MonoBehaviour
     {
         #region Variables
-        [SerializeField] private PlayerSlide slide;
-        [SerializeField] private PlayerJump jump;
-        [SerializeField] private PlayerCombat combat;
-        [SerializeField] private PlayerState state;
-        [SerializeField] private MeleeSkill meleeSkill;
+        [SerializeField] private PlayerAnimationController animationController; // 애니메이션 제어 컴포넌트
+
+        [SerializeField] private PlayerSlide slide;         // 슬라이드 동작 제어 컴포넌트
+        [SerializeField] private PlayerJump jump;           // 점프 동작 제어 컴포넌트
+        [SerializeField] private PlayerCombat combat;       // 근접 기본 공격 처리 컴포넌트
+        [SerializeField] private PlayerState state;         // 플레이어 상태 데이터 컨테이너
+        [SerializeField] private MeleeSkill meleeSkill;     // 근접 스킬 처리 컴포넌트 
+        [SerializeField] private RangeCombat rangeCombat;   // 원거리 기본 공격 처리 컴포넌트                                                          
         #endregion
 
         #region Unity Event Method
         private void Awake()
         {
-            if (slide == null)
-                slide = GetComponentInParent<PlayerSlide>();
-
-            if (jump == null)
-                jump = GetComponentInParent<PlayerJump>();
-
-            if (combat == null)
-                combat = GetComponentInParent<PlayerCombat>();
-
-            if (state == null)
-                state = GetComponentInParent<PlayerState>();
-
-            if (meleeSkill == null)
-                meleeSkill = GetComponentInParent<MeleeSkill>();
+            if (slide == null) slide = GetComponentInParent<PlayerSlide>();
+            if (jump == null) jump = GetComponentInParent<PlayerJump>();
+            if (combat == null) combat = GetComponentInParent<PlayerCombat>();
+            if (state == null) state = GetComponentInParent<PlayerState>();
+            if (meleeSkill == null) meleeSkill = GetComponentInParent<MeleeSkill>();
+            if (rangeCombat == null) rangeCombat = GetComponentInParent<RangeCombat>();
         }
         #endregion
 
@@ -175,6 +170,24 @@ namespace BRASS
                 return;
 
             combat.ApplyComboStep(2);
+        }
+
+        // 총 발사 타이밍
+        public void OnGunFire()
+        {
+            //if (animationController != null) animationController.SetGunMaskWeight(true);            
+
+            if (rangeCombat != null)
+                rangeCombat.Fire();
+        }
+
+        // 발사 애니메이션 종료
+        public void OnGunFireEnd()
+        {
+            //if (animationController != null) animationController.SetGunMaskWeight(false);           
+
+            if (rangeCombat != null)
+                rangeCombat.OnFireEnd();
         }
         #endregion
     }

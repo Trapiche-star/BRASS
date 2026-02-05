@@ -66,65 +66,12 @@ namespace BRASS
             CurrentWeapon = weaponSlots[index];
             currentWeaponObject = Instantiate(CurrentWeapon.weaponPrefab, weaponSocket);
 
-            bool isGun = CurrentWeapon.weaponType == WeaponType.HarpoonGun;
+            bool isGun = CurrentWeapon.weaponType == WeaponType.Gun;
 
             if (isGun)
             {
-                Transform handle = currentWeaponObject.transform.Find("HandlePivot");
-                Transform leftHandGrip = currentWeaponObject.transform.Find("LeftHandGrip");
-
-                if (handle != null)
-                {
-                    Vector3 handleLocalPos = handle.localPosition;
-                    Quaternion handleLocalRot = handle.localRotation;
-
-                    currentWeaponObject.transform.localPosition = Vector3.zero;
-                    currentWeaponObject.transform.localRotation = Quaternion.identity;
-
-                    currentWeaponObject.transform.localPosition -= handleLocalPos;
-                    currentWeaponObject.transform.localRotation *= Quaternion.Inverse(handleLocalRot);
-
-                    // 하푼건 전용 튜닝
-                    currentWeaponObject.transform.localPosition += harpoonPositionOffset;
-
-                    currentWeaponObject.transform.RotateAround(
-                        handle.position,
-                        weaponSocket.right,
-                        harpoonRotationOffset.x
-                    );
-
-                    currentWeaponObject.transform.RotateAround(
-                        handle.position,
-                        weaponSocket.up,
-                        harpoonRotationOffset.y
-                    );
-
-                    currentWeaponObject.transform.RotateAround(
-                        handle.position,
-                        weaponSocket.forward,
-                        harpoonRotationOffset.z
-                    );
-
-                    /*왼손으로 총을 회전
-                    if (leftHandGrip != null && leftHand != null)
-                    {
-                        // 현재: HandlePivot → LeftHandGrip (이미 위에서 회전된 결과 기준)
-                        Vector3 currentDir =
-                            (leftHandGrip.position - handle.position).normalized;
-
-                        // 목표: HandlePivot → 플레이어 왼손
-                        Vector3 targetDir =
-                            (leftHand.position - handle.position).normalized;
-
-                        // 현재 방향을 목표 방향으로 맞추는 추가 회전
-                        Quaternion deltaRotation =
-                            Quaternion.FromToRotation(currentDir, targetDir);
-
-                        // HandlePivot 위치는 고정, 무기 전체를 누적 회전
-                        currentWeaponObject.transform.rotation =
-                            deltaRotation * currentWeaponObject.transform.rotation;
-                    }*/
-                }
+                currentWeaponObject.transform.localPosition = Vector3.zero;
+                currentWeaponObject.transform.localRotation = Quaternion.identity;
             }
             else
             {
@@ -173,6 +120,21 @@ namespace BRASS
             }
 
             Debug.Log("무기 해제");
+        }
+
+        // 현재 장착된 총기의 발사 지점을 반환한다
+        public Transform GetFirePoint()
+        {
+            if (CurrentWeapon == null)
+                return null;
+
+            if (CurrentWeapon.weaponType != WeaponType.Gun)
+                return null;
+
+            if (currentWeaponObject == null)
+                return null;
+
+            return currentWeaponObject.transform.Find("FirePoint");
         }
 
         #endregion
