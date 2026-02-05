@@ -7,8 +7,16 @@
       "RelativeMoniker": "D:0:0:{C3036140-2971-A92A-E547-A90996CFDE71}|Assembly-CSharp.csproj|solutionrelative:assets\\brass\\nkj\\scripts\\questui\\questmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C3036140-2971-A92A-E547-A90996CFDE71}|Assembly-CSharp.csproj|d:\\teamproject2\\skyvoyager\\assets\\brass\\nkj\\scripts\\questui\\questtester.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C3036140-2971-A92A-E547-A90996CFDE71}|Assembly-CSharp.csproj|solutionrelative:assets\\brass\\nkj\\scripts\\questui\\questtester.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C3036140-2971-A92A-E547-A90996CFDE71}|Assembly-CSharp.csproj|D:\\teamproject2\\skyvoyager\\assets\\brass\\nkj\\scripts\\questui\\questdetailpopup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3036140-2971-A92A-E547-A90996CFDE71}|Assembly-CSharp.csproj|solutionrelative:assets\\brass\\nkj\\scripts\\questui\\questdetailpopup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8D35A112-EA26-0AA8-20B0-46D1B4383C6C}|Assembly-CSharp-Editor.csproj|d:\\teamproject2\\skyvoyager\\assets\\editor\\questdatabaseautoupdater.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8D35A112-EA26-0AA8-20B0-46D1B4383C6C}|Assembly-CSharp-Editor.csproj|solutionrelative:assets\\editor\\questdatabaseautoupdater.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C3036140-2971-A92A-E547-A90996CFDE71}|Assembly-CSharp.csproj|D:\\teamproject2\\skyvoyager\\assets\\brass\\nkj\\scripts\\questui\\questdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3036140-2971-A92A-E547-A90996CFDE71}|Assembly-CSharp.csproj|solutionrelative:assets\\brass\\nkj\\scripts\\questui\\questdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C3036140-2971-A92A-E547-A90996CFDE71}|Assembly-CSharp.csproj|D:\\teamproject2\\skyvoyager\\assets\\brass\\nkj\\scripts\\questui\\questacceptpopup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -19,12 +27,8 @@
       "RelativeMoniker": "D:0:0:{C3036140-2971-A92A-E547-A90996CFDE71}|Assembly-CSharp.csproj|solutionrelative:assets\\brass\\nkj\\scripts\\questui\\questslot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C3036140-2971-A92A-E547-A90996CFDE71}|Assembly-CSharp.csproj|D:\\teamproject2\\skyvoyager\\assets\\brass\\nkj\\scripts\\questui\\questdetailpopup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C3036140-2971-A92A-E547-A90996CFDE71}|Assembly-CSharp.csproj|solutionrelative:assets\\brass\\nkj\\scripts\\questui\\questdetailpopup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C3036140-2971-A92A-E547-A90996CFDE71}|Assembly-CSharp.csproj|D:\\teamproject2\\skyvoyager\\assets\\brass\\nkj\\scripts\\questui\\questdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C3036140-2971-A92A-E547-A90996CFDE71}|Assembly-CSharp.csproj|solutionrelative:assets\\brass\\nkj\\scripts\\questui\\questdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C3036140-2971-A92A-E547-A90996CFDE71}|Assembly-CSharp.csproj|D:\\teamproject2\\skyvoyager\\assets\\brass\\nkj\\scripts\\questui\\questtester.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3036140-2971-A92A-E547-A90996CFDE71}|Assembly-CSharp.csproj|solutionrelative:assets\\brass\\nkj\\scripts\\questui\\questtester.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,60 +38,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 1,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{56df62a4-05a3-4e5b-aa1a-99371ccfb997}"
-            },
-            {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "QuestDetailPopup.cs",
               "DocumentMoniker": "D:\\teamproject2\\skyvoyager\\Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestDetailPopup.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestDetailPopup.cs",
               "ToolTip": "D:\\teamproject2\\skyvoyager\\Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestDetailPopup.cs",
               "RelativeToolTip": "Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestDetailPopup.cs",
-              "ViewState": "AgIAANMAAAAAAAAAAAAkwPcAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAC0BAAAAAAAAAAAwwFsBAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T10:28:01.663Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "QuestTester.cs",
-              "DocumentMoniker": "D:\\teamproject2\\skyvoyager\\Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestTester.cs",
-              "RelativeDocumentMoniker": "Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestTester.cs",
-              "ToolTip": "D:\\teamproject2\\skyvoyager\\Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestTester.cs",
-              "RelativeToolTip": "Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestTester.cs",
-              "ViewState": "AgIAABgAAAAAAAAAAAAUwCQAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T09:50:49.76Z",
+              "WhenOpened": "2026-02-03T10:28:01.663Z",
+              "IsPinned": true,
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "QuestAcceptPopup.cs",
-              "DocumentMoniker": "D:\\teamproject2\\skyvoyager\\Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestAcceptPopup.cs",
-              "RelativeDocumentMoniker": "Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestAcceptPopup.cs",
-              "ToolTip": "D:\\teamproject2\\skyvoyager\\Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestAcceptPopup.cs",
-              "RelativeToolTip": "Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestAcceptPopup.cs",
-              "ViewState": "AgIAAHsAAAAAAAAAAAAkwH8AAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T09:49:58.514Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "QuestSlot.cs",
-              "DocumentMoniker": "D:\\teamproject2\\skyvoyager\\Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestSlot.cs",
-              "RelativeDocumentMoniker": "Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestSlot.cs",
-              "ToolTip": "D:\\teamproject2\\skyvoyager\\Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestSlot.cs",
-              "RelativeToolTip": "Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestSlot.cs",
-              "ViewState": "AgIAAIMAAAAAAAAAAAAkwIcAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T09:49:35.102Z"
             },
             {
               "$type": "Document",
@@ -97,22 +62,76 @@
               "RelativeDocumentMoniker": "Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestManager.cs",
               "ToolTip": "D:\\teamproject2\\skyvoyager\\Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestManager.cs",
               "RelativeToolTip": "Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestManager.cs",
-              "ViewState": "AgIAAPoBAAAAAAAAAAAAAAoCAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAALgCAAAAAAAAAAAwwN0CAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-03T09:49:23.756Z",
+              "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "QuestData.cs",
               "DocumentMoniker": "D:\\teamproject2\\skyvoyager\\Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestData.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestData.cs",
               "ToolTip": "D:\\teamproject2\\skyvoyager\\Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestData.cs",
               "RelativeToolTip": "Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestData.cs",
-              "ViewState": "AgIAACAAAAAAAAAAAAAAwDAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABcAAAAAAAAAAADwv0MAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-03T09:48:49.687Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "QuestDatabaseAutoUpdater.cs",
+              "DocumentMoniker": "D:\\teamproject2\\skyvoyager\\Assets\\Editor\\QuestDatabaseAutoUpdater.cs",
+              "RelativeDocumentMoniker": "Assets\\Editor\\QuestDatabaseAutoUpdater.cs",
+              "ToolTip": "D:\\teamproject2\\skyvoyager\\Assets\\Editor\\QuestDatabaseAutoUpdater.cs",
+              "RelativeToolTip": "Assets\\Editor\\QuestDatabaseAutoUpdater.cs",
+              "ViewState": "AgIAAH0AAAAAAAAAAAAwwIUAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-04T06:17:32.676Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "QuestTester.cs",
+              "DocumentMoniker": "D:\\teamproject2\\skyvoyager\\Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestTester.cs",
+              "RelativeDocumentMoniker": "Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestTester.cs",
+              "ToolTip": "D:\\teamproject2\\skyvoyager\\Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestTester.cs",
+              "RelativeToolTip": "Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestTester.cs",
+              "ViewState": "AgIAAKEAAAAAAAAAAAAkwMUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T09:50:49.76Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "QuestSlot.cs",
+              "DocumentMoniker": "D:\\teamproject2\\skyvoyager\\Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestSlot.cs",
+              "RelativeDocumentMoniker": "Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestSlot.cs",
+              "ToolTip": "D:\\teamproject2\\skyvoyager\\Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestSlot.cs",
+              "RelativeToolTip": "Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestSlot.cs",
+              "ViewState": "AgIAAIIAAAAAAAAAAAAwwKcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T09:49:35.102Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "QuestAcceptPopup.cs",
+              "DocumentMoniker": "D:\\teamproject2\\skyvoyager\\Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestAcceptPopup.cs",
+              "RelativeDocumentMoniker": "Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestAcceptPopup.cs",
+              "ToolTip": "D:\\teamproject2\\skyvoyager\\Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestAcceptPopup.cs",
+              "RelativeToolTip": "Assets\\BRASS\\NKJ\\Scripts\\QuestUI\\QuestAcceptPopup.cs",
+              "ViewState": "AgIAAHsAAAAAAAAAAAAswIIAAABVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T09:49:58.514Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{56df62a4-05a3-4e5b-aa1a-99371ccfb997}"
             }
           ]
         }

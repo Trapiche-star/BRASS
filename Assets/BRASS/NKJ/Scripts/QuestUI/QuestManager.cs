@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
 [System.Serializable]
@@ -31,7 +32,9 @@ public class QuestManager : MonoBehaviour
     [Header("UI References")]
     public GameObject questPanel; // 메인 퀘스트 창
     public Transform questListParent; // Scroll View의 Content
-    public GameObject questSlotPrefab;
+    public GameObject questSlotPrefab; // 실제 퀘스트 슬롯
+    public GameObject questOfferSlotPrefab; // 퀘스트 받기 슬롯 (NEW)
+    public Button questPanelCloseButton; // QuestPanel 닫기 버튼 (NEW)
 
     [Header("Popup References")]
     public GameObject questDetailPopup; // 상세 정보 팝업
@@ -90,6 +93,17 @@ public class QuestManager : MonoBehaviour
                 toggleQuestPanelAction.action.Enable();
             }
 
+            // QuestPanel Close Button 연결
+            if (questPanelCloseButton != null)
+            {
+                questPanelCloseButton.onClick.RemoveAllListeners();
+                questPanelCloseButton.onClick.AddListener(() => {
+                    if (questPanel != null)
+                        questPanel.SetActive(false);
+                });
+                Debug.Log("[QuestManager] QuestPanel CloseButton 연결 완료");
+            }
+
             // 초기 상태: 팝업들만 숨김, 퀘스트창은 그대로
             // questPanel은 사용자가 Inspector에서 설정한 상태 유지
 
@@ -101,6 +115,9 @@ public class QuestManager : MonoBehaviour
 
             // 저장된 데이터 로드
             LoadQuestData();
+
+            // 초기 퀘스트 목록 표시
+            RefreshQuestList();
 
             _isInitialized = true;
             Debug.Log("[QuestManager] Start 완료");
@@ -235,6 +252,7 @@ public class QuestManager : MonoBehaviour
             if (questAcceptPopup != null)
                 questAcceptPopup.SetActive(false);
 
+            // 목록 새로고침 (Offer 슬롯 → 실제 슬롯으로 교체)
             OnQuestUpdated?.Invoke();
             SaveQuestData();
         }
@@ -428,49 +446,85 @@ public class QuestManager : MonoBehaviour
             Debug.Log("[QuestManager] 퀘스트 목록 새로고침 시작");
 
             // 기존 슬롯 전부 삭제 (안전하게)
+            // 단, QuestSlot이나 QuestOfferSlot만 삭제 (버튼 등은 유지)
             int childCount = questListParent.childCount;
             for (int i = childCount - 1; i >= 0; i--)
             {
                 Transform child = questListParent.GetChild(i);
                 if (child != null)
                 {
-                    Destroy(child.gameObject);
+                    // QuestSlot이나 QuestOfferSlot인 경우만 삭제
+                    if (child.GetComponent<QuestSlot>() != null ||
+                        child.GetComponent<QuestOfferSlot>() != null)
+                    {
+                        Destroy(child.gameObject);
+                    }
                 }
             }
 
-            // 딕셔너리 null 체크
-            if (questProgressDict == null || questProgressDict.Count == 0)
+            int slotCount = 0;
+
+            // 1. 제공 가능한 퀘스트 표시 (미수락 퀘스트)
+            if (allQuestDB != null && questOfferSlotPrefab != null)
             {
-                Debug.Log("[QuestManager] 진행중인 퀘스트가 없습니다.");
-                return;
+                foreach (var quest in allQuestDB)
+                {
+                    // 아직 수락하지 않은 퀘스트만
+                    if (!questProgressDict.ContainsKey(quest.questID))
+                    {
+                        // 선행 퀘스트 확인
+                        bool canOffer = true;
+                        if (quest.prerequisiteQuestID != -1)
+                        {
+                            if (!IsQuestCompleted(quest.prerequisiteQuestID))
+                            {
+                                canOffer = false;
+                            }
+                        }
+
+                        if (canOffer)
+                        {
+                            GameObject offerSlot = Instantiate(questOfferSlotPrefab, questListParent);
+                            QuestOfferSlot offerScript = offerSlot.GetComponent<QuestOfferSlot>();
+
+                            if (offerScript != null)
+                            {
+                                offerScript.Setup(quest);
+                                slotCount++;
+                            }
+                        }
+                    }
+                }
             }
 
-            // 진행중인 퀘스트만 표시
-            int slotCount = 0;
-            foreach (var kvp in questProgressDict)
+            // 2. 진행중인 퀘스트 표시
+            if (questProgressDict != null && questProgressDict.Count > 0)
             {
-                QuestProgress progress = kvp.Value;
-
-                if (progress == null) continue;
-
-                // 완료된 퀘스트는 리스트에서 제거 (선택사항)
-                if (progress.state == QuestState.Completed)
-                    continue;
-
-                QuestData data = GetQuestData(kvp.Key);
-                if (data != null && questSlotPrefab != null)
+                foreach (var kvp in questProgressDict)
                 {
-                    GameObject slotGo = Instantiate(questSlotPrefab, questListParent);
-                    QuestSlot slot = slotGo.GetComponent<QuestSlot>();
+                    QuestProgress progress = kvp.Value;
 
-                    if (slot != null)
+                    if (progress == null) continue;
+
+                    // 완료된 퀘스트는 리스트에서 제외 (DetailPopup의 완료 탭에서만 보임)
+                    if (progress.state == QuestState.Completed)
+                        continue;
+
+                    QuestData data = GetQuestData(kvp.Key);
+                    if (data != null && questSlotPrefab != null)
                     {
-                        slot.Setup(data, progress);
-                        slotCount++;
-                    }
-                    else
-                    {
-                        Debug.LogWarning($"[QuestManager] QuestSlot 컴포넌트를 찾을 수 없습니다: {slotGo.name}");
+                        GameObject slotGo = Instantiate(questSlotPrefab, questListParent);
+                        QuestSlot slot = slotGo.GetComponent<QuestSlot>();
+
+                        if (slot != null)
+                        {
+                            slot.Setup(data, progress);
+                            slotCount++;
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"[QuestManager] QuestSlot 컴포넌트를 찾을 수 없습니다: {slotGo.name}");
+                        }
                     }
                 }
             }

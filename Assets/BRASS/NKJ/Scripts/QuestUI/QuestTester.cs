@@ -20,9 +20,15 @@ public class QuestTester : MonoBehaviour
             // Q키 상태 체크
             qKeyHeld = Keyboard.current != null && Keyboard.current.qKey.isPressed;
 
-            // Test shortcuts: Q + 1/2/3/4
+            // Test shortcuts: Q + 0/1/2/3/4
             if (qKeyHeld)
             {
+                // Q + 0: Open detail popup
+                if (Keyboard.current.digit0Key.wasPressedThisFrame)
+                {
+                    TestShowDetailPopup();
+                }
+
                 // Q + 1: Open accept popup
                 if (Keyboard.current.digit1Key.wasPressedThisFrame)
                 {
@@ -51,6 +57,27 @@ public class QuestTester : MonoBehaviour
         catch (System.Exception e)
         {
             Debug.LogError($"[QuestTester] Update error: {e.Message}");
+        }
+    }
+
+    [ContextMenu("Show Detail Popup")]
+    public void TestShowDetailPopup()
+    {
+        try
+        {
+            if (QuestManager.Instance != null && QuestManager.Instance.questDetailPopup != null)
+            {
+                QuestManager.Instance.questDetailPopup.SetActive(true);
+                Debug.Log($"[TEST] Detail popup opened");
+            }
+            else
+            {
+                Debug.LogError("[TEST] QuestManager.Instance or questDetailPopup is null!");
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"[QuestTester] TestShowDetailPopup error: {e.Message}");
         }
     }
 
