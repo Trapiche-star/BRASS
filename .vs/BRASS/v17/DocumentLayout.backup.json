@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\A_SecondTeam\\BRASS\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{67493F8F-3B64-035F-45BE-07A9F1686809}|Assembly-CSharp.csproj|d:\\a_secondteam\\brass\\assets\\brass\\pdy\\script_pdy\\weapon_script\\weaponhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{67493F8F-3B64-035F-45BE-07A9F1686809}|Assembly-CSharp.csproj|solutionrelative:assets\\brass\\pdy\\script_pdy\\weapon_script\\weaponhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{67493F8F-3B64-035F-45BE-07A9F1686809}|Assembly-CSharp.csproj|d:\\a_secondteam\\brass\\assets\\brass\\pdy\\script_pdy\\player\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{67493F8F-3B64-035F-45BE-07A9F1686809}|Assembly-CSharp.csproj|solutionrelative:assets\\brass\\pdy\\script_pdy\\player\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "WeaponHandler.cs",
+              "DocumentMoniker": "D:\\A_SecondTeam\\BRASS\\Assets\\BRASS\\PDY\\Script_PDY\\Weapon_Script\\WeaponHandler.cs",
+              "RelativeDocumentMoniker": "Assets\\BRASS\\PDY\\Script_PDY\\Weapon_Script\\WeaponHandler.cs",
+              "ToolTip": "D:\\A_SecondTeam\\BRASS\\Assets\\BRASS\\PDY\\Script_PDY\\Weapon_Script\\WeaponHandler.cs",
+              "RelativeToolTip": "Assets\\BRASS\\PDY\\Script_PDY\\Weapon_Script\\WeaponHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABTAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T06:50:47.339Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PlayerController.cs",
+              "DocumentMoniker": "D:\\A_SecondTeam\\BRASS\\Assets\\BRASS\\PDY\\Script_PDY\\Player\\PlayerController.cs",
+              "RelativeDocumentMoniker": "Assets\\BRASS\\PDY\\Script_PDY\\Player\\PlayerController.cs",
+              "ToolTip": "D:\\A_SecondTeam\\BRASS\\Assets\\BRASS\\PDY\\Script_PDY\\Player\\PlayerController.cs",
+              "RelativeToolTip": "Assets\\BRASS\\PDY\\Script_PDY\\Player\\PlayerController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAPYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T06:26:50.812Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

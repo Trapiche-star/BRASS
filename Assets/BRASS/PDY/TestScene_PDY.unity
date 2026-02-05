@@ -973,18 +973,6 @@ PrefabInstance:
       propertyPath: playerCamera
       value: 
       objectReference: {fileID: 1015891370}
-    - target: {fileID: 3610623164113969810, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
-      propertyPath: bareAttackAngle
-      value: 45
-      objectReference: {fileID: 0}
-    - target: {fileID: 3610623164113969810, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
-      propertyPath: bareAttackDistance
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3610623164113969810, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
-      propertyPath: damageLayer.m_Bits
-      value: 512
-      objectReference: {fileID: 0}
     - target: {fileID: 4379256836293682995, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
       propertyPath: cameraPivot
       value: 
