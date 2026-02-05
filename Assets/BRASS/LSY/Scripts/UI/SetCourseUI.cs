@@ -29,7 +29,7 @@ namespace Team1
         {
             ResetCircles();                
             shipCircle.SetActive(true);     
-            SceneManager.LoadScene("Ship_SY"); 
+            SceneManager.LoadScene("MainTest"); 
         }
         public void SelectTown()
         {

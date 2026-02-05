@@ -6,6 +6,7 @@ public class MinimapObject : MonoBehaviour, IInteractable
 {
     public void Interact()
     {
-        UIManager_SY.Instance.ToggleMinimap();
+        if (UIManager_SY.Instance != null)
+            UIManager_SY.Instance.OpenMinimap();
     }
 }

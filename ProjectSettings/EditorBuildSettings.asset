@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/BRASS/LSY/Start.unity
     guid: 7b45471e2f7707342b6a0874bc73abf5
   - enabled: 1
+    path: Assets/BRASS/_MainScenes/MainTest.unity
+    guid: c2d1456371f690c489ce77e6bb78ad3b
+  - enabled: 1
     path: Assets/BRASS/LSY/Ship_SY.unity
     guid: 52ad5e12c13edc84889c6252fd75a064
   - enabled: 1

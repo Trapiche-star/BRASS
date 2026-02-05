@@ -1,11 +1,12 @@
 using UnityEngine;
-using BRASS; // 인터페이스 네임스페이스
-using Team1; // UIManager_SY 네임스페이스
+using BRASS;
+using Team1;
 
 public class MarketObject : MonoBehaviour, IInteractable
 {
     public void Interact()
     {
-        UIManager_SY.Instance.ToggleMarket();
+        if (UIManager_SY.Instance != null)
+            UIManager_SY.Instance.OpenShop();
     }
 }

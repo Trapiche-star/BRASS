@@ -16,7 +16,16 @@ namespace Team1
 
         private void Start()
         {
-            // 슬라이더 값이 바뀔 때마다 실행될 함수 연결
+            // 슬라이더 초기값 설정 (0~1 사이의 값 중 1이 최대)
+            masterSlider.value = 1f;
+            backgroundSlider.value = 1f;
+            effectSlider.value = 1f;
+
+            audioMixer.SetFloat("Master", 0f);
+            audioMixer.SetFloat("Background", 0f);
+            audioMixer.SetFloat("Effect", 0f);
+
+            // 슬라이더 이벤트 연결
             masterSlider.onValueChanged.AddListener(SetMasterVolume);
             backgroundSlider.onValueChanged.AddListener(SetBackgroundVolume);
             effectSlider.onValueChanged.AddListener(SetEffectVolume);
