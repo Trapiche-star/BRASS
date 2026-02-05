@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3902593922171694340}
   - component: {fileID: 4695122552811832865}
   m_Layer: 0
-  m_Name: SteampunkFrogmanHarpoon
+  m_Name: HarpoonGun_Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

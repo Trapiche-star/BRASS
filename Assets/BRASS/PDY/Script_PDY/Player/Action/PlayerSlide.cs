@@ -59,10 +59,7 @@ namespace BRASS
 
             if (!CanSlide()) return; // 현재 상태가 슬라이드를 할 수 없는 조건이라면 종료한다
 
-            slideInputConsumed = true; // 입력을 소비한 것으로 표시하여 연타를 방지한다
-
-            if (playerController != null)
-                playerController.CancelClickMove(); // 좌클릭 이동 즉시 종료
+            slideInputConsumed = true; // 입력을 소비한 것으로 표시하여 연타를 방지한다            
 
             state.IsMoving = false;     // WASD 이동 논리 종료
             state.IsFastRun = false;    // 달리기 상태 제거

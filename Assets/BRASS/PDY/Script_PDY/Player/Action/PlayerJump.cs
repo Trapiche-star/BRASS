@@ -51,65 +51,57 @@ namespace BRASS
         // 점프 입력이 들어왔을 때 호출되어 점프 가능 여부를 판단한다
         public void TryJump()
         {
-            if (state == null || controller == null) return;
+            if (state == null || controller == null)
+                return;
             // 필수 참조가 없으면 점프 처리를 수행하지 않는다
 
+            // 슬라이딩 중에는 점프 입력 자체를 무시한다
+            if (state.IsSliding)
+                return;
+
             // 공격 중이라면 점프 입력으로 즉시 공격을 캔슬한다
-            if (state.IsAttacking || state.IsInputMovementLocked)
+            if (state.IsAttacking)
             {
-                // MeleeSkill의 전진 이동 및 상태 강제 종료
                 MeleeSkill melee = GetComponentInParent<MeleeSkill>();
+
                 if (melee != null)
                 {
-                    // 이전에 만든 ForceEndAttack 메서드가 있다면 호출, 
-                    // 없다면 아래처럼 직접 상태를 풀어줍니다.
                     state.IsAttacking = false;
                     state.IsInputMovementLocked = false;
-                    melee.OnSkill3MoveEnd(); // 스킬3 이동 중이었다면 정지
-                    melee.StopAllCoroutines(); // 히트스톱 등 코루틴 중단
+                    melee.OnSkill3MoveEnd();
+                    melee.StopAllCoroutines();
                 }
 
                 GetComponent<PlayerCombat>()?.CancelAttack();
 
-                Debug.Log("[Jump] 공격 중 점프로 인한 상태 강제 초기화");
+                Debug.Log("[Jump] 점프 입력으로 공격 상태 강제 종료");
             }
-
-            if (state.IsSliding)
-                return;
-            // 슬라이딩 중에는 점프를 허용하지 않는다
 
             if (Time.time < lastJumpInputTime + jumpInputCooldown)
                 return;
-            // 공통 입력 쿨타임이 남아 있으면 연타 입력을 차단한다
 
             if (state.JumpIndex == 0 &&
                 isSecondJumpCooldownActive &&
                 Time.time < secondJumpTime + secondJumpCooldown)
                 return;
-            // 2단 점프 이후 착지 직후 보호 쿨타임이 남아 있으면 입력을 차단한다
 
-            if (state.JumpIndex >= maxJumpCount) return;
-            // 최대 점프 횟수를 초과한 경우 입력을 무시한다
+            if (state.JumpIndex >= maxJumpCount)
+                return;
 
             state.JumpIndex++;
-            // 점프 단계 증가 (0 → 1 → 2)
-
             state.IsJumping = true;
-            // 점프 펄스를 시작하여 Animator가 점프 상태를 인식하도록 한다
 
             controller.SetVerticalVelocity(jumpForce);
-            // 실제 물리 점프를 수행한다
 
             lastJumpInputTime = Time.time;
-            // 공통 입력 쿨타임 기준 시각을 기록한다
 
             if (state.JumpIndex == maxJumpCount)
             {
                 secondJumpTime = Time.time;
                 isSecondJumpCooldownActive = true;
-                // 2단 점프가 실행된 시점에 보호 쿨타임을 활성화한다
             }
         }
+
 
         // 2단 점프 보호 쿨타임 종료 시점을 감지한다
         private void CheckSecondJumpCooldown()
