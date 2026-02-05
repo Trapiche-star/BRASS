@@ -1,9 +1,11 @@
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 /// <summary>
 /// 퀘스트 슬롯 더블클릭 시 나타나는 상세 정보 팝업 (방어 코드 추가)
+/// 완료/미진행/진행중 탭으로 필터링 가능
 /// </summary>
 public class QuestDetailPopup : MonoBehaviour
 {
@@ -23,6 +25,15 @@ public class QuestDetailPopup : MonoBehaviour
     public TextMeshProUGUI rewardExpText;
     public Transform rewardItemsParent; // 아이템 보상 아이콘을 표시할 부모 (나중에 인벤토리 연동 시 사용)
 
+    [Header("Tab Buttons")]
+    public Button inProgressTab; // 진행중 탭
+    public Button notStartedTab; // 미진행 탭
+    public Button completedTab; // 완료 탭
+
+    [Header("Quest Info Container")]
+    public Transform questInfoContainer; // 퀘스트 정보 프리팹이 들어갈 부모
+    public GameObject questInfoPrefab; // 퀘스트 정보 프리팹 (공유)
+
     [Header("Buttons")]
     public Button completeButton; // 완료 버튼
     public Button abandonButton; // 포기 버튼
@@ -30,30 +41,72 @@ public class QuestDetailPopup : MonoBehaviour
 
     private QuestData currentQuest;
     private QuestProgress currentProgress;
+    private QuestState currentFilter = QuestState.InProgress; // 현재 필터
+    private bool _isInitialized = false;
 
-    void Start()
+    void OnEnable()
+    {
+        // 팝업이 활성화될 때마다 버튼 연결 (한 번만)
+        if (!_isInitialized)
+        {
+            InitializeButtons();
+            _isInitialized = true;
+        }
+    }
+
+    void InitializeButtons()
     {
         try
         {
             // 버튼 이벤트 연결
             if (completeButton != null)
+            {
+                completeButton.onClick.RemoveAllListeners();
                 completeButton.onClick.AddListener(OnCompleteClicked);
+            }
             else
                 Debug.LogWarning("[QuestDetailPopup] completeButton이 null입니다!");
 
             if (abandonButton != null)
+            {
+                abandonButton.onClick.RemoveAllListeners();
                 abandonButton.onClick.AddListener(OnAbandonClicked);
+            }
             else
                 Debug.LogWarning("[QuestDetailPopup] abandonButton이 null입니다!");
 
             if (closeButton != null)
+            {
+                closeButton.onClick.RemoveAllListeners();
                 closeButton.onClick.AddListener(OnCloseClicked);
+            }
             else
                 Debug.LogWarning("[QuestDetailPopup] closeButton이 null입니다!");
+
+            // 탭 버튼 이벤트 연결
+            if (inProgressTab != null)
+            {
+                inProgressTab.onClick.RemoveAllListeners();
+                inProgressTab.onClick.AddListener(() => OnTabClicked(QuestState.InProgress));
+            }
+
+            if (notStartedTab != null)
+            {
+                notStartedTab.onClick.RemoveAllListeners();
+                notStartedTab.onClick.AddListener(() => OnTabClicked(QuestState.NotAccepted));
+            }
+
+            if (completedTab != null)
+            {
+                completedTab.onClick.RemoveAllListeners();
+                completedTab.onClick.AddListener(() => OnTabClicked(QuestState.Completed));
+            }
+
+            Debug.Log("[QuestDetailPopup] 버튼 초기화 완료");
         }
         catch (System.Exception e)
         {
-            Debug.LogError($"[QuestDetailPopup] Start 에러: {e.Message}");
+            Debug.LogError($"[QuestDetailPopup] InitializeButtons 에러: {e.Message}");
         }
     }
 
@@ -243,6 +296,84 @@ public class QuestDetailPopup : MonoBehaviour
         catch (System.Exception e)
         {
             Debug.LogError($"[QuestDetailPopup] OnCloseClicked 에러: {e.Message}");
+        }
+    }
+
+    // 탭 클릭 시 필터 변경
+    private void OnTabClicked(QuestState filter)
+    {
+        try
+        {
+            Debug.Log($"[QuestDetailPopup] 탭 변경: {filter}");
+            currentFilter = filter;
+            RefreshQuestList();
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"[QuestDetailPopup] OnTabClicked 에러: {e.Message}");
+        }
+    }
+
+    // 필터에 맞는 퀘스트 목록 표시
+    private void RefreshQuestList()
+    {
+        try
+        {
+            if (questInfoContainer == null)
+            {
+                Debug.LogWarning("[QuestDetailPopup] questInfoContainer가 null입니다!");
+                return;
+            }
+
+            // 기존 목록 삭제
+            foreach (Transform child in questInfoContainer)
+            {
+                Destroy(child.gameObject);
+            }
+
+            if (QuestManager.Instance == null)
+            {
+                Debug.LogError("[QuestDetailPopup] QuestManager.Instance가 null입니다!");
+                return;
+            }
+
+            // 필터에 맞는 퀘스트 가져오기
+            List<QuestData> filteredQuests = new List<QuestData>();
+
+            foreach (var kvp in QuestManager.Instance.questProgressDict)
+            {
+                if (kvp.Value.state == currentFilter)
+                {
+                    QuestData data = QuestManager.Instance.GetQuestData(kvp.Key);
+                    if (data != null)
+                    {
+                        filteredQuests.Add(data);
+                    }
+                }
+            }
+
+            // 프리팹 생성
+            foreach (var quest in filteredQuests)
+            {
+                if (questInfoPrefab != null)
+                {
+                    GameObject infoObj = Instantiate(questInfoPrefab, questInfoContainer);
+
+                    // 프리팹에 정보 표시 (QuestInfoPanel 스크립트 필요)
+                    QuestInfoPanel infoPanel = infoObj.GetComponent<QuestInfoPanel>();
+                    if (infoPanel != null)
+                    {
+                        QuestProgress progress = QuestManager.Instance.questProgressDict[quest.questID];
+                        infoPanel.Setup(quest, progress);
+                    }
+                }
+            }
+
+            Debug.Log($"[QuestDetailPopup] {currentFilter} 퀘스트 {filteredQuests.Count}개 표시");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"[QuestDetailPopup] RefreshQuestList 에러: {e.Message}");
         }
     }
 }

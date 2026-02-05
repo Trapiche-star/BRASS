@@ -22,27 +22,50 @@ public class QuestAcceptPopup : MonoBehaviour
 
     private QuestData currentQuest;
 
-    void Start()
+    private bool _isInitialized = false;
+
+    void OnEnable()
+    {
+        // 팝업이 활성화될 때마다 버튼 연결 (한 번만)
+        if (!_isInitialized)
+        {
+            InitializeButtons();
+            _isInitialized = true;
+        }
+    }
+
+    void InitializeButtons()
     {
         try
         {
             // 버튼 이벤트 연결
             if (acceptButton != null)
+            {
+                acceptButton.onClick.RemoveAllListeners();
                 acceptButton.onClick.AddListener(OnAcceptClicked);
+            }
             else
                 Debug.LogWarning("[QuestAcceptPopup] acceptButton이 null입니다!");
 
             if (rejectButton != null)
+            {
+                rejectButton.onClick.RemoveAllListeners();
                 rejectButton.onClick.AddListener(OnRejectClicked);
+            }
             else
                 Debug.LogWarning("[QuestAcceptPopup] rejectButton이 null입니다!");
 
             if (closeButton != null)
+            {
+                closeButton.onClick.RemoveAllListeners();
                 closeButton.onClick.AddListener(OnRejectClicked);
+            }
+
+            Debug.Log("[QuestAcceptPopup] 버튼 초기화 완료");
         }
         catch (System.Exception e)
         {
-            Debug.LogError($"[QuestAcceptPopup] Start 에러: {e.Message}");
+            Debug.LogError($"[QuestAcceptPopup] InitializeButtons 에러: {e.Message}");
         }
     }
 
