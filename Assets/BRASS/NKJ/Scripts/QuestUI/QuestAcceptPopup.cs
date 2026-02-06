@@ -1,32 +1,26 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 /// <summary>
-/// NPC와 대화 시 나타나는 퀘스트 수락/거절 팝업 (방어 코드 추가)
+/// 퀘스트 수락/거절 팝업 - 슬롯 기반
 /// </summary>
 public class QuestAcceptPopup : MonoBehaviour
 {
-    [Header("UI References")]
-    public TextMeshProUGUI questTitleText;
-    public TextMeshProUGUI questDescriptionText;
-    public TextMeshProUGUI questLevelText;
-    public TextMeshProUGUI targetText; // "고블린 10마리 처치"
-    public TextMeshProUGUI rewardText; // "보상: 100 Gold, 50 EXP"
-    public Image npcPortraitImage; // NPC 초상화
+    [Header("Slot Prefab")]
+    public GameObject questAcceptSlotPrefab; // QuestAcceptSlot 프리팹
+    public Transform slotContainer; // 슬롯이 생성될 부모
 
     [Header("Buttons")]
     public Button acceptButton;
     public Button rejectButton;
-    public Button closeButton; // X 버튼
+    public Button closeButton;
 
     private QuestData currentQuest;
-
+    private GameObject currentSlotInstance;
     private bool _isInitialized = false;
 
     void OnEnable()
     {
-        // 팝업이 활성화될 때마다 버튼 연결 (한 번만)
         if (!_isInitialized)
         {
             InitializeButtons();
@@ -38,22 +32,17 @@ public class QuestAcceptPopup : MonoBehaviour
     {
         try
         {
-            // 버튼 이벤트 연결
             if (acceptButton != null)
             {
                 acceptButton.onClick.RemoveAllListeners();
                 acceptButton.onClick.AddListener(OnAcceptClicked);
             }
-            else
-                Debug.LogWarning("[QuestAcceptPopup] acceptButton이 null입니다!");
 
             if (rejectButton != null)
             {
                 rejectButton.onClick.RemoveAllListeners();
                 rejectButton.onClick.AddListener(OnRejectClicked);
             }
-            else
-                Debug.LogWarning("[QuestAcceptPopup] rejectButton이 null입니다!");
 
             if (closeButton != null)
             {
@@ -81,40 +70,34 @@ public class QuestAcceptPopup : MonoBehaviour
 
             currentQuest = quest;
 
-            // UI 업데이트
-            if (questTitleText != null)
-                questTitleText.text = quest.questName;
-
-            if (questDescriptionText != null)
-                questDescriptionText.text = quest.description;
-
-            if (questLevelText != null)
-                questLevelText.text = $"Lv. {quest.questLevel}";
-
-            // 목표 텍스트
-            if (targetText != null)
+            // 기존 슬롯 삭제
+            if (currentSlotInstance != null)
             {
-                string typeText = GetQuestTypeText(quest.questType);
-                targetText.text = $"{typeText}: {quest.targetName} {quest.targetCount}개";
+                Destroy(currentSlotInstance);
             }
 
-            // 보상 텍스트
-            if (rewardText != null)
-            {
-                rewardText.text = $"보상: {quest.rewardGold} Gold";
-                if (quest.rewardExp > 0)
-                    rewardText.text += $", {quest.rewardExp} EXP";
-            }
+            // 슬롯 컨테이너 찾기 (없으면 자기 자신)
+            Transform container = slotContainer != null ? slotContainer : transform;
 
-            // NPC 초상화
-            if (npcPortraitImage != null && quest.npcPortrait != null)
+            // 새 슬롯 생성
+            if (questAcceptSlotPrefab != null)
             {
-                npcPortraitImage.sprite = quest.npcPortrait;
-                npcPortraitImage.gameObject.SetActive(true);
+                currentSlotInstance = Instantiate(questAcceptSlotPrefab, container);
+
+                QuestAcceptSlot slot = currentSlotInstance.GetComponent<QuestAcceptSlot>();
+                if (slot != null)
+                {
+                    slot.Setup(quest);
+                    Debug.Log($"[QuestAcceptPopup] 슬롯 생성 완료: {quest.questName}");
+                }
+                else
+                {
+                    Debug.LogError("[QuestAcceptPopup] 프리팹에 QuestAcceptSlot 스크립트가 없습니다!");
+                }
             }
-            else if (npcPortraitImage != null)
+            else
             {
-                npcPortraitImage.gameObject.SetActive(false);
+                Debug.LogError("[QuestAcceptPopup] questAcceptSlotPrefab이 null입니다!");
             }
 
             Debug.Log($"[QuestAcceptPopup] Setup 완료: {quest.questName}");
@@ -122,20 +105,6 @@ public class QuestAcceptPopup : MonoBehaviour
         catch (System.Exception e)
         {
             Debug.LogError($"[QuestAcceptPopup] Setup 에러: {e.Message}");
-        }
-    }
-
-    private string GetQuestTypeText(QuestType type)
-    {
-        switch (type)
-        {
-            case QuestType.Kill: return "처치";
-            case QuestType.Collect: return "수집";
-            case QuestType.Investigate: return "조사";
-            case QuestType.Talk: return "대화";
-            case QuestType.Escort: return "호위";
-            case QuestType.Craft: return "제작";
-            default: return "목표";
         }
     }
 
@@ -148,10 +117,6 @@ public class QuestAcceptPopup : MonoBehaviour
             if (QuestManager.Instance != null)
             {
                 QuestManager.Instance.AcceptQuest();
-            }
-            else
-            {
-                Debug.LogError("[QuestAcceptPopup] QuestManager.Instance가 null입니다!");
             }
         }
         catch (System.Exception e)
@@ -169,10 +134,6 @@ public class QuestAcceptPopup : MonoBehaviour
             if (QuestManager.Instance != null)
             {
                 QuestManager.Instance.RejectQuest();
-            }
-            else
-            {
-                Debug.LogError("[QuestAcceptPopup] QuestManager.Instance가 null입니다!");
             }
         }
         catch (System.Exception e)

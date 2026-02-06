@@ -68,6 +68,24 @@ public class HotbarManager : MonoBehaviour
 
     void ToggleHotbar()
     {
+        if (hotbarCanvasGroup == null) return;
+
+        bool isVisible = hotbarCanvasGroup.alpha > 0;
+
+        if (isVisible) // 현재 켜져 있다면 -> 끄기
+        {
+            hotbarCanvasGroup.alpha = 0;
+            hotbarCanvasGroup.interactable = false;
+            hotbarCanvasGroup.blocksRaycasts = false; // 이때 캐릭터가 움직이는 건 정상
+        }
+        else // 현재 꺼져 있다면 -> 켜기
+        {
+            hotbarCanvasGroup.alpha = 1;
+            hotbarCanvasGroup.interactable = true;
+            hotbarCanvasGroup.blocksRaycasts = true; // [중요] 다시 켰을 때 마우스를 막아야 함
+        }
+
+        /*
         if (hotbarCanvasGroup != null)
         {
             bool isVisible = hotbarCanvasGroup.alpha > 0;
@@ -77,6 +95,7 @@ public class HotbarManager : MonoBehaviour
 
             Debug.Log($"핫바 가시성: {(!isVisible ? "보임" : "숨김")}");
         }
+        */
     }
 
     void LogKeyAndUse(string keyName, int index)

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace BRASS
@@ -91,6 +92,16 @@ namespace BRASS
         {
             if (input.ClickMovePressed)
             {
+                // 1. EventSystem이 있는지 먼저 확인
+                if (EventSystem.current != null)
+                {
+                    // 2. 현재 마우스가 UI 위에 있는지 검사
+                    if (EventSystem.current.IsPointerOverGameObject())
+                    {
+                        return; // UI 위라면 이동 로직 전체를 실행하지 않음
+                    }
+                }
+
                 Ray ray = Camera.main.ScreenPointToRay(input.MousePosition);
 
                 if (Physics.Raycast(ray, out RaycastHit hit))

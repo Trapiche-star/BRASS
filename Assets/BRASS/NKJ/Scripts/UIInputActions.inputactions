@@ -97,6 +97,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "MainUI",
+            "id": "9ea952c2-27b1-4e96-ae39-57fd7c05af67",
+            "actions": [
+                {
+                    "name": "Close",
+                    "type": "Button",
+                    "id": "3b82941d-267f-4a8b-a971-a7c83fed0867",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "97fad22e-4e36-4bbe-b71d-967419537e5a",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Close",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
