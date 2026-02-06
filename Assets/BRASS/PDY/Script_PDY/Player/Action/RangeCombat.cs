@@ -52,7 +52,7 @@ namespace BRASS
             state.IsAttacking = true;
             state.IsInputMovementLocked = true;
 
-            FaceTargetIfExists(); // ⭐ 타겟이 있으면 발사 전에 회전
+            FaceTargetIfExists(); // 타겟이 있으면 발사 전에 회전
 
             // Gun Layer의 Fire 트리거 실행
             anim?.PlayGunFire();
@@ -69,17 +69,23 @@ namespace BRASS
             if (firePoint == null)
                 return;
 
-            Vector3 dir = firePoint.forward;
+            Debug.Log($"FirePoint.forward = {firePoint.forward}");
+
+            Vector3 dir;
 
             if (state != null && state.CurrentTarget != null)
             {
-                Vector3 targetPos = state.CurrentTarget.position;
-                targetPos.y = firePoint.position.y;
-
-                Vector3 toTarget = targetPos - firePoint.position;
-                if (toTarget.sqrMagnitude > 0.001f)
-                    dir = toTarget.normalized;
+                Vector3 targetPos = GetTargetAimPoint(state.CurrentTarget);
+                dir = (targetPos - firePoint.position);
             }
+            else
+            {
+                dir = firePoint.forward;
+            }
+
+            dir = Vector3.ProjectOnPlane(dir, Vector3.up).normalized;
+
+            //firePoint.rotation = Quaternion.LookRotation(dir);
 
             GameObject bulletObj = Instantiate(
                 harpoonBulletPrefab,
@@ -97,8 +103,15 @@ namespace BRASS
             Debug.Log("HarpoonGun_SingleShot fired");
         }
 
+        // 타겟 조준 지점 반환 (Collider 중심 우선)
+        private Vector3 GetTargetAimPoint(Transform target)
+        {
+            Collider col = target.GetComponentInChildren<Collider>();
+            if (col != null)
+                return col.bounds.center;
 
-
+            return target.position;
+        }
 
         // 발사 애니메이션 종료 시 호출
         public void OnFireEnd()
