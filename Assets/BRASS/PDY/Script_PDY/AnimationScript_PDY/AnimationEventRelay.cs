@@ -7,6 +7,7 @@ namespace BRASS
     {
         #region Variables
         [SerializeField] private PlayerAnimationController animationController; // 애니메이션 제어 컴포넌트
+        [SerializeField] private RangeSkill rangeSkill;
 
         [SerializeField] private PlayerSlide slide;         // 슬라이드 동작 제어 컴포넌트
         [SerializeField] private PlayerJump jump;           // 점프 동작 제어 컴포넌트
@@ -172,22 +173,32 @@ namespace BRASS
             combat.ApplyComboStep(2);
         }
 
-        // 총 발사 타이밍
+        // 레인지 컴뱃 기본 발사
         public void OnGunFire()
-        {
-            //if (animationController != null) animationController.SetGunMaskWeight(true);            
+        {                     
+            if (rangeCombat != null) rangeCombat.Fire(); // 기본 발사
 
-            if (rangeCombat != null)
-                rangeCombat.Fire();
+           
         }
 
-        // 발사 애니메이션 종료
+        //레인지 컴뱃 발사 애니메이션 종료
         public void OnGunFireEnd()
-        {
-            //if (animationController != null) animationController.SetGunMaskWeight(false);           
+        {                    
+            if (rangeCombat != null) rangeCombat.OnFireEnd(); // 기본 발사 종료            
+        }
 
-            if (rangeCombat != null)
-                rangeCombat.OnFireEnd();
+        // 레인지 스킬 발사
+        public void OnSkillGunFire()
+        {
+            if (rangeSkill != null)
+                rangeSkill.OnSingleShotFire();
+        }
+
+        // 레인지 스킬 발사 종료
+        public void OnSkillGunFireEnd()
+        {
+            if (rangeSkill != null)
+                rangeSkill.OnSingleShotEnd();
         }
         #endregion
     }
