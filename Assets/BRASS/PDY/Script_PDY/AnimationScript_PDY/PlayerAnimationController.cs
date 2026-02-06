@@ -27,6 +27,8 @@ namespace BRASS
         private int hashIsGunEquipped;      // 하푼건 장착 상태 파라미터 해시
         private int hashGunFire;    // 하푼건 발사 트리거 해시
         private int hashIsShooting; // 사격 상태(불형) 파라미터 해시
+        private int hashSkill2Fire;     // 스킬2 발사 트리거 해시
+        private int hashSkill3Fire;     // 스킬3 발사 트리거 해시
         #endregion
 
         #region Unity Event Method
@@ -52,6 +54,8 @@ namespace BRASS
             hashIsGunEquipped = Animator.StringToHash("IsGunEquipped");
             hashGunFire = Animator.StringToHash("GunFire");
             hashIsShooting = Animator.StringToHash("IsShooting");
+            hashSkill2Fire = Animator.StringToHash("Skill2Fire");
+            hashSkill3Fire = Animator.StringToHash("Skill3Fire");
         }
 
         private void Update()
@@ -151,6 +155,20 @@ namespace BRASS
         {
             if (animator == null) return;
             animator.SetBool(hashIsShooting, isShooting);
+        }
+
+        // 스킬2 발사 애니메이션 재생 트리거를 작동시킴
+        public void PlaySkill2Fire()
+        {
+            if (animator == null) return;
+            animator.SetTrigger(hashSkill2Fire);
+        }
+
+        // 스킬3 발사 애니메이션 재생 트리거를 작동시킴
+        public void PlaySkill3Fire()
+        {
+            if (animator == null) return;
+            animator.SetTrigger(hashSkill3Fire);
         }
         #endregion
     }

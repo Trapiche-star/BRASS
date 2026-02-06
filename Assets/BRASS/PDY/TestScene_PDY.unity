@@ -119,6 +119,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &122865276 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 502867444186398661, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
+  m_PrefabInstance: {fileID: 2001438395869426045}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 023c6fdf3bf6d42408d86bc6551fe0d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BRASS.RangeSkill
 --- !u!1 &158678880
 GameObject:
   m_ObjectHideFlags: 0
@@ -977,6 +988,10 @@ PrefabInstance:
       propertyPath: cameraPivot
       value: 
       objectReference: {fileID: 1774497029381582749}
+    - target: {fileID: 5654846921500000158, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
+      propertyPath: rangeSkill
+      value: 
+      objectReference: {fileID: 122865276}
     - target: {fileID: 6290972978739155226, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7.09
