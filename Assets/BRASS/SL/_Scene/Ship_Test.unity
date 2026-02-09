@@ -441,41 +441,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!1 &45433341
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 45433342}
-  m_Layer: 0
-  m_Name: BossAttackPosition
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &45433342
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 45433341}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1551429057616500192}
-  - {fileID: 393737593885107258}
-  - {fileID: 1961833761737426336}
-  - {fileID: 6030950797814505023}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &59038662
 GameObject:
   m_ObjectHideFlags: 0
@@ -4115,6 +4080,7 @@ MonoBehaviour:
   - {fileID: 2138448889}
   - {fileID: 1621875074}
   - {fileID: 702724945}
+  goldText: {fileID: 0}
 --- !u!1 &480388264
 GameObject:
   m_ObjectHideFlags: 0
@@ -9980,7 +9946,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1730ef3c4cc584458aae2cde35b6916, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BRASS.PlayerCombat
-  attackCooldown: 2
+  comboInputWindow: 1
+  animationController: {fileID: 0}
+  state: {fileID: 0}
+  playerController: {fileID: 0}
+  currentWeapon: {fileID: 0}
+  comboStepDistances:
+  - 0.15
+  - 0.2
+  - 0.25
+  bareAttackDamage: 10
+  bareAttackDistance: 2.2
+  bareAttackAngle: 45
+  bareAttackRadius: 2.2
+  damageLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1006802260
 GameObject:
   m_ObjectHideFlags: 0
@@ -15240,6 +15221,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Team1.ShopBuyButton
   itemData: {fileID: 11400000, guid: f77b8a85ba0bb7f4c96fdfc385cee575, type: 2}
   inventory: {fileID: 466570323}
+  quantityText: {fileID: 0}
+  maxQuantity: 99
+  letterUI: {fileID: 0}
+  letterShowTime: 2
 --- !u!1 &1599610087
 GameObject:
   m_ObjectHideFlags: 0
@@ -19598,6 +19583,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Team1.SetCourseUI
   towerCircle: {fileID: 584352444}
   shipCircle: {fileID: 1883419964}
+  townCircle: {fileID: 0}
 --- !u!1 &2028461048
 GameObject:
   m_ObjectHideFlags: 0
@@ -21255,22 +21241,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1150977774556501401}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &130960583558980602
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1961833761737426336}
-  m_Layer: 0
-  m_Name: AttackLaserPosition
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!4 &136984599346988059
 Transform:
   m_ObjectHideFlags: 0
@@ -21517,21 +21487,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &393737593885107258
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3338147014256648669}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.9000015, y: -2, z: 4.699998}
-  m_LocalScale: {x: 10, y: 10, z: 10}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 45433342}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &394103629957662972
 Transform:
   m_ObjectHideFlags: 0
@@ -23230,21 +23185,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1551429057616500192
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4592480958876525999}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1, y: -2, z: 4.699998}
-  m_LocalScale: {x: 10, y: 10, z: 10}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 45433342}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1554725430113956404
 GameObject:
   m_ObjectHideFlags: 0
@@ -23892,21 +23832,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1961833761737426336
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 130960583558980602}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.9000015, y: -2, z: 4.699998}
-  m_LocalScale: {x: 10, y: 10, z: 10}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 45433342}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2001536485942209780
 GameObject:
   m_ObjectHideFlags: 0
@@ -25161,22 +25086,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &3003291821345840099
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6030950797814505023}
-  m_Layer: 0
-  m_Name: AttackMissilePosition
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!33 &3023827596249009785
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -25645,22 +25554,6 @@ Transform:
   - {fileID: 4953650053846146516}
   m_Father: {fileID: 2640175874918448544}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &3338147014256648669
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 393737593885107258}
-  m_Layer: 0
-  m_Name: AttackClapPosition
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &3352048655319837967
 GameObject:
   m_ObjectHideFlags: 0
@@ -27338,22 +27231,6 @@ Transform:
   - {fileID: 8351398846448384959}
   m_Father: {fileID: 4946581976034870879}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &4592480958876525999
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1551429057616500192}
-  m_Layer: 0
-  m_Name: AttackSweepPosition
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!4 &4625913026927621937
 Transform:
   m_ObjectHideFlags: 0
@@ -29070,21 +28947,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1150977774556501401}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &6030950797814505023
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3003291821345840099}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.9000015, y: -2, z: 4.699998}
-  m_LocalScale: {x: 10, y: 10, z: 10}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 45433342}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6042832425520050244
 GameObject:
   m_ObjectHideFlags: 0
@@ -29228,18 +29090,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RobotGolemBossEnemy
   anim: {fileID: 3405546527837916385}
   player: {fileID: 1746505748}
-  sweepCenter: {fileID: 1551429057616500192}
+  sweepCenter: {fileID: 0}
   sweepSize: {x: 30, y: 2, z: 20}
   clapEffect: {fileID: 0}
-  clapPoint: {fileID: 393737593885107258}
+  clapPoint: {fileID: 0}
   missilePrefab: {fileID: 1526351009}
-  missilePort: {fileID: 6030950797814505023}
+  missilePort: {fileID: 0}
   laserEffect: {fileID: 0}
-  laserPort: {fileID: 1961833761737426336}
+  laserPort: {fileID: 0}
   detectionRange: 20
   attackRange: 15
   recoverTime: 3
   rotationSpeed: 5
+  laserDamage: 5
+  sweepDamage: 10
+  clapDamage: 3
   lastAttackIndex: -1
 --- !u!64 &6217890933223711334
 MeshCollider:
@@ -32661,5 +32526,4 @@ SceneRoots:
   - {fileID: 1946592285}
   - {fileID: 1818714452}
   - {fileID: 4495978991709223940}
-  - {fileID: 45433342}
   - {fileID: 1526351008}

@@ -12,7 +12,7 @@ public class RobotBoss : MonoBehaviour
 
     [Header("Attack Settings")]
     public Transform sweepCenter;
-    public Vector3 sweepSize = new Vector3(5, 2, 3);
+    public Vector3 sweepSize = new Vector3(5, 3, 5);
     public GameObject clapEffect;
     public Transform clapPoint;
 
@@ -21,7 +21,7 @@ public class RobotBoss : MonoBehaviour
     public GameObject laserEffect;
     public Transform laserPort;
     LineRenderer laserLine;
-
+    public LayerMask playerLayer;
     [Header("Stats")]
     public float detectionRange = 20f;
     public float attackRange = 10f;
@@ -85,17 +85,18 @@ public class RobotBoss : MonoBehaviour
 
     // --- 애니메이션 이벤트 연결 함수들 ---
 
-    public void OnEvent_Sweep() // 패턴 1
+    public void OnEvent_Sweep()
     {
-        Collider[] hits = Physics.OverlapBox(sweepCenter.position, sweepSize / 2, sweepCenter.rotation);
+        Collider[] hits = Physics.OverlapBox(sweepCenter.position, sweepSize / 2, sweepCenter.rotation, playerLayer);
+        // [디버그용] 몇 개나 잡혔는지 숫자를 먼저 찍어봅니다.
+        Debug.Log($"{hits.Length}개의 콜라이더가 감지됨");
         foreach (var hit in hits)
         {
-            var targetHealth = hit.transform.GetComponent<PlayerState>();
-            if (targetHealth != null)
+            if (hit.TryGetComponent<PlayerState>(out var targetHealth))
             {
                 targetHealth.TakeDamage(sweepDamage);
+                Debug.Log("휩쓸기 적중: " + hit.name);
             }
-            Debug.Log("휩쓸기 적중!");
         }
     }
 
@@ -105,13 +106,15 @@ public class RobotBoss : MonoBehaviour
         if (clapEffect) Instantiate(clapEffect, clapPoint.position, clapPoint.rotation);
 
         Debug.Log("박수 짝!");
+        Vector3 finalDir = (player.position + Vector3.up * 1f - laserPort.position).normalized;
 
         RaycastHit hit;
-        if (Physics.Raycast(clapPoint.position, clapPoint.forward, out hit, 100f))
+        if (Physics.Raycast(laserPort.position, finalDir, out hit, 50f))
         {
+            Debug.Log("실행됨");
             if (hit.collider.CompareTag("Player"))
             {
-                var targetHealth = hit.collider.GetComponent<PlayerState>();
+                PlayerState targetHealth = hit.collider.GetComponent<PlayerState>();
                 if (targetHealth != null)
                 {
                     targetHealth.TakeDamage(clapDamage);
@@ -120,7 +123,7 @@ public class RobotBoss : MonoBehaviour
             }
         }
 
-        Debug.DrawRay(clapPoint.position, clapPoint.forward * 100f, Color.red, 0.5f);
+        Debug.DrawRay(clapPoint.position, dir, Color.red, 0.5f);
     }
 
     public void OnEvent_Missile() // 패턴 3
@@ -136,14 +139,25 @@ public class RobotBoss : MonoBehaviour
         Debug.Log("레이저 발사!");
     }
 
-    void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
-        if (sweepCenter)
-        {
-            Gizmos.color = new Color(1, 0, 0, 0.5f);
-            Gizmos.matrix = Matrix4x4.TRS(sweepCenter.position, sweepCenter.rotation, Vector3.one);
-            Gizmos.DrawCube(Vector3.zero, sweepSize);
-        }
+        // sweepCenter가 할당되지 않았으면 에러 방지를 위해 리턴
+        if (sweepCenter == null) return;
+
+        // 기즈모 색상 설정 (원하는 색으로 변경 가능)
+        Gizmos.color = Color.red;
+
+        // Physics.OverlapBox와 동일한 위치와 회전값을 기즈모 행렬에 적용
+        Matrix4x4 rotationMatrix = Matrix4x4.TRS(sweepCenter.position, sweepCenter.rotation, sweepCenter.localScale);
+        Gizmos.matrix = rotationMatrix;
+
+        // OverlapBox는 size를 사용하지만, Gizmos.DrawWireCube도 전체 크기를 받으므로 sweepSize를 그대로 사용
+        // (만약 sweepSize가 로컬 스케일 영향을 받는다면 계산이 달라질 수 있습니다)
+        Gizmos.DrawWireCube(Vector3.zero, sweepSize);
+
+        // 내부를 약간 불투명하게 보고 싶다면 아래 주석 해제
+        // Gizmos.color = new Color(1, 0, 0, 0.2f);
+        // Gizmos.DrawCube(Vector3.zero, sweepSize);
     }
     IEnumerator LaserShoot()
     {
