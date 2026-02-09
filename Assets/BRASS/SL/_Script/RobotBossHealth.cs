@@ -1,34 +1,36 @@
-using BRASS;
 using UnityEngine;
 
 public class RobotBossHealth : MonoBehaviour, IDamageable
 {
-    private bool isDead = false;
-    [SerializeField]
-    private float maxHp = 1000.0f;
-
+    [SerializeField] private float maxHp = 1000.0f;
     private float currentHealth;
-    public float Hp
-    {
-        get => currentHealth;
-        private set
-        {
-            currentHealth = Mathf.Clamp(value, 0f, maxHp);
+    private bool isDead = false;
 
-            if (currentHealth <= 0f && !isDead)
-            {
-                Die();
-            }
-        }
+    public float Hp => currentHealth;
+
+    private void Awake()
+    {
+        currentHealth = maxHp;
     }
-    
+
     public void TakeDamage(float damageAmount)
     {
-        Hp -= damageAmount;
+        if (isDead) return;
+
+        currentHealth = Mathf.Clamp(currentHealth - damageAmount, 0f, maxHp);
+
+        Debug.Log($"보스 데미지 입음! 남은 체력: {currentHealth}");
+
+        if (currentHealth <= 0f)
+        {
+            Die();
+        }
     }
 
-    void Die()
+    private void Die()
     {
         isDead = true;
+        Debug.Log("보스가 파괴되었습니다!");
+        // 여기에 폭발 이펙트나 애니메이션 실행 코드 추가
     }
 }
