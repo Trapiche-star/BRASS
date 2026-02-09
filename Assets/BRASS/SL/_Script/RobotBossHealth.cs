@@ -1,16 +1,14 @@
+using BRASS;
 using UnityEngine;
 
-namespace BRASS
+public class RobotBossHealth : MonoBehaviour, IDamageable
 {
-<<<<<<< HEAD
     private bool isDead = false;
-    [SerializeField]
-    private float maxHp = 1000.0f;
+    [SerializeField] private float maxHp = 1000.0f;
 
-    // [추가] 연결할 UI 스크립트 참조
+    [Header("UI 연동")]
     [SerializeField] private TargetHealthBar healthBarUI;
     [SerializeField] private string bossName = "Robot Boss";
-
 
     private float currentHealth;
     public float Hp
@@ -18,7 +16,14 @@ namespace BRASS
         get => currentHealth;
         private set
         {
+            // 체력을 0과 maxHp 사이로 제한
             currentHealth = Mathf.Clamp(value, 0f, maxHp);
+
+            // 체력이 변할 때마다 UI 업데이트
+            if (healthBarUI != null)
+            {
+                healthBarUI.UpdateHealth(currentHealth);
+            }
 
             if (currentHealth <= 0f && !isDead)
             {
@@ -27,22 +32,30 @@ namespace BRASS
         }
     }
 
-
     void Awake()
     {
-        // 시작 체력 설정
+        // 시작 시 체력을 최대치로 설정
         currentHealth = maxHp;
     }
 
-    void Start()
+    // 보스 오브젝트가 켜질 때 실행
+    void OnEnable()
     {
-        // [추가] 시작하자마자 UI에 보스 이름과 체력 정보 세팅
         if (healthBarUI != null)
         {
+            // 꺼져있던 UI를 활성화하고 정보 전달
             healthBarUI.SetTarget(bossName, maxHp, currentHealth);
         }
     }
 
+    // [테스트용] 스페이스바를 누르면 데미지 100
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            TakeDamage(100f);
+        }
+    }
 
     public void TakeDamage(float damageAmount)
     {
@@ -52,9 +65,13 @@ namespace BRASS
     void Die()
     {
         isDead = true;
+        if (healthBarUI != null)
+        {
+            // 죽었을 때 UI 숨기기
+            healthBarUI.ClearTarget();
+        }
     }
 }
-
 /*
 using BRASS;
 using UnityEngine;
@@ -106,6 +123,3 @@ public class RobotBossHealth : MonoBehaviour, IDamageable
 <<<<<<< HEAD
 }
 */
-=======
-}
->>>>>>> 70f14c16f79d1f1ec83b08eab92cc8934f412ce5
