@@ -52,7 +52,7 @@ public class Missile : MonoBehaviour, IDamageable
     {
         if (other.CompareTag("Player"))
         {
-            var damageable = other.GetComponent<IDamageable>();
+            var damageable = other.GetComponent<PlayerState>();
             if (damageable != null)
             {
                 damageable.TakeDamage(attackDamage);

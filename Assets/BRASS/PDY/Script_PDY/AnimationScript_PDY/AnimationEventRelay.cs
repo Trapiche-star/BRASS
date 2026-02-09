@@ -6,13 +6,15 @@ namespace BRASS
     public class AnimationEventRelay : MonoBehaviour
     {
         #region Variables
-        [SerializeField] private PlayerAnimationController animationController; // 애니메이션 제어 컴포넌트
-        [SerializeField] private RangeSkill rangeSkill;
-
+        [SerializeField] private PlayerAnimationController animationController; // 애니메이션 제어 컴포넌트        
+        [SerializeField] private PlayerFootstepSound footstepSound;     // 발걸음 소리 재생 컴포넌트
+        [SerializeField] private AxeSound axeSound;                     // 도끼 사운드 재생 컴포넌트
+        [SerializeField] private GunSound gunSound;                    // 총 사운드 재생 컴포넌트
         [SerializeField] private PlayerSlide slide;         // 슬라이드 동작 제어 컴포넌트
         [SerializeField] private PlayerJump jump;           // 점프 동작 제어 컴포넌트
         [SerializeField] private PlayerCombat combat;       // 근접 기본 공격 처리 컴포넌트
         [SerializeField] private PlayerState state;         // 플레이어 상태 데이터 컨테이너
+        [SerializeField] private RangeSkill rangeSkill;         // 원거리 스킬 컴포넌트
         [SerializeField] private MeleeSkill meleeSkill;     // 근접 스킬 처리 컴포넌트 
         [SerializeField] private RangeCombat rangeCombat;   // 원거리 기본 공격 처리 컴포넌트                                                          
         #endregion
@@ -26,6 +28,9 @@ namespace BRASS
             if (state == null) state = GetComponentInParent<PlayerState>();
             if (meleeSkill == null) meleeSkill = GetComponentInParent<MeleeSkill>();
             if (rangeCombat == null) rangeCombat = GetComponentInParent<RangeCombat>();
+            if (footstepSound == null) footstepSound = GetComponentInChildren<PlayerFootstepSound>();
+            if (axeSound == null) axeSound = GetComponentInChildren<AxeSound>();
+            if (gunSound == null) gunSound = GetComponentInChildren<GunSound>();
         }
         #endregion
 
@@ -199,6 +204,59 @@ namespace BRASS
         {
             if (rangeSkill != null)
                 rangeSkill.OnSingleShotEnd();
+        }
+
+        // 발소리 애니메이션 이벤트
+        public void OnFootstep()
+        {          
+            if (state == null) return;
+
+            // 공중 / 슬라이딩 중엔 발소리 방지
+            if (!state.IsGrounded) return;
+            if (state.IsSliding) return;
+
+            if (footstepSound != null)
+                footstepSound.PlayFootstep();
+        }
+
+        // 배틀액스 휘두르는 소리
+        public void OnAxeSwing()
+        {
+            if (axeSound == null) return;
+            axeSound.PlaySwing();
+        }
+
+        // 배틀액스 적중 소리
+        public void OnAxeHit()
+        {
+            if (axeSound == null) return;
+            axeSound.PlayHit();
+        }
+
+        // 도끼 사운드 컴포넌트 런타임 등록
+        public void SetAxeSound(AxeSound newAxeSound)
+        {
+            axeSound = newAxeSound;
+        }
+
+        // 총 사운드 컴포넌트 런타임 등록
+        public void SetGunSound(GunSound newGunSound)
+        {
+            gunSound = newGunSound;
+        }
+
+        // 총 발사 사운드
+        public void OnGunFireSound()
+        {
+            if (gunSound == null) return;
+            gunSound.PlayFire();
+        }
+
+        // 총 리로드 사운드
+        public void OnGunReloadSound()
+        {
+            if (gunSound == null) return;
+            gunSound.PlayReload();
         }
         #endregion
     }

@@ -126719,6 +126719,13 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0.3
+    functionName: OnAxeSwing
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.76666665
     functionName: OnAttackHitEnd
     data: 
@@ -126747,6 +126754,13 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 1.2333333
+    functionName: OnAxeSwing
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 1.5666667
     functionName: OnAttackHitEnd
     data: 
@@ -126770,6 +126784,13 @@ AnimationClip:
     messageOptions: 0
   - time: 1.7333333
     functionName: OnAttackHitStart
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.8666667
+    functionName: OnAxeSwing
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
