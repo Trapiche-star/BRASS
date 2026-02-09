@@ -181,4 +181,21 @@ public class RobotBoss : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         laserLine.enabled = false;
     }
+    public void InstantKill()
+    {
+        Debug.Log("보스 치트 작동: 즉시 사망");
+
+        // 1. 현재 진행 중인 모든 코루틴 정지 (레이저 등)
+        StopAllCoroutines();
+        if (laserLine != null) laserLine.enabled = false;
+
+        // 2. 사망 애니메이션 실행 (애니메이터에 Die 트리거가 있다고 가정)
+        if (anim != null) anim.SetTrigger("Die");
+
+        // 3. 상태를 중지시키기 위해 null로 변경하거나 사망 상태로 전환
+        currentState = null;
+
+        // 4. 보상 UI 호출 (BossRewardCheater가 직접 호출해도 되지만, 여기서 처리하는 게 구조상 깔끔합니다)
+        // 만약 보스 스크립트에서 직접 보상 UI를 참조하고 있다면 여기서 호출하세요.
+    }
 }
