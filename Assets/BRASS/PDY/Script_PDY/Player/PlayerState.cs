@@ -2,7 +2,9 @@ using UnityEngine;
 
 namespace BRASS
 {
+    /// <summary>
     /// 플레이어의 모든 이동 상태 플래그와 체력 수치를 관리하는 통합 상태 컨테이너 클래스
+    /// </summary>   
     public class PlayerState : MonoBehaviour, IDamageable
     {
         #region Variables

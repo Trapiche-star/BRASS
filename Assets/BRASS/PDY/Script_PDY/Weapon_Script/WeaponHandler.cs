@@ -11,6 +11,7 @@ namespace BRASS
         [Header("Harpoon Gun Tuning")]
         [SerializeField] private Vector3 harpoonPositionOffset; // HandlePivot 기준 정렬 이후 추가 위치 보정값
         [SerializeField] private Vector3 harpoonRotationOffset; // HandlePivot 기준 정렬 이후 추가 회전 보정값 (Euler)
+        [SerializeField] private AnimationEventRelay animationEventRelay; // 애니메이션 이벤트 허브
 
         [SerializeField] private Transform leftHand; // 캐릭터의 실제 왼손 본
 
@@ -36,6 +37,12 @@ namespace BRASS
                 ToggleWeaponByIndex(1);
             }
         }
+
+        private void Awake()
+        {
+            if (animationEventRelay == null) animationEventRelay = GetComponentInChildren<AnimationEventRelay>();
+        }
+
         #endregion
 
         #region Custom Methods
@@ -68,17 +75,26 @@ namespace BRASS
 
             bool isGun = CurrentWeapon.weaponType == WeaponType.Gun;
 
-            if (isGun)
+            // 무기 타입에 따라 사운드 주입
+            if (animationEventRelay != null)
             {
-                currentWeaponObject.transform.localPosition = Vector3.zero;
-                currentWeaponObject.transform.localRotation = Quaternion.identity;
+                if (isGun)
+                {
+                    GunSound gunSound = currentWeaponObject.GetComponentInChildren<GunSound>();
+                    animationEventRelay.SetGunSound(gunSound);
+                    animationEventRelay.SetAxeSound(null);
+                }
+                else
+                {
+                    AxeSound axeSound = currentWeaponObject.GetComponentInChildren<AxeSound>();
+                    animationEventRelay.SetAxeSound(axeSound);
+                    animationEventRelay.SetGunSound(null);
+                }
             }
-            else
-            {
-                // 근접 무기: 기본 정렬
-                currentWeaponObject.transform.localPosition = Vector3.zero;
-                currentWeaponObject.transform.localRotation = Quaternion.identity;
-            }
+
+            // 위치 / 회전 정렬
+            currentWeaponObject.transform.localPosition = Vector3.zero;
+            currentWeaponObject.transform.localRotation = Quaternion.identity;
 
             // 전투 판정 컴포넌트에 무기 전달
             if (combat != null)
@@ -91,20 +107,26 @@ namespace BRASS
             if (state != null)
             {
                 state.IsEquipped = true;
-                state.IsBattleAxeEquipped = CurrentWeapon.weaponType == WeaponType.BattleAxe;
+                state.IsBattleAxeEquipped = !isGun;
                 state.IsGunEquipped = isGun;
             }
 
             Debug.Log($"무기 장착: {CurrentWeapon.name} (총기 여부: {isGun})");
         }
 
-        // 현재 장착된 무기를 제거하고 상태를 초기화한다
         private void UnequipWeapon()
         {
             if (currentWeaponObject != null)
             {
                 Destroy(currentWeaponObject);
                 currentWeaponObject = null;
+            }
+
+            // 사운드 참조 전부 제거
+            if (animationEventRelay != null)
+            {
+                animationEventRelay.SetAxeSound(null);
+                animationEventRelay.SetGunSound(null);
             }
 
             if (combat != null)
@@ -122,6 +144,7 @@ namespace BRASS
             Debug.Log("무기 해제");
         }
 
+
         // 현재 장착된 총기의 발사 지점을 반환한다
         public Transform GetFirePoint()
         {
@@ -135,8 +158,7 @@ namespace BRASS
                 return null;
 
             return currentWeaponObject.transform.Find("FirePoint");
-        }
-
+        }        
         #endregion
     }
 }
