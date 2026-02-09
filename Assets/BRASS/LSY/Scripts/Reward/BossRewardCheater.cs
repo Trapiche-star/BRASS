@@ -16,6 +16,10 @@ namespace Team1
 
                 // 1. 보스 스크립트의 사망 함수 실행 (동작 중지 등)
                 if (robotBoss != null) robotBoss.InstantKill();
+                if (bossClearUI != null)
+                {
+                    bossClearUI.ShowReward();
+                }
 
                 // 2. 보상 UI의 ShowReward 실행 (여기서 마켓/지도를 꺼야 함)
                 if (bossClearUI != null)

@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Team1
 {
@@ -9,7 +9,6 @@ namespace Team1
         public GameObject shipCircle;
         public GameObject townCircle;
 
-        // 공통 처리: 하나라도 연결 안 되어 있어도 에러로 코드가 멈추지 않게 방지
         void ResetCircles()
         {
             if (towerCircle != null) towerCircle.SetActive(false);
@@ -22,8 +21,11 @@ namespace Team1
             ResetCircles();
             if (towerCircle != null) towerCircle.SetActive(true);
 
-            // Build Settings에 등록된 정확한 이름 또는 경로 사용
-            SceneManager.LoadScene("Tower");
+            // 직접 이동 대신 페이더를 통해 이동
+            if (SceneFader.Instance != null)
+                SceneFader.Instance.FadeToScene("Tower");
+            else
+                UnityEngine.SceneManagement.SceneManager.LoadScene("Tower");
         }
 
         public void SelectShip()
@@ -31,9 +33,10 @@ namespace Team1
             ResetCircles();
             if (shipCircle != null) shipCircle.SetActive(true);
 
-
-            // 사진에 MainTest가 등록되어 있으므로 그대로 사용
-            SceneManager.LoadScene("MainTest");
+            if (SceneFader.Instance != null)
+                SceneFader.Instance.FadeToScene("MainTest");
+            else
+                UnityEngine.SceneManagement.SceneManager.LoadScene("MainTest");
         }
 
         public void SelectTown()
@@ -41,9 +44,10 @@ namespace Team1
             ResetCircles();
             if (townCircle != null) townCircle.SetActive(true);
 
-
-            // 사진에 Town이 등록되어 있으므로 그대로 사용
-            SceneManager.LoadScene("Town");
+            if (SceneFader.Instance != null)
+                SceneFader.Instance.FadeToScene("Town");
+            else
+                UnityEngine.SceneManagement.SceneManager.LoadScene("Town");
         }
     }
 }

@@ -7,6 +7,8 @@ public class MinimapObject : MonoBehaviour, IInteractable
     public void Interact()
     {
         if (UIManager_SY.Instance != null)
-            UIManager_SY.Instance.OpenMinimap();
+        {
+            UIManager_SY.Instance.OpenMinimap(); // 지도 UI 켜기
+        }
     }
 }

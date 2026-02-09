@@ -57,11 +57,10 @@ public class QuestManager : MonoBehaviour
 
     void Awake()
     {
-        // Singleton 중복 방지
         if (Instance != null && Instance != this)
         {
-            Debug.LogWarning("[QuestManager] 중복 인스턴스 감지! 기존 인스턴스 유지");
-            Destroy(gameObject);
+            Debug.LogWarning("[QuestManager] 중복 인스턴스 감지! 컴포넌트만 제거합니다.");
+            Destroy(this); // <--- 절대 gameObject를 지우지 마세요!
             return;
         }
 
