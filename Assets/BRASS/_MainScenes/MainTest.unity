@@ -13025,7 +13025,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -200.00003, y: 69.999985}
+  m_AnchoredPosition: {x: -200.00003, y: 69.99996}
   m_SizeDelta: {x: 100, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &704907319
@@ -36806,7 +36806,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1736325648}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99915683
+  m_Size: 0.9999093
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -40352,11 +40352,16 @@ MonoBehaviour:
   missilePort: {fileID: 197571723}
   laserEffect: {fileID: 0}
   laserPort: {fileID: 297029346}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
   detectionRange: 20
   attackRange: 15
   recoverTime: 3
   rotationSpeed: 5
   laserDamage: 5
+  sweepDamage: 10
+  clapDamage: 3
   lastAttackIndex: -1
 --- !u!95 &2033023267
 Animator:
