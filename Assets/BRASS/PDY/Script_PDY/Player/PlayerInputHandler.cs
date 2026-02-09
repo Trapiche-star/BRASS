@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
 namespace BRASS
 {
     /// 플레이어 입력을 수집하여 이동과 전투 입력을 각 시스템으로 전달하는 입력 라우터
@@ -99,6 +100,8 @@ namespace BRASS
         {
             if (Mouse.current != null)
                 MousePosition = Mouse.current.position.ReadValue();
+
+            HandleInputBlockingByTypingState();
         }
 
         // 단발 입력 리셋 처리
@@ -111,6 +114,28 @@ namespace BRASS
         #endregion
 
         #region Custom Methods
+        // 추가: 문자 입력 중일 때 게임 입력 차단 처리
+        private void HandleInputBlockingByTypingState()
+        {
+            if (state == null || playerInput == null) return;
+
+            // 타이핑 중이면 게임 입력 비활성화
+            if (state.IsTypingInUI)
+            {
+                if (playerInput.currentActionMap != null && playerInput.currentActionMap.enabled)
+                {
+                    playerInput.DeactivateInput();
+                }
+            }
+            // 타이핑 중이 아니면 게임 입력 활성화
+            else
+            {
+                if (playerInput.currentActionMap != null && !playerInput.currentActionMap.enabled)
+                {
+                    playerInput.ActivateInput();
+                }
+            }
+        }
 
         // 이동 입력 수신 및 키보드 이동 여부 판별
         private void OnMove(InputAction.CallbackContext context)

@@ -1,11 +1,10 @@
 //닉네임 앞에 있는거 추가
 
-
-  
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// 채팅 패널 - 고정 위치 방식
@@ -46,13 +45,13 @@ public class ChatPanel : MonoBehaviour
         // 필수 체크
         if (chatMessagePrefab == null)
         {
-            Debug.LogError("ChatMessage Prefab이 없습니다!");
+            Debug.LogError("[ChatPanel] ChatMessage Prefab이 없습니다!");
             return;
         }
 
         if (contentContainer == null)
         {
-            Debug.LogError("Content Container가 없습니다!");
+            Debug.LogError("[ChatPanel] Content Container가 없습니다!");
             return;
         }
 
@@ -69,18 +68,19 @@ public class ChatPanel : MonoBehaviour
         if (toggleChatButton != null)
             toggleChatButton.onClick.AddListener(ToggleChatVisibility);
 
-        // "채팅 보기" 버튼 (새로 추가!)
+        // "채팅 보기" 버튼
         if (showChatButton != null)
             showChatButton.onClick.AddListener(ShowChat);
 
-        // 초기 상태: 채팅 보임
-        UpdateChatVisibility();
-
+        // 투명도 슬라이더
         if (transparencySlider != null)
         {
             transparencySlider.onValueChanged.AddListener(OnTransparencyChanged);
             transparencySlider.value = 1f;
         }
+
+        // 초기 상태: 채팅 보임
+        UpdateChatVisibility();
 
         // Content 크기 초기화
         ResetContentSize();
@@ -103,14 +103,21 @@ public class ChatPanel : MonoBehaviour
 
     private void OnInputSubmit(string text)
     {
-        SendMessage();
-        if (inputField != null)
+        // InputField가 실제로 포커스 상태일 때만 처리
+        if (inputField != null && inputField.isFocused)
+        {
+            SendMessage();
             inputField.ActivateInputField();
+        }
     }
 
     private void SendMessage()
     {
         if (inputField == null || string.IsNullOrWhiteSpace(inputField.text))
+            return;
+
+        // InputField가 비활성화되어 있으면 메시지 전송 안 함
+        if (!inputField.gameObject.activeInHierarchy || !inputField.interactable)
             return;
 
         AddMessage(inputField.text);
@@ -139,6 +146,12 @@ public class ChatPanel : MonoBehaviour
     /// </summary>
     private void CreateMessage(string message, Color textColor)
     {
+        if (chatMessagePrefab == null || contentContainer == null)
+        {
+            Debug.LogWarning("[ChatPanel] 메시지를 생성할 수 없습니다. 필수 컴포넌트가 없습니다.");
+            return;
+        }
+
         // 프리팹 생성
         GameObject newMessageObj = Instantiate(chatMessagePrefab, contentContainer);
 
@@ -146,7 +159,7 @@ public class ChatPanel : MonoBehaviour
         RectTransform messageRect = newMessageObj.GetComponent<RectTransform>();
         if (messageRect == null)
         {
-            Debug.LogError("프리팹에 RectTransform이 없습니다!");
+            Debug.LogError("[ChatPanel] 프리팹에 RectTransform이 없습니다!");
             Destroy(newMessageObj);
             return;
         }
@@ -175,7 +188,7 @@ public class ChatPanel : MonoBehaviour
         }
         else
         {
-            Debug.LogError("프리팹에 TextMeshProUGUI가 없습니다!");
+            Debug.LogError("[ChatPanel] 프리팹에 TextMeshProUGUI가 없습니다!");
         }
 
         // 임시 크기 설정 후 텍스트 높이 계산
@@ -197,7 +210,7 @@ public class ChatPanel : MonoBehaviour
         // 위치 설정
         messageRect.anchoredPosition = new Vector2(messagePadding, -currentYPosition);
 
-        Debug.Log($"메시지 생성: '{message}' 위치: {messageRect.anchoredPosition}, 크기: {messageRect.sizeDelta}, 실제높이: {actualHeight}");
+        Debug.Log($"[ChatPanel] 메시지 생성: '{message}' 위치: {messageRect.anchoredPosition}, 크기: {messageRect.sizeDelta}, 실제높이: {actualHeight}");
 
         // 리스트에 추가
         messageObjects.Add(newMessageObj);
@@ -211,8 +224,12 @@ public class ChatPanel : MonoBehaviour
         // 메시지 개수 제한
         if (messageObjects.Count > maxMessages)
         {
-            Destroy(messageObjects[0]);
+            GameObject oldestMessage = messageObjects[0];
             messageObjects.RemoveAt(0);
+
+            if (oldestMessage != null)
+                Destroy(oldestMessage);
+
             RecalculateAllPositions();
         }
 
@@ -225,10 +242,13 @@ public class ChatPanel : MonoBehaviour
     /// </summary>
     private void UpdateContentSize()
     {
+        if (contentContainer == null)
+            return;
+
         float totalHeight = Mathf.Max(currentYPosition, 100f); // 최소 높이 100
         contentContainer.sizeDelta = new Vector2(contentContainer.sizeDelta.x, totalHeight);
 
-        Debug.Log($"Content 높이 업데이트: {totalHeight}");
+        Debug.Log($"[ChatPanel] Content 높이 업데이트: {totalHeight}");
     }
 
     /// <summary>
@@ -236,6 +256,9 @@ public class ChatPanel : MonoBehaviour
     /// </summary>
     private void ResetContentSize()
     {
+        if (contentContainer == null)
+            return;
+
         currentYPosition = messagePadding;
         contentContainer.sizeDelta = new Vector2(contentContainer.sizeDelta.x, 100f);
         contentContainer.anchoredPosition = new Vector2(0, 0);
@@ -253,10 +276,13 @@ public class ChatPanel : MonoBehaviour
             if (msgObj != null)
             {
                 RectTransform rect = msgObj.GetComponent<RectTransform>();
-                float msgHeight = rect.sizeDelta.y; // 각 메시지의 실제 높이 사용
+                if (rect != null)
+                {
+                    float msgHeight = rect.sizeDelta.y; // 각 메시지의 실제 높이 사용
 
-                rect.anchoredPosition = new Vector2(messagePadding, -currentYPosition);
-                currentYPosition += msgHeight + messageSpacing;
+                    rect.anchoredPosition = new Vector2(messagePadding, -currentYPosition);
+                    currentYPosition += msgHeight + messageSpacing;
+                }
             }
         }
 
@@ -380,5 +406,46 @@ public class ChatPanel : MonoBehaviour
         if (transparencySlider != null)
             transparencySlider.value = Mathf.Clamp01(alpha);
     }
-}
 
+    /// <summary>
+    /// 채팅 InputField가 현재 포커스 상태인지 확인
+    /// </summary>
+    public bool IsInputFieldFocused()
+    {
+        return inputField != null &&
+               inputField.gameObject.activeInHierarchy &&
+               inputField.isFocused;
+    }
+
+    /// <summary>
+    /// 채팅창이 현재 활성화 상태인지 확인
+    /// </summary>
+    public bool IsChatActive()
+    {
+        return isChatVisible &&
+               inputField != null &&
+               inputField.gameObject.activeInHierarchy;
+    }
+
+    private void OnDestroy()
+    {
+        // 이벤트 리스너 제거
+        if (sendButton != null)
+            sendButton.onClick.RemoveListener(OnSendButtonClick);
+
+        if (inputField != null)
+            inputField.onSubmit.RemoveListener(OnInputSubmit);
+
+        if (clearButton != null)
+            clearButton.onClick.RemoveListener(ClearAllMessages);
+
+        if (toggleChatButton != null)
+            toggleChatButton.onClick.RemoveListener(ToggleChatVisibility);
+
+        if (showChatButton != null)
+            showChatButton.onClick.RemoveListener(ShowChat);
+
+        if (transparencySlider != null)
+            transparencySlider.onValueChanged.RemoveListener(OnTransparencyChanged);
+    }
+}

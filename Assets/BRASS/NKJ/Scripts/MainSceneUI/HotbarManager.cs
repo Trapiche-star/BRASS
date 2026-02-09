@@ -1,114 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Team1; // 인벤토리 관련 스크립트 접근을 위해 추가
-
-public class HotbarManager : MonoBehaviour
-{
-    public SkillSlot[] slots;
-
-    [Header("UI Settings")]
-    public GameObject hotbarUI;
-
-    private CanvasGroup hotbarCanvasGroup;
-
-    void Start()
-    {
-        if (hotbarUI != null)
-        {
-            hotbarCanvasGroup = hotbarUI.GetComponent<CanvasGroup>();
-            if (hotbarCanvasGroup == null)
-            {
-                hotbarCanvasGroup = hotbarUI.AddComponent<CanvasGroup>();
-            }
-        }
-    }
-
-    void Update()
-    {
-        // ✅ UI가 하나라도 열려 있으면 핫바 입력 전부 차단
-        if (Team1.UIManager_SY.Instance != null &&
-    Team1.UIManager_SY.Instance.IsAnyUIOpen)
-        {
-            return;
-        }
-
-        Keyboard kb = Keyboard.current;
-        if (kb == null) return;
-
-        // 2. H 키: 핫바 시각적 토글
-        if (kb.hKey.wasPressedThisFrame)
-        {
-            ToggleHotbar();
-        }
-
-        // 3. Alt + 숫자키 (1~9) 스킬 사용 로직
-        // Alt 키가 눌린 상태에서만 숫자키 입력을 받습니다.
-        if (kb.altKey.isPressed)
-        {
-            if (kb.digit1Key.wasPressedThisFrame) { LogKeyAndUse("Alt+1", 0); }
-            if (kb.digit2Key.wasPressedThisFrame) { LogKeyAndUse("Alt+2", 1); }
-            if (kb.digit3Key.wasPressedThisFrame) { LogKeyAndUse("Alt+3", 2); }
-            if (kb.digit4Key.wasPressedThisFrame) { LogKeyAndUse("Alt+4", 3); }
-            if (kb.digit5Key.wasPressedThisFrame) { LogKeyAndUse("Alt+5", 4); }
-            if (kb.digit6Key.wasPressedThisFrame) { LogKeyAndUse("Alt+6", 5); }
-            if (kb.digit7Key.wasPressedThisFrame) { LogKeyAndUse("Alt+7", 6); }
-            if (kb.digit8Key.wasPressedThisFrame) { LogKeyAndUse("Alt+8", 7); }
-            if (kb.digit9Key.wasPressedThisFrame) { LogKeyAndUse("Alt+9", 8); }
-        }
-    }
-
-
-    void ToggleHotbar()
-    {
-        if (hotbarCanvasGroup == null) return;
-
-        bool isVisible = hotbarCanvasGroup.alpha > 0;
-
-        if (isVisible) // 현재 켜져 있다면 -> 끄기
-        {
-            hotbarCanvasGroup.alpha = 0;
-            hotbarCanvasGroup.interactable = false;
-            hotbarCanvasGroup.blocksRaycasts = false; // 이때 캐릭터가 움직이는 건 정상
-        }
-        else // 현재 꺼져 있다면 -> 켜기
-        {
-            hotbarCanvasGroup.alpha = 1;
-            hotbarCanvasGroup.interactable = true;
-            hotbarCanvasGroup.blocksRaycasts = true; // [중요] 다시 켰을 때 마우스를 막아야 함
-        }
-
-        /*
-        if (hotbarCanvasGroup != null)
-        {
-            bool isVisible = hotbarCanvasGroup.alpha > 0;
-            hotbarCanvasGroup.alpha = isVisible ? 0 : 1;
-            hotbarCanvasGroup.interactable = !isVisible;
-            hotbarCanvasGroup.blocksRaycasts = !isVisible;
-
-            Debug.Log($"핫바 가시성: {(!isVisible ? "보임" : "숨김")}");
-        }
-        */
-    }
-
-    void LogKeyAndUse(string keyName, int index)
-    {
-        Debug.Log($"{keyName} 키로 스킬 사용!");
-        CheckAndUse(index);
-    }
-
-    void CheckAndUse(int index)
-    {
-        if (slots == null || slots.Length <= index) return;
-        if (slots[index] == null) return;
-
-        slots[index].UseSkill();
-    }
-}
-
-
-/*
-using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class HotbarManager : MonoBehaviour
 {
@@ -187,114 +78,99 @@ public class HotbarManager : MonoBehaviour
         slots[index].UseSkill();
     }
 }
-*/
-
-
-
 
 /*
- * 단축키 수정
+
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Team1;
 
 public class HotbarManager : MonoBehaviour
 {
-    // 하이라키의 Slot들을 드래그해서 넣는 곳
-    public SkillSlot[] slots;
+    public HotbarSlot[] slots; // ⭐ SkillSlot → HotbarSlot 변경
+
+    [Header("UI Settings")]
+    public GameObject hotbarUI;
+
+    private CanvasGroup hotbarCanvasGroup;
+
+    void Start()
+    {
+        if (hotbarUI != null)
+        {
+            hotbarCanvasGroup = hotbarUI.GetComponent<CanvasGroup>();
+            if (hotbarCanvasGroup == null)
+            {
+                hotbarCanvasGroup = hotbarUI.AddComponent<CanvasGroup>();
+            }
+        }
+    }
 
     void Update()
     {
-        // Keyboard 클래스를 통해 현재 키보드 상태 확인
+        if (!InputFieldManager.CanReceiveHotkey())
+            return;
+
+        if (Team1.UIManager_SY.Instance != null &&
+            Team1.UIManager_SY.Instance.IsAnyUIOpen)
+        {
+            return;
+        }
+
         Keyboard kb = Keyboard.current;
         if (kb == null) return;
 
+        if (kb.hKey.wasPressedThisFrame)
+        {
+            ToggleHotbar();
+        }
 
-        if (kb.wKey.wasPressedThisFrame) { LogKeyAndUse(kb.wKey.displayName, 0); }
-        if (kb.aKey.wasPressedThisFrame) { LogKeyAndUse(kb.aKey.displayName, 1); }
-        if (kb.sKey.wasPressedThisFrame) { LogKeyAndUse(kb.sKey.displayName, 2); }
-        if (kb.dKey.wasPressedThisFrame) { LogKeyAndUse(kb.dKey.displayName, 3); }
-        if (kb.rKey.wasPressedThisFrame) { LogKeyAndUse(kb.rKey.displayName, 4); }
-        if (kb.eKey.wasPressedThisFrame) { LogKeyAndUse(kb.eKey.displayName, 5); }
-        if (kb.gKey.wasPressedThisFrame) { LogKeyAndUse(kb.gKey.displayName, 6); }
-        if (kb.iKey.wasPressedThisFrame) { LogKeyAndUse(kb.iKey.displayName, 7); }
-        if (kb.spaceKey.wasPressedThisFrame) { LogKeyAndUse(kb.spaceKey.displayName, 8); }
-    }
-
-    // 로그 출력을 범용적으로 처리하기 위한 헬퍼 로직
-    void LogKeyAndUse(string keyName, int index)
-    {
-        Debug.Log($"{keyName} 키가 눌렸습니다!");
-        CheckAndUse(index);
+        if (kb.altKey.isPressed)
+        {
+            if (kb.digit1Key.wasPressedThisFrame) { UseSlot(0); }
+            if (kb.digit2Key.wasPressedThisFrame) { UseSlot(1); }
+            if (kb.digit3Key.wasPressedThisFrame) { UseSlot(2); }
+            if (kb.digit4Key.wasPressedThisFrame) { UseSlot(3); }
+            if (kb.digit5Key.wasPressedThisFrame) { UseSlot(4); }
+            if (kb.digit6Key.wasPressedThisFrame) { UseSlot(5); }
+            if (kb.digit7Key.wasPressedThisFrame) { UseSlot(6); }
+            if (kb.digit8Key.wasPressedThisFrame) { UseSlot(7); }
+            if (kb.digit9Key.wasPressedThisFrame) { UseSlot(8); }
+        }
     }
 
     void CheckAndUse(int index)
     {
-        if (slots == null || slots.Length <= index)
-        {
-            Debug.LogError($"{index}번 슬롯 배열이 설정되지 않았습니다!");
-            return;
-        }
+        if (slots == null || slots.Length <= index) return;
 
-        if (slots[index] == null)
+        // ⭐ UseSkill()이 아니라 UseSlot()을 호출해야 아이템/스킬 둘 다 나갑니다.
+        if (slots[index] != null)
         {
-            Debug.LogError($"{index}번 칸에 SkillSlot 오브젝트가 비어있습니다(None)!");
-            return;
+            slots[index].UseSlot();
         }
+    }
 
-        slots[index].UseSkill();
+    void ToggleHotbar()
+    {
+        if (hotbarCanvasGroup == null) return;
+
+        bool isVisible = hotbarCanvasGroup.alpha > 0;
+
+        hotbarCanvasGroup.alpha = isVisible ? 0 : 1;
+        hotbarCanvasGroup.interactable = !isVisible;
+        hotbarCanvasGroup.blocksRaycasts = !isVisible;
+    }
+
+    void UseSlot(int index)
+    {
+        if (slots == null || slots.Length <= index) return;
+        if (slots[index] == null) return;
+
+        slots[index].UseSlot(); // ⭐ UseSkill() → UseSlot() 변경
     }
 }
 
-*/
 
-/*
- * 기존코드
- 
-using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class HotbarManager : MonoBehaviour
-{
-    // 하이라키의 Slot들을 드래그해서 넣는 곳
-    public SkillSlot[] slots;
-
-    void Update()
-    {
-        // Keyboard 클래스를 통해 현재 키보드 상태 확인
-        Keyboard kb = Keyboard.current;
-        if (kb == null) return;
-
-        // 1~0번 키 감지
-        if (kb.digit1Key.wasPressedThisFrame)
-        {
-            Debug.Log("1번 키가 눌렸습니다!"); 
-            CheckAndUse(0);
-        }
-        if (kb.digit2Key.wasPressedThisFrame) CheckAndUse(1);
-        if (kb.digit3Key.wasPressedThisFrame) CheckAndUse(2);
-        if (kb.digit4Key.wasPressedThisFrame) CheckAndUse(3);
-        if (kb.digit5Key.wasPressedThisFrame) CheckAndUse(4);
-        if (kb.digit6Key.wasPressedThisFrame) CheckAndUse(5);
-        if (kb.digit7Key.wasPressedThisFrame) CheckAndUse(6);
-        if (kb.digit8Key.wasPressedThisFrame) CheckAndUse(7);
-        if (kb.digit9Key.wasPressedThisFrame) CheckAndUse(8);
-        if (kb.digit0Key.wasPressedThisFrame) CheckAndUse(9);
-    }
-
-    void CheckAndUse(int index)
-    {
-        if (slots == null || slots.Length <= index)
-        {
-            Debug.LogError($"{index}번 슬롯 배열이 설정되지 않았습니다!");
-            return;
-        }
-        if (slots[index] == null)
-        {
-            Debug.LogError($"{index}번 칸에 SkillSlot 오브젝트가 비어있습니다(None)!");
-            return;
-        }
-        slots[index].UseSkill();
-    }
-}
 
 */
