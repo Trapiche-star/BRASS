@@ -29,9 +29,10 @@ public class GoldManager : MonoBehaviour
         {
             Instance = this;
         }
-        else
+        else if (Instance != this)
         {
-            Destroy(gameObject);
+
+            Destroy(this);
             return;
         }
     }
