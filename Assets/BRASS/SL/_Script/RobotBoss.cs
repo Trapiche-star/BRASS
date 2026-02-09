@@ -28,6 +28,8 @@ public class RobotBoss : MonoBehaviour
     public float recoverTime = 2f;
     public float rotationSpeed = 5f;
     public float laserDamage = 5.0f;
+    public float sweepDamage = 10.0f;
+    public float clapDamage = 3.0f;
 
     // --- 상태 관리 ---
     private IBossState currentState;
@@ -42,11 +44,15 @@ public class RobotBoss : MonoBehaviour
     // 방금 사용한 패턴 번호를 기억하는 변수 (-1은 처음이라는 뜻)
     public int lastAttackIndex = -1;
 
+    private void Awake()
+    {
+        player = FindAnyObjectByType<PlayerController>().transform;
+    }
     void Start()
     {
         if (anim == null) anim = GetComponent<Animator>();
         laserLine = GetComponent<LineRenderer>();
-        dir = (player.transform.position - laserPort.position).normalized;
+        dir = (player.position - laserPort.position).normalized;
         // 기본 상태 생성
         StateIdle = new BossIdleState(this);
         StateTracking = new BossTrackingState(this);
@@ -66,7 +72,7 @@ public class RobotBoss : MonoBehaviour
 
     void Update()
     {
-        dir = (player.transform.position - laserPort.position).normalized;
+        dir = (player.position - laserPort.position).normalized;
         if (currentState != null) currentState.Execute();
     }
 
@@ -82,13 +88,39 @@ public class RobotBoss : MonoBehaviour
     public void OnEvent_Sweep() // 패턴 1
     {
         Collider[] hits = Physics.OverlapBox(sweepCenter.position, sweepSize / 2, sweepCenter.rotation);
-        foreach (var hit in hits) if (hit.transform == player) Debug.Log("휩쓸기 적중!");
+        foreach (var hit in hits)
+        {
+            var targetHealth = hit.transform.GetComponent<PlayerState>();
+            if (targetHealth != null)
+            {
+                targetHealth.TakeDamage(sweepDamage);
+            }
+            Debug.Log("휩쓸기 적중!");
+        }
     }
 
-    public void OnEvent_Clap() // 패턴 2
+    public void OnEvent_Clap()  // 패턴 2
     {
+
         if (clapEffect) Instantiate(clapEffect, clapPoint.position, clapPoint.rotation);
+
         Debug.Log("박수 짝!");
+
+        RaycastHit hit;
+        if (Physics.Raycast(clapPoint.position, clapPoint.forward, out hit, 100f))
+        {
+            if (hit.collider.CompareTag("Player"))
+            {
+                var targetHealth = hit.collider.GetComponent<PlayerState>();
+                if (targetHealth != null)
+                {
+                    targetHealth.TakeDamage(clapDamage);
+                    Debug.Log("플레이어에게 데미지를 입혔습니다!");
+                }
+            }
+        }
+
+        Debug.DrawRay(clapPoint.position, clapPoint.forward * 100f, Color.red, 0.5f);
     }
 
     public void OnEvent_Missile() // 패턴 3
@@ -169,7 +201,7 @@ public class RobotBoss : MonoBehaviour
             if (hit.transform == player)
             {
                 Debug.Log("laser hit player");
-                player.GetComponent<IDamageable>().TakeDamage(laserDamage);
+                player.GetComponent<PlayerState>().TakeDamage(laserDamage);
             }
         }
         else
