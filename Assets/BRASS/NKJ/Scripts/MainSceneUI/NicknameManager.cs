@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 public class NicknameManager : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class NicknameManager : MonoBehaviour
 
     private string currentNickname = "Player";
     private const string NICKNAME_KEY = "PlayerNickname";
+    private bool isInputActive = false;
 
     private void Start()
     {
@@ -29,36 +31,56 @@ public class NicknameManager : MonoBehaviour
         }
 
         // 초기 설정
-        nicknameDisplay.text = currentNickname;
-        nicknameInputPanel.SetActive(false);
+        if (nicknameDisplay != null)
+            nicknameDisplay.text = currentNickname;
+
+        if (nicknameInputPanel != null)
+            nicknameInputPanel.SetActive(false);
 
         // 버튼 이벤트 연결
-        changeNicknameButton.onClick.AddListener(OpenNicknameInput);
-        confirmButton.onClick.AddListener(ConfirmNicknameChange);
-        cancelButton.onClick.AddListener(CloseNicknameInput);
+        if (changeNicknameButton != null)
+            changeNicknameButton.onClick.AddListener(OpenNicknameInput);
+
+        if (confirmButton != null)
+            confirmButton.onClick.AddListener(ConfirmNicknameChange);
+
+        if (cancelButton != null)
+            cancelButton.onClick.AddListener(CloseNicknameInput);
     }
 
     private void Update()
     {
-        // 입력 패널이 활성화된 상태에서만 키 입력 감지
-        if (nicknameInputPanel.activeSelf)
-        {
-            // ESC 키로 취소
-            if (Keyboard.current.escapeKey.wasPressedThisFrame)
-            {
-                CloseNicknameInput();
-            }
+        // null 체크 및 활성화 상태 확인
+        if (nicknameInputPanel == null || !nicknameInputPanel.activeSelf || !isInputActive)
+            return;
 
-            // Enter 키로 확인
-            if (Keyboard.current.enterKey.wasPressedThisFrame)
-            {
-                ConfirmNicknameChange();
-            }
+        // Keyboard가 null인지 체크
+        if (Keyboard.current == null)
+            return;
+
+        // InputField가 포커스 상태인지 확인 (다른 UI와 충돌 방지)
+        bool isInputFieldFocused = nicknameInputField != null && nicknameInputField.isFocused;
+
+        // ESC 키로 취소 (InputField 포커스 여부와 관계없이)
+        if (Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            CloseNicknameInput();
+            return;
+        }
+
+        // Enter 키로 확인 (InputField가 포커스 상태일 때만)
+        if (isInputFieldFocused && Keyboard.current.enterKey.wasPressedThisFrame)
+        {
+            ConfirmNicknameChange();
         }
     }
 
     private void OpenNicknameInput()
     {
+        if (nicknameInputPanel == null)
+            return;
+
+        isInputActive = true;
         nicknameInputPanel.SetActive(true);
 
         // 잠깐 기다렸다가 포커스 설정 (UI 업데이트 후)
@@ -68,13 +90,20 @@ public class NicknameManager : MonoBehaviour
     private System.Collections.IEnumerator FocusInputFieldWithDelay()
     {
         yield return new WaitForEndOfFrame();
-        nicknameInputField.text = currentNickname;
-        nicknameInputField.ActivateInputField();
-        nicknameInputField.Select();
+
+        if (nicknameInputField != null)
+        {
+            nicknameInputField.text = currentNickname;
+            nicknameInputField.ActivateInputField();
+            nicknameInputField.Select();
+        }
     }
 
     private void ConfirmNicknameChange()
     {
+        if (nicknameInputField == null)
+            return;
+
         string newNickname = nicknameInputField.text.Trim();
 
         // 유효성 검사
@@ -92,7 +121,9 @@ public class NicknameManager : MonoBehaviour
 
         // 닉네임 변경
         currentNickname = newNickname;
-        nicknameDisplay.text = currentNickname;
+
+        if (nicknameDisplay != null)
+            nicknameDisplay.text = currentNickname;
 
         // PlayerPrefs에 저장
         PlayerPrefs.SetString(NICKNAME_KEY, currentNickname);
@@ -107,7 +138,10 @@ public class NicknameManager : MonoBehaviour
 
     private void CloseNicknameInput()
     {
-        nicknameInputPanel.SetActive(false);
+        isInputActive = false;
+
+        if (nicknameInputPanel != null)
+            nicknameInputPanel.SetActive(false);
     }
 
     public string GetCurrentNickname()
@@ -118,10 +152,27 @@ public class NicknameManager : MonoBehaviour
     public void SetNickname(string newNickname)
     {
         currentNickname = newNickname;
-        nicknameDisplay.text = currentNickname;
+
+        if (nicknameDisplay != null)
+            nicknameDisplay.text = currentNickname;
+    }
+
+    // 외부에서 입력 패널 활성화 상태 확인용
+    public bool IsInputPanelActive()
+    {
+        return isInputActive && nicknameInputPanel != null && nicknameInputPanel.activeSelf;
+    }
+
+    private void OnDestroy()
+    {
+        // 이벤트 리스너 제거
+        if (changeNicknameButton != null)
+            changeNicknameButton.onClick.RemoveListener(OpenNicknameInput);
+
+        if (confirmButton != null)
+            confirmButton.onClick.RemoveListener(ConfirmNicknameChange);
+
+        if (cancelButton != null)
+            cancelButton.onClick.RemoveListener(CloseNicknameInput);
     }
 }
-
-
-
-

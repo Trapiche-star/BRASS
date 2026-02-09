@@ -22,6 +22,19 @@ public class GaugeController : MonoBehaviour
     [Header("Gauge Animation Speed")]
     public float fillSpeed = 2f;
 
+
+
+    // ⭐ 어디서든 접근 가능하도록 싱글톤 인스턴스 추가
+    public static GaugeController Instance { get; private set; }
+
+    private void Awake()
+    {
+        // 인스턴스 할당
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+    }
+
+
     private void Start()
     {
         Debug.Log("=== GaugeController Start ===");
@@ -58,6 +71,20 @@ public class GaugeController : MonoBehaviour
         if (mpFill != null)
             mpFill.fillAmount = Mathf.Lerp(mpFill.fillAmount, currentMp / maxMp, Time.deltaTime * fillSpeed);
     }
+
+
+    // ⭐ HP 회복용 메서드 추가 (현재 값 + 회복량)
+    public void HealHp(float amount)
+    {
+        SetHp(currentHp + amount);
+    }
+
+    public void RecoverMp(float amount)
+    {
+        SetMp(currentMp + amount);
+    }
+
+
 
     public void SetExp(float value)
     {
