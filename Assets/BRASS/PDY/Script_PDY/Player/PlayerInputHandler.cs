@@ -52,6 +52,9 @@ namespace BRASS
             weaponHandler = GetComponentInChildren<WeaponHandler>();
             state = GetComponentInChildren<PlayerState>();
             rangeSkill = GetComponentInChildren<RangeSkill>();
+            state = GetComponentInChildren<PlayerState>();
+
+            if (state != null) state.OnDead += OnPlayerDead;
         }
 
         private void OnEnable()
@@ -281,6 +284,22 @@ namespace BRASS
             ZoomInput = 0f;
         }
 
+        // 플레이어 사망 시 모든 입력 초기화 및 비활성화 처리
+        private void OnPlayerDead()
+        {
+            // 모든 입력 액션 맵 비활성화
+            playerInput.actions.Disable();
+
+            // 남아 있는 입력 값들 정리
+            MoveInput = Vector2.zero;
+            LookInput = Vector2.zero;
+            ClickMovePressed = false;
+            RotatePressed = false;
+            SlidePressed = false;
+            ZoomInput = 0f;
+
+            IsKeyboardMove = false;
+        }
         #endregion
     }
 }

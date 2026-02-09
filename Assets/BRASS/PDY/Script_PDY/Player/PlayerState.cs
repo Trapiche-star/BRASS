@@ -135,7 +135,9 @@ using UnityEngine;
 
 namespace BRASS
 {
+    /// <summary>
     /// 플레이어의 모든 이동 상태 플래그와 체력 수치를 관리하는 통합 상태 컨테이너 클래스
+    /// </summary>   
     public class PlayerState : MonoBehaviour, IDamageable
     {
         #region Variables
@@ -145,8 +147,8 @@ namespace BRASS
         public bool IsInputMovementLocked; // 외부 요인으로 인해 이동 입력을 차단해야 하는지 여부
 
         public bool IsSliding; // 슬라이딩 동작을 수행 중인지 여부
-        public bool SlideRequested; // 슬라이드 입력이 요청되었는지 여부
-
+        public bool SlideRequested; // 슬라이드 입력이 요청되었는지 여부        
+        [SerializeField] private bool isDead; // 캐릭터 죽음 인스펙터 표시용
         public bool IsGrounded; // 캐릭터가 지면에 닿아 있는지 여부
         public bool IsJumping; // 현재 점프 상승 또는 낙하 중인지 여부
         public int JumpIndex; // 연속 점프 중 현재 몇 번째 점프인지 기록
@@ -155,12 +157,15 @@ namespace BRASS
         public bool IsBattleAxeEquipped; // 현재 배틀액스를 주 무기로 장착했는지 여부
         public bool IsEquipped; // 어떠한 무기라도 장착 중인지 여부
         public bool IsGunEquipped;  // 하푼건 장착 여부 추가       
-
+        
         public bool IsEngagedWithTarget; // 타겟과 전투가 시작된 상태인지 여부
 
         [Header("Health Settings")]
         [SerializeField] private float maxHealth = 100f; // 캐릭터가 가질 수 있는 최대 체력
-        [SerializeField] private float currentHealth; // 현재 캐릭터의 남은 체력 수치
+        [SerializeField] private float currentHealth; // 현재 캐릭터의 남은 체력 수치        
+
+        public System.Action OnHit;     // 히트 이벤트 콜백
+        public System.Action OnDead;    // 사망 이벤트 콜백
 
         public Transform CurrentTarget; // 현재 플레이어가 조준하고 있는 타겟 오브젝트 참조
         #endregion
@@ -169,6 +174,7 @@ namespace BRASS
         public float MaxHealth => maxHealth; // 외부에서 최대 체력을 읽기 위한 프로퍼티
         public float CurrentHealth => currentHealth; // 외부에서 현재 체력을 읽기 위한 프로퍼티
         public bool IsIdle => !IsMoving && !IsSliding; // 이동과 슬라이딩이 모두 없을 때의 대기 상태 여부
+        public bool IsDead { get; private set; } // 캐릭터가 사망 상태인지 여부
         #endregion
 
         #region Unity Methods
@@ -182,21 +188,30 @@ namespace BRASS
         // 대미지를 수신하여 체력을 삭감하고 사망 여부를 판단함
         public void TakeDamage(float damageAmount)
         {
-            if (currentHealth <= 0) return;
+            if (IsDead) return;
 
             currentHealth -= damageAmount;
             Debug.Log($"[Player] 대미지 발생! 남은 체력: {currentHealth}");
 
             if (currentHealth <= 0)
             {
+                currentHealth = 0;
                 Die();
+                return; // ❗ 사망이면 Hit 안 보냄
             }
+
+            // 살아있을 때만 히트
+            OnHit?.Invoke();
         }
 
-        // 체력이 소진되었을 때의 처리 로직을 실행함
+        // 사망 처리 메서드
         private void Die()
         {
+            if (IsDead) return;
+
+            IsDead = true;
             Debug.Log("플레이어 사망!");
+            OnDead?.Invoke();
         }
         #endregion
     }
