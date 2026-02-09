@@ -50,6 +50,11 @@ public class RobotBoss : MonoBehaviour
     }
     void Start()
     {
+        laserLine = GetComponent<LineRenderer>();
+        if (laserLine != null)
+        {
+            laserLine.enabled = false; // 시작할 때 꺼두기
+        }
         if (anim == null) anim = GetComponent<Animator>();
         laserLine = GetComponent<LineRenderer>();
         dir = (player.position - laserPort.position).normalized;
