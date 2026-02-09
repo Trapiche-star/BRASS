@@ -27,6 +27,8 @@ namespace Team1
         {
             // 씬 내에서 인벤토리 스크립트를 자동으로 찾습니다.
             inventory = Object.FindFirstObjectByType<Inventory>();
+            marketObject.SetActive(false);
+            mapObject.SetActive(false);
 
             // 시작할 때는 보상 UI가 꺼져 있어야 합니다.
             if (uiPanel != null) uiPanel.SetActive(false);
