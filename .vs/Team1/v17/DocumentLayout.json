@@ -3,6 +3,26 @@
   "WorkspaceRootPath": "D:\\project\\Team1\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|D:\\project\\Team1\\assets\\brass\\lsy\\scripts\\ui\\interactioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|solutionrelative:assets\\brass\\lsy\\scripts\\ui\\interactioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|D:\\project\\Team1\\assets\\brass\\pdy\\script_pdy\\player\\playerinteraction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|solutionrelative:assets\\brass\\pdy\\script_pdy\\player\\playerinteraction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|D:\\project\\Team1\\assets\\brass\\lsy\\scripts\\ui\\playerinteractionui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|solutionrelative:assets\\brass\\lsy\\scripts\\ui\\playerinteractionui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|d:\\project\\team1\\assets\\brass\\lsy\\scripts\\ui\\marketobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|solutionrelative:assets\\brass\\lsy\\scripts\\ui\\marketobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|d:\\project\\team1\\assets\\brass\\lsy\\scripts\\ui\\interactionpromptui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|solutionrelative:assets\\brass\\lsy\\scripts\\ui\\interactionpromptui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|d:\\project\\team1\\assets\\brass\\lsy\\scripts\\item\\inventoryitemdraghandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|solutionrelative:assets\\brass\\lsy\\scripts\\item\\inventoryitemdraghandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -11,15 +31,15 @@
       "RelativeMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|solutionrelative:assets\\brass\\nkj\\scripts\\mainsceneui\\skillslot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|d:\\project\\team1\\assets\\brass\\lsy\\scripts\\ui\\inventoryslotui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|D:\\project\\Team1\\assets\\brass\\lsy\\scripts\\ui\\inventoryslotui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|solutionrelative:assets\\brass\\lsy\\scripts\\ui\\inventoryslotui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|d:\\project\\team1\\assets\\brass\\lsy\\scripts\\item\\enhancementitemdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|D:\\project\\Team1\\assets\\brass\\lsy\\scripts\\item\\enhancementitemdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|solutionrelative:assets\\brass\\lsy\\scripts\\item\\enhancementitemdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|d:\\project\\team1\\assets\\brass\\lsy\\scripts\\item\\enhancementitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|D:\\project\\Team1\\assets\\brass\\lsy\\scripts\\item\\enhancementitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|solutionrelative:assets\\brass\\lsy\\scripts\\item\\enhancementitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -31,7 +51,7 @@
       "RelativeMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|solutionrelative:assets\\brass\\lsy\\scripts\\item\\consumableitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|d:\\project\\team1\\assets\\brass\\lsy\\scripts\\item\\consumableitemdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|D:\\project\\Team1\\assets\\brass\\lsy\\scripts\\item\\consumableitemdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|solutionrelative:assets\\brass\\lsy\\scripts\\item\\consumableitemdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -87,20 +107,8 @@
       "RelativeMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|solutionrelative:assets\\brass\\pdy\\script_pdy\\player\\playercasting.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|D:\\project\\Team1\\assets\\brass\\lsy\\scripts\\ui\\playerinteractionui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|solutionrelative:assets\\brass\\lsy\\scripts\\ui\\playerinteractionui.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|D:\\project\\Team1\\assets\\brass\\lsy\\scripts\\ui\\interactioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|solutionrelative:assets\\brass\\lsy\\scripts\\ui\\interactioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|D:\\project\\Team1\\assets\\brass\\pdy\\script_pdy\\player\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|solutionrelative:assets\\brass\\pdy\\script_pdy\\player\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|D:\\project\\Team1\\assets\\brass\\pdy\\script_pdy\\player\\playerinteraction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|solutionrelative:assets\\brass\\pdy\\script_pdy\\player\\playerinteraction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D5DB5485-126F-66E8-A2A5-ED85879EED6E}|Assembly-CSharp.csproj|D:\\project\\Team1\\assets\\brass\\pdy\\script_pdy\\iinteractable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -158,50 +166,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "EnhancementItemData.cs",
-              "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\Item\\EnhancementItemData.cs",
-              "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\Item\\EnhancementItemData.cs",
-              "ToolTip": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\Item\\EnhancementItemData.cs",
-              "RelativeToolTip": "Assets\\BRASS\\LSY\\Scripts\\Item\\EnhancementItemData.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAFAAAAAAAAAA==",
+              "Title": "MarketObject.cs",
+              "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\UI\\MarketObject.cs",
+              "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\UI\\MarketObject.cs",
+              "ToolTip": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\UI\\MarketObject.cs",
+              "RelativeToolTip": "Assets\\BRASS\\LSY\\Scripts\\UI\\MarketObject.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvyEAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-05T04:20:24.719Z",
+              "WhenOpened": "2026-02-09T00:04:22.906Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "EnhancementItem.cs",
-              "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\Item\\EnhancementItem.cs",
-              "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\Item\\EnhancementItem.cs",
-              "ToolTip": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\Item\\EnhancementItem.cs",
-              "RelativeToolTip": "Assets\\BRASS\\LSY\\Scripts\\Item\\EnhancementItem.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAhAAAAAAAAAA==",
+              "Title": "InteractionPromptUI.cs",
+              "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\UI\\InteractionPromptUI.cs",
+              "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\UI\\InteractionPromptUI.cs",
+              "ToolTip": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\UI\\InteractionPromptUI.cs",
+              "RelativeToolTip": "Assets\\BRASS\\LSY\\Scripts\\UI\\InteractionPromptUI.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAABDAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-05T04:20:19.89Z",
+              "WhenOpened": "2026-02-09T00:01:58.537Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "InventorySlotUI.cs",
-              "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\UI\\InventorySlotUI.cs",
-              "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\UI\\InventorySlotUI.cs",
-              "ToolTip": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\UI\\InventorySlotUI.cs",
-              "RelativeToolTip": "Assets\\BRASS\\LSY\\Scripts\\UI\\InventorySlotUI.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-05T03:49:18.386Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "InventoryItemDragHandler.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\Item\\InventoryItemDragHandler.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\Item\\InventoryItemDragHandler.cs",
@@ -214,33 +209,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "ConsumableItemData.cs",
-              "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\Item\\ConsumableItemData.cs",
-              "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\Item\\ConsumableItemData.cs",
-              "ToolTip": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\Item\\ConsumableItemData.cs",
-              "RelativeToolTip": "Assets\\BRASS\\LSY\\Scripts\\Item\\ConsumableItemData.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-23T08:08:48.815Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "QuickSlot.cs",
-              "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\UI\\QuickSlot.cs",
-              "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\UI\\QuickSlot.cs",
-              "ToolTip": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\UI\\QuickSlot.cs",
-              "RelativeToolTip": "Assets\\BRASS\\LSY\\Scripts\\UI\\QuickSlot.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAywAoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-05T02:50:31.102Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 16,
               "Title": "WaeponCoreData.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\Item\\WaeponCoreData.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\Item\\WaeponCoreData.cs",
@@ -252,7 +221,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 18,
               "Title": "ShopBuyButton.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\UI\\ShopBuyButton.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\UI\\ShopBuyButton.cs",
@@ -264,7 +233,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
               "Title": "SkillSlot.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\NKJ\\Scripts\\MainSceneUI\\SkillSlot.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\NKJ\\Scripts\\MainSceneUI\\SkillSlot.cs",
@@ -272,12 +241,110 @@
               "RelativeToolTip": "Assets\\BRASS\\NKJ\\Scripts\\MainSceneUI\\SkillSlot.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-05T02:31:28.674Z",
+              "WhenOpened": "2026-02-05T02:31:28.674Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PlayerInteraction.cs",
+              "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\PDY\\Script_PDY\\Player\\PlayerInteraction.cs",
+              "RelativeDocumentMoniker": "Assets\\BRASS\\PDY\\Script_PDY\\Player\\PlayerInteraction.cs",
+              "ToolTip": "D:\\project\\Team1\\Assets\\BRASS\\PDY\\Script_PDY\\Player\\PlayerInteraction.cs",
+              "RelativeToolTip": "Assets\\BRASS\\PDY\\Script_PDY\\Player\\PlayerInteraction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-26T06:05:13.894Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 2,
+              "Title": "PlayerInteractionUI.cs",
+              "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\UI\\PlayerInteractionUI.cs",
+              "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\UI\\PlayerInteractionUI.cs",
+              "ToolTip": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\UI\\PlayerInteractionUI.cs",
+              "RelativeToolTip": "Assets\\BRASS\\LSY\\Scripts\\UI\\PlayerInteractionUI.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAzwBIAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-03T07:30:06.758Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "InteractionController.cs",
+              "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\UI\\InteractionController.cs",
+              "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\UI\\InteractionController.cs",
+              "ToolTip": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\UI\\InteractionController.cs",
+              "RelativeToolTip": "Assets\\BRASS\\LSY\\Scripts\\UI\\InteractionController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAiwCIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-27T07:02:41.967Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "QuickSlot.cs",
+              "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\UI\\QuickSlot.cs",
+              "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\UI\\QuickSlot.cs",
+              "ToolTip": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\UI\\QuickSlot.cs",
+              "RelativeToolTip": "Assets\\BRASS\\LSY\\Scripts\\UI\\QuickSlot.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAywAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-05T02:50:31.102Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ConsumableItemData.cs",
+              "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\Item\\ConsumableItemData.cs",
+              "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\Item\\ConsumableItemData.cs",
+              "ToolTip": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\Item\\ConsumableItemData.cs",
+              "RelativeToolTip": "Assets\\BRASS\\LSY\\Scripts\\Item\\ConsumableItemData.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-23T08:08:48.815Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "InventorySlotUI.cs",
+              "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\UI\\InventorySlotUI.cs",
+              "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\UI\\InventorySlotUI.cs",
+              "ToolTip": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\UI\\InventorySlotUI.cs",
+              "RelativeToolTip": "Assets\\BRASS\\LSY\\Scripts\\UI\\InventorySlotUI.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-05T03:49:18.386Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "EnhancementItem.cs",
+              "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\Item\\EnhancementItem.cs",
+              "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\Item\\EnhancementItem.cs",
+              "ToolTip": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\Item\\EnhancementItem.cs",
+              "RelativeToolTip": "Assets\\BRASS\\LSY\\Scripts\\Item\\EnhancementItem.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-05T04:20:19.89Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "EnhancementItemData.cs",
+              "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\Item\\EnhancementItemData.cs",
+              "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\Item\\EnhancementItemData.cs",
+              "ToolTip": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\Item\\EnhancementItemData.cs",
+              "RelativeToolTip": "Assets\\BRASS\\LSY\\Scripts\\Item\\EnhancementItemData.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-05T04:20:24.719Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
               "Title": "FloatingAndRotating.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\FloatingAndRotating.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\FloatingAndRotating.cs",
@@ -289,7 +356,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 17,
               "Title": "WaeponCore.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\Item\\WaeponCore.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\Item\\WaeponCore.cs",
@@ -301,7 +368,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 11,
               "Title": "ConsumableItem.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\Item\\ConsumableItem.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\Item\\ConsumableItem.cs",
@@ -309,12 +376,11 @@
               "RelativeToolTip": "Assets\\BRASS\\LSY\\Scripts\\Item\\ConsumableItem.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-23T07:16:18.472Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-23T07:16:18.472Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 14,
               "Title": "SetCourseUI.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\UI\\SetCourseUI.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\UI\\SetCourseUI.cs",
@@ -326,7 +392,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 13,
               "Title": "ChatPannel.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\NKJ\\Scripts\\MainSceneUI\\ChatPannel.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\NKJ\\Scripts\\MainSceneUI\\ChatPannel.cs",
@@ -334,12 +400,11 @@
               "RelativeToolTip": "Assets\\BRASS\\NKJ\\Scripts\\MainSceneUI\\ChatPannel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-26T05:55:04.051Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-26T05:55:04.051Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 19,
               "Title": "TownMarketInfoUI.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\UI\\TownMarketInfoUI.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\UI\\TownMarketInfoUI.cs",
@@ -351,7 +416,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 35,
               "Title": "OpenMyUIInteractable.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\OpenMyUIInteractable.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\OpenMyUIInteractable.cs",
@@ -363,7 +428,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 15,
               "Title": "Item.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\Item\\Item.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\Item\\Item.cs",
@@ -375,7 +440,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 34,
               "Title": "PlayerInteractionUI.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\PlayerInteractionUI.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\PlayerInteractionUI.cs",
@@ -387,7 +452,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 38,
               "Title": "UIManager.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\UI\\UIManager.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\UI\\UIManager.cs",
@@ -399,7 +464,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 36,
               "Title": "InteractionPromptUI.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\InteractionPromptUI.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\InteractionPromptUI.cs",
@@ -411,7 +476,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 21,
               "Title": "HealPotion.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\Item\\HealPotion.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\Item\\HealPotion.cs",
@@ -423,7 +488,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 22,
               "Title": "HealPotionData.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\Item\\HealPotionData.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\Item\\HealPotionData.cs",
@@ -435,7 +500,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 25,
               "Title": "PlayerCasting.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\PDY\\Script_PDY\\Player\\PlayerCasting.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\PDY\\Script_PDY\\Player\\PlayerCasting.cs",
@@ -447,7 +512,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 24,
               "Title": "BossRewardTable.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\Reward\\BossRewardTable.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\Reward\\BossRewardTable.cs",
@@ -459,7 +524,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 23,
               "Title": "MarketInfoUI.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\UI\\MarketInfoUI.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\UI\\MarketInfoUI.cs",
@@ -471,31 +536,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "PlayerInteractionUI.cs",
-              "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\UI\\PlayerInteractionUI.cs",
-              "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\UI\\PlayerInteractionUI.cs",
-              "ToolTip": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\UI\\PlayerInteractionUI.cs",
-              "RelativeToolTip": "Assets\\BRASS\\LSY\\Scripts\\UI\\PlayerInteractionUI.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAzwBIAAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T07:30:06.758Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "InteractionController.cs",
-              "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\UI\\InteractionController.cs",
-              "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\UI\\InteractionController.cs",
-              "ToolTip": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\UI\\InteractionController.cs",
-              "RelativeToolTip": "Assets\\BRASS\\LSY\\Scripts\\UI\\InteractionController.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAzwAUAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-27T07:02:41.967Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 26,
               "Title": "PlayerController.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\PDY\\Script_PDY\\Player\\PlayerController.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\PDY\\Script_PDY\\Player\\PlayerController.cs",
@@ -507,19 +548,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "PlayerInteraction.cs",
-              "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\PDY\\Script_PDY\\Player\\PlayerInteraction.cs",
-              "RelativeDocumentMoniker": "Assets\\BRASS\\PDY\\Script_PDY\\Player\\PlayerInteraction.cs",
-              "ToolTip": "D:\\project\\Team1\\Assets\\BRASS\\PDY\\Script_PDY\\Player\\PlayerInteraction.cs",
-              "RelativeToolTip": "Assets\\BRASS\\PDY\\Script_PDY\\Player\\PlayerInteraction.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACsAAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-26T06:05:13.894Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 27,
               "Title": "IInteractable.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\PDY\\Script_PDY\\IInteractable.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\PDY\\Script_PDY\\IInteractable.cs",
@@ -531,7 +560,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 28,
               "Title": "GoldManager.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\NKJ\\Scripts\\MainSceneUI\\GoldManager.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\NKJ\\Scripts\\MainSceneUI\\GoldManager.cs",
@@ -543,7 +572,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 37,
               "Title": "ShopInteractable.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\UI\\ShopInteractable.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\UI\\ShopInteractable.cs",
@@ -555,7 +584,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 31,
               "Title": "MinimapPlayerTracker.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\MinimapPlayerTracker.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\MinimapPlayerTracker.cs",
@@ -567,7 +596,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 30,
               "Title": "DoorInteractable.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\DoorInteractable.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\DoorInteractable.cs",
@@ -579,7 +608,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 29,
               "Title": "PlayerDoorInteraction.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\PlayerDoorInteraction.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\PlayerDoorInteraction.cs",
@@ -591,7 +620,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 32,
               "Title": "TestItemSpawner.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\Item\\TestItemSpawner.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\Item\\TestItemSpawner.cs",
@@ -603,7 +632,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 33,
               "Title": "PlayerState_SY.cs",
               "DocumentMoniker": "D:\\project\\Team1\\Assets\\BRASS\\LSY\\Scripts\\PlayerState_SY.cs",
               "RelativeDocumentMoniker": "Assets\\BRASS\\LSY\\Scripts\\PlayerState_SY.cs",

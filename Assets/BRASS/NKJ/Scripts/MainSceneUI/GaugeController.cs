@@ -62,10 +62,6 @@ public class GaugeController : MonoBehaviour
     public void SetExp(float value)
     {
         currentExp = Mathf.Clamp(value, 0, maxExp);
-<<<<<<< HEAD
-=======
-        //Debug.Log($"[EXP] {currentExp}/{maxExp} ({(currentExp / maxExp) * 100:F1}%)");
->>>>>>> cbeba45646c6e2bc323f74e7b90fcb1e32f82de2
     }
 
     public void SetHp(float value)
