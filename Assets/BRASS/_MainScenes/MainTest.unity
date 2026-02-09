@@ -1186,7 +1186,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 59038663}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Sub Feather.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1218,7 +1218,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 61229790}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1325,7 +1325,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 74500749}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2023,7 +2023,7 @@ GameObject:
   - component: {fileID: 104605312}
   - component: {fileID: 104605314}
   - component: {fileID: 104605313}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: RWingCore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2538,13 +2538,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae05f4537fce36946b87d6aafd1e8eb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Team1.BossClearUI
-  rewardPanel: {fileID: 1090699500}
-  goldResultText: {fileID: 1092380351}
-  itemSlotParent: {fileID: 1380820298}
-  itemIconPrefab: {fileID: 5566896678735188164, guid: d426c6bf6206b4d44bc8b7cbb44d4e78, type: 3}
-  goldCountDuration: 1.5
+  uiPanel: {fileID: 1090699500}
   rewardTable: {fileID: 11400000, guid: 38eb39e6e03966549a0167154b85a3f8, type: 2}
-  playerInventory: {fileID: 10150086}
+  itemIcon: {fileID: 1453850859}
+  goldText: {fileID: 1092380351}
+  marketObject: {fileID: 602759112}
+  mapObject: {fileID: 8181885471988904220}
+  bossObject: {fileID: 2033023265}
 --- !u!1 &140817439
 GameObject:
   m_ObjectHideFlags: 0
@@ -2990,7 +2990,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 149669592}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Sub Feather.002_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3983,7 +3983,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 252245760}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Sub Feather.001_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5863,7 +5863,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 354676036}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.004_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7010,7 +7010,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 408493294}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.001_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7041,7 +7041,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 411549191}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7202,8 +7202,6 @@ MonoBehaviour:
   expToLevelUp: 100
   levelText: {fileID: 978768937}
   gaugeController: {fileID: 2111062898}
-  autoSave: 1
-  autoSaveInterval: 5
 --- !u!1 &425043010
 GameObject:
   m_ObjectHideFlags: 0
@@ -7350,7 +7348,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 429596431}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8317,7 +8315,7 @@ GameObject:
   m_Component:
   - component: {fileID: 480388266}
   - component: {fileID: 480388265}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Steampunk wings Ver.4 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8447,7 +8445,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 667168002}
+      - m_Target: {fileID: 567606101}
         m_TargetAssemblyTypeName: Team1.SetCourseUI, Assembly-CSharp
         m_MethodName: SelectShip
         m_Mode: 1
@@ -8568,7 +8566,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 489826717}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Sub Feather.003_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10263,7 +10261,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 551392830}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.006_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10370,6 +10368,7 @@ GameObject:
   - component: {fileID: 567606098}
   - component: {fileID: 567606100}
   - component: {fileID: 567606099}
+  - component: {fileID: 567606101}
   m_Layer: 5
   m_Name: MiniMap
   m_TagString: Untagged
@@ -10436,6 +10435,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 567606097}
   m_CullTransparentMesh: 1
+--- !u!114 &567606101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 567606097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca7e9484115510a409560bdeaa26bd85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Team1.SetCourseUI
+  towerCircle: {fileID: 356895214}
+  shipCircle: {fileID: 141553952}
+  townCircle: {fileID: 1759592915}
 --- !u!1 &578406169
 GameObject:
   m_ObjectHideFlags: 0
@@ -10447,7 +10461,7 @@ GameObject:
   - component: {fileID: 578406170}
   - component: {fileID: 578406172}
   - component: {fileID: 578406171}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: RWingCore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10658,7 +10672,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 140008783}
         m_TargetAssemblyTypeName: Team1.BossClearUI, Assembly-CSharp
-        m_MethodName: CloseUI
+        m_MethodName: OnExitButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10944,7 +10958,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 618633866}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10976,7 +10990,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 618839449}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11199,7 +11213,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 635442345}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L wing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12233,7 +12247,6 @@ GameObject:
   m_Component:
   - component: {fileID: 667168001}
   - component: {fileID: 667168003}
-  - component: {fileID: 667168002}
   m_Layer: 5
   m_Name: Course
   m_TagString: Untagged
@@ -12263,21 +12276,6 @@ RectTransform:
   m_AnchoredPosition: {x: -342.85715, y: -95.33331}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &667168002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 667168000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca7e9484115510a409560bdeaa26bd85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Team1.SetCourseUI
-  towerCircle: {fileID: 356895214}
-  shipCircle: {fileID: 141553952}
-  townCircle: {fileID: 0}
 --- !u!114 &667168003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12313,7 +12311,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 668218887}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Core Gear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12487,7 +12485,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 672199989}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Sub Feather.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12519,7 +12517,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 674890268}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Feather.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12674,7 +12672,7 @@ GameObject:
   m_Component:
   - component: {fileID: 698412364}
   - component: {fileID: 698412365}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Left wing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12881,7 +12879,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 667168002}
+      - m_Target: {fileID: 567606101}
         m_TargetAssemblyTypeName: Team1.SetCourseUI, Assembly-CSharp
         m_MethodName: SelectTower
         m_Mode: 1
@@ -13027,7 +13025,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -200.00006, y: 70.000015}
+  m_AnchoredPosition: {x: -200.00006, y: 69.99961}
   m_SizeDelta: {x: 100, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &704907319
@@ -13079,7 +13077,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 707044561}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13520,7 +13518,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 740317529}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13804,7 +13802,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 759139538}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 006_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13986,7 +13984,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 763091634}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Sub Feather.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14978,7 +14976,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 797108651}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15389,7 +15387,7 @@ GameObject:
   - component: {fileID: 813906468}
   - component: {fileID: 813906470}
   - component: {fileID: 813906469}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: balloon006 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15799,7 +15797,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 825642337}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Feather.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16463,7 +16461,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 874350364}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.002_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16707,7 +16705,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 877861571}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Feather.001_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16912,7 +16910,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 906203502}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Feather.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16944,7 +16942,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 912102529}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R wing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17322,7 +17320,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 918801184}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 005_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17353,7 +17351,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 921583602}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.005_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17851,7 +17849,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 941089064}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17883,7 +17881,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 942873885}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Sub Feather.004_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17983,7 +17981,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 950905037}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Sub Feather.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18499,7 +18497,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 986287130}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.006_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18530,7 +18528,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 987099054}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Feather.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19040,7 +19038,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1010239010}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Feather.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19072,7 +19070,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1019362612}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19435,7 +19433,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1029029773}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Feather.004_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19466,7 +19464,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1043424671}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19643,7 +19641,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1045522647}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Sub Feather.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20112,7 +20110,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1072239090}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Feather.001_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20143,7 +20141,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1076905563}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 001_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20734,7 +20732,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1100122800}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20885,7 +20883,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1116145469}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Feather.002_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21392,7 +21390,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1126713044}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 008_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22153,7 +22151,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1148169790}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22587,7 +22585,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6290972978739155226, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.4937
+      value: -1.01
       objectReference: {fileID: 0}
     - target: {fileID: 6290972978739155226, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
       propertyPath: m_LocalPosition.z
@@ -22670,6 +22668,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20a26ff168a27774090a01f77de80dde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Team1.BossRewardCheater
+  robotBoss: {fileID: 0}
   bossClearUI: {fileID: 140008783}
 --- !u!114 &1175960842 stripped
 MonoBehaviour:
@@ -22710,7 +22709,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31caaff613b48274f982440d82c80f2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Team1.InteractionController
-  casting: {fileID: 1175960843}
 --- !u!1 &1181960316
 GameObject:
   m_ObjectHideFlags: 0
@@ -22720,7 +22718,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1181960317}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22758,7 +22756,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1184257289}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23556,7 +23554,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1221646402}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.004_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23587,7 +23585,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1225718416}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23651,7 +23649,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1234170052}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 004_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24059,7 +24057,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1253186473}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Sub Feather
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24804,7 +24802,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1274637547}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Sub Feather
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25669,7 +25667,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1309166255}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Feather
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25704,7 +25702,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1313058934}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Sub Feather.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26293,7 +26291,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1369917474}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Feather
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26632,7 +26630,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1398415671}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Feather.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26774,7 +26772,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1406037913}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.007_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27116,7 +27114,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1414917819}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Feather.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27996,6 +27994,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 656419763759539793, guid: d426c6bf6206b4d44bc8b7cbb44d4e78, type: 3}
   m_PrefabInstance: {fileID: 1453850857}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1453850859 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8014958972849878368, guid: d426c6bf6206b4d44bc8b7cbb44d4e78, type: 3}
+  m_PrefabInstance: {fileID: 1453850857}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &1453905612
 GameObject:
   m_ObjectHideFlags: 0
@@ -28937,7 +28946,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1522262103}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Feather.003_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29649,7 +29658,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1540671195}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30400,7 +30409,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1554188356}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.005_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30487,7 +30496,7 @@ GameObject:
   - component: {fileID: 1564407011}
   - component: {fileID: 1564407013}
   - component: {fileID: 1564407012}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LWingCore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30669,7 +30678,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1568277222}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30701,7 +30710,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1574302927}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Sub Feather.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31069,7 +31078,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1607464047}
   - component: {fileID: 1607464048}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Right wing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31203,7 +31212,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1608859615}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.001_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31339,7 +31348,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1621625026}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31922,7 +31931,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1664360259}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.003_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32122,7 +32131,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1667539542}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 009
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32154,7 +32163,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1669078130}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32827,7 +32836,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1703960513}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Feather.003_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34210,7 +34219,7 @@ GameObject:
   - component: {fileID: 1742685597}
   - component: {fileID: 1742685599}
   - component: {fileID: 1742685598}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: balloon004 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35236,7 +35245,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1774265575}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Feather.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35268,7 +35277,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1779447878}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 007_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35609,7 +35618,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1793828963}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.002_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35641,7 +35650,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1801485492}
   - component: {fileID: 1801485493}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35896,7 +35905,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1807490096}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Sub Feather.002_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36599,7 +36608,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1826360989}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 003_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36662,7 +36671,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1838653926}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Core Gear_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36698,7 +36707,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1840974033}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.007_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36803,7 +36812,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1736325648}
   m_Direction: 2
   m_Value: 1
-  m_Size: 1
+  m_Size: 0.9999916
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -36984,7 +36993,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1855546474}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Sub Feather.001_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37015,7 +37024,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1861110853}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 009_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37123,7 +37132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1869272987}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37560,7 +37569,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1898635805}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ship
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37858,7 +37867,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1922503635}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Sub Feather.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38020,7 +38029,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1938005552}
   - component: {fileID: 1938005553}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Chest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38857,7 +38866,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1960205044}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Sub Feather.004_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38950,7 +38959,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1988150974}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 008
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39131,9 +39140,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 667168002}
+      - m_Target: {fileID: 567606101}
         m_TargetAssemblyTypeName: Team1.SetCourseUI, Assembly-CSharp
-        m_MethodName: SelectTower
+        m_MethodName: SelectTown
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -39603,7 +39612,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2001658028}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Sub Feather.003_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40087,7 +40096,7 @@ GameObject:
   - component: {fileID: 2013234719}
   - component: {fileID: 2013234721}
   - component: {fileID: 2013234720}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LWingCore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40223,7 +40232,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2017933392}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40255,7 +40264,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2028461049}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.003_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40340,7 +40349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RobotGolemBossEnemy
   anim: {fileID: 2033023267}
-  player: {fileID: 0}
+  player: {fileID: 1175960844}
   sweepCenter: {fileID: 1198651298}
   sweepSize: {x: 30, y: 2, z: 20}
   clapEffect: {fileID: 0}
@@ -40353,6 +40362,7 @@ MonoBehaviour:
   attackRange: 15
   recoverTime: 3
   rotationSpeed: 5
+  laserDamage: 5
   lastAttackIndex: -1
 --- !u!95 &2033023267
 Animator:
@@ -40402,7 +40412,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2037927822}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Feather.002_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40495,7 +40505,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2051103427}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41254,7 +41264,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2083588851}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41732,7 +41742,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2117185141}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Feather.004_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41941,7 +41951,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2142306950}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 002_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42088,12 +42098,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::QuestManager
   allQuestDB:
   - {fileID: 11400000, guid: a446864029df90d448f81540cad4f92b, type: 2}
-  - {fileID: 11400000, guid: a446864029df90d448f81540cad4f92b, type: 2}
-  - {fileID: 11400000, guid: a446864029df90d448f81540cad4f92b, type: 2}
-  - {fileID: 11400000, guid: a446864029df90d448f81540cad4f92b, type: 2}
-  - {fileID: 11400000, guid: a446864029df90d448f81540cad4f92b, type: 2}
+  - {fileID: 11400000, guid: 3d3a352e6a9f77e4f9443aeb9ecf809f, type: 2}
+  - {fileID: 11400000, guid: 394ba1e57c49c1f4db6157ca6409e9e6, type: 2}
+  questPanel: {fileID: 0}
   questListParent: {fileID: 704907318}
   questSlotPrefab: {fileID: 875554640512392242, guid: ee0e133186b478642b33d07c9a8a4d54, type: 3}
+  questOfferSlotPrefab: {fileID: 0}
+  questPanelCloseButton: {fileID: 0}
+  questDetailPopup: {fileID: 0}
+  questAcceptPopup: {fileID: 0}
+  toggleQuestPanelAction: {fileID: 0}
 --- !u!1 &2143301683
 GameObject:
   m_ObjectHideFlags: 0
@@ -42346,7 +42360,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 746741744325925938}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.003_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42393,7 +42407,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3729332836300582938}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Sub Feather.004_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42473,7 +42487,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9022559353014322061}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: balloon005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42489,7 +42503,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3209953417950281766}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: main_control_panel001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42575,7 +42589,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3903359260193794831}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.007_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42607,7 +42621,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 978159202077148931}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R wing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42638,7 +42652,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4066969391073546301}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.006_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42670,7 +42684,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1045972458415965628}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: StylShip_Unity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42751,7 +42765,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8390334802065694889}
   - component: {fileID: 3889588050244829220}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Right wing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42767,7 +42781,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3686057163879707008}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42783,7 +42797,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2908698753848316760}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42799,7 +42813,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2452071571571439806}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Sub Feather.001_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42896,7 +42910,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1823064619039698008}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: search_light001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42947,7 +42961,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4953650053846146516}
   - component: {fileID: 7884841902697724303}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Chest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42963,7 +42977,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4804642874751366132}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 008_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42979,7 +42993,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3843601760631954692}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42995,7 +43009,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8551249943673950921}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: box_light039
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43325,7 +43339,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 406329908332518311}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43565,7 +43579,7 @@ GameObject:
   m_Component:
   - component: {fileID: 982842362535397667}
   - component: {fileID: 5550726168703071240}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Left wing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43619,7 +43633,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8692760359406775088}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.005_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43635,7 +43649,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8351398846448384959}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Sub Feather.003_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43651,7 +43665,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8373347034068872750}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Sub Feather.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43750,7 +43764,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7961365497819630376}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: air_vent_box014
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43788,7 +43802,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4673283826747175023}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: main_building001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43826,7 +43840,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9077913767015047567}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: stairs002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43857,7 +43871,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3425217786007788529}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.003_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43903,7 +43917,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3194720816266574124}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.001_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43976,7 +43990,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7402085838709706947}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 008
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44075,7 +44089,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7230614429976876774}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Feather.004_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44140,7 +44154,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 123415020744458411}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.004_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44156,7 +44170,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3825339600199037749}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: panel_seperators002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44194,7 +44208,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3275211062219861585}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: air_vent_box007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44225,7 +44239,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7183849552424835000}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Feather.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44249,7 +44263,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1459121622589837817}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 003_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44265,7 +44279,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9117722343164874623}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 006_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44338,7 +44352,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1912257746621579527}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: hanging_light014
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44420,7 +44434,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8302488379768277548}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: box_light049
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44500,7 +44514,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 125601205958204090}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: generator015
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44535,7 +44549,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1150977774556501401}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: ship_level001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44649,7 +44663,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4375179802530798431}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Sub Feather.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44706,7 +44720,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9121961794854388720}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: generator019
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44722,7 +44736,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1229320160736367111}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: balloon003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44768,7 +44782,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7851894208547308791}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: life_boat001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44799,7 +44813,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3195843443872426489}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 004_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44846,7 +44860,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3333261590387789307}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44862,7 +44876,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2381884503346480114}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: ship_phone_console001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45060,7 +45074,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7591096247486291185}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Feather
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45221,7 +45235,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7345664896311986265}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: box_light035
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45286,7 +45300,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8593338580002318867}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Feather.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45318,7 +45332,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5394850948804192229}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: box_light029
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45417,7 +45431,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5640596137167602111}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Sub Feather.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45529,7 +45543,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6514118418966282631}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45545,7 +45559,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1189702238632361200}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: air_vent_box013
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45561,7 +45575,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5371067569126614336}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: generator023
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45598,7 +45612,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7503545945877245887}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: air_vent_box008
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45687,7 +45701,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5289516103680484705}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: tarp_box001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45783,7 +45797,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4284425709958518914}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45829,7 +45843,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4625913026927621937}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Sub Feather.003_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45985,7 +45999,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3029987248415823262}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: search_light_two001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46018,7 +46032,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2640175874918448544}
   - component: {fileID: 9115570108649145513}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Steampunk wings Ver.4 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46056,7 +46070,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3385653850134683940}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.001_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46087,7 +46101,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5065623407173944668}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: door_light005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46150,7 +46164,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2766640647746643251}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: generator027
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46166,7 +46180,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 527703147495120902}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Core Gear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46182,7 +46196,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3444732704468291993}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: ship_level002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46198,7 +46212,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9073296792797465296}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: hanging_light013
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46244,7 +46258,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2718955754787972541}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Sub Feather.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46295,7 +46309,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5549427237220988834}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 001_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46394,7 +46408,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6416766263542050482}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.002_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46433,7 +46447,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4877818972518427436}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.002_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46449,7 +46463,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2858640831189344508}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: main_control_panel002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46579,7 +46593,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3185755590375607636}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Feather.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46911,7 +46925,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 688551793102242801}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Feather.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46958,7 +46972,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8807916106190733350}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Feather.001_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46974,7 +46988,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8705796496079071894}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: box_light031
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46990,7 +47004,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 222356823444141177}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Feather.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47043,7 +47057,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1096334153545492587}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 005_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47213,7 +47227,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8730684950117596342}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: blast_door019
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47244,7 +47258,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2223004958612583771}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: boat_crank003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47283,7 +47297,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3835480447098872884}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: sketchfab_export
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47349,7 +47363,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2432237168912140433}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Feather.003_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47382,7 +47396,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4189872390843150157}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: blast_door017
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47421,7 +47435,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7781827812441817948}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: generator017
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47452,7 +47466,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3964103066229939577}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: hanging_light016
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47468,7 +47482,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 562106935409902986}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 002_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47484,7 +47498,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 95949925313333764}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: post001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47536,7 +47550,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5496440078015375600}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: main_building002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47576,7 +47590,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7402864035963103835}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47638,7 +47652,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5505009610296730882}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: air_vent_box011
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47673,7 +47687,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 534694766428529660}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47711,7 +47725,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2476444588034310518}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Sub Feather.002_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47766,7 +47780,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8103523734929073502}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47790,7 +47804,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8248803027017488434}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47806,7 +47820,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1127857098614116892}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: box_light051
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47838,7 +47852,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1612169540311691411}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: generator025
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47911,7 +47925,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6086892547998423444}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: barrel006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47927,7 +47941,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1893193985248193189}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Sub Feather.004_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47966,7 +47980,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2098002036627282621}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48051,7 +48065,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4946581976034870879}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Sub Feather
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48067,7 +48081,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5920298289325233513}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Core Gear_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48083,7 +48097,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 67259960590189607}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48270,7 +48284,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2031444474855162633}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Feather.002_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48332,7 +48346,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6498115006201797917}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: first_aid_bag002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48412,7 +48426,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2282345459327850509}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: air_vent_box010
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48428,7 +48442,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8951520507304720601}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: hanging_light012
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48444,7 +48458,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8735971773491334590}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: barrel005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48513,7 +48527,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3889134521807775858}
   - component: {fileID: 8488927232306371504}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48529,7 +48543,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3257166471304263503}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48575,7 +48589,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 846268267656259957}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: boat_crank002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48625,7 +48639,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2278303458807874268}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: box_light041
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48671,7 +48685,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2560851240960440159}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48687,7 +48701,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2814503330382530759}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: box_light043
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48703,7 +48717,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6625813016655229901}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.005_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48779,7 +48793,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 119709298687121980}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48795,7 +48809,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8709730229592283690}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: panel_seperators001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48826,7 +48840,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5050157873677546144}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Sub Feather.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48922,7 +48936,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 790243049328179237}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: box_light027
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48979,7 +48993,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8082298179703320427}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: generator021
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49044,7 +49058,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6108267338184921871}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: main_building003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49082,7 +49096,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6009889147874931800}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: hanging_light015
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49098,7 +49112,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6021093604270752350}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: hanging_light009
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49114,7 +49128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 329097662833873447}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49130,7 +49144,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9000255438605691619}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49146,7 +49160,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3451339106260449519}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49170,7 +49184,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3972736966486216268}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Feather
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49251,7 +49265,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3851215733043997075}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 009
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49304,7 +49318,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4489763756356731118}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: box_light045
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49320,7 +49334,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2247809027769645700}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: box_light047
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49336,7 +49350,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4029876338871720620}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49399,7 +49413,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1679695500974548343}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Feather.004_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49415,7 +49429,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4702250862587637096}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.007_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49484,7 +49498,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4545821112242068918}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Sub Feather.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49515,7 +49529,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5406519297879174980}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49580,7 +49594,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5665664694794809501}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear.004_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49611,7 +49625,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7948119039718693294}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Sub Feather.001_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49635,7 +49649,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 136984599346988059}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L wing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49651,7 +49665,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1485292167745097159}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: box_light033
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49712,7 +49726,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2759800788224034322}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: ship001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49759,7 +49773,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8704757223869596967}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Feather.001_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49809,7 +49823,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5171895856859565419}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Feather.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49847,7 +49861,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4914876243728012472}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49863,7 +49877,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3550000587341312946}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: door_light003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49947,7 +49961,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4456359853550237475}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 009_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50169,7 +50183,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8126164653034949506}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 007_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50185,7 +50199,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7827256360933893558}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Central Gear 002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50236,7 +50250,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5948453996114597423}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: hanging_light011
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50371,7 +50385,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8089834256923432756}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Sub Feather.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50387,7 +50401,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3041129905486364011}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50434,7 +50448,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9172437705994618571}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: pallet003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50469,7 +50483,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7495025433394639341}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Sub Feather.002_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50618,7 +50632,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 453655334707604682}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Gear.006_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50718,7 +50732,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1568365562348057944}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Sub Feather
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50756,7 +50770,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3529459368658155797}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Feather.003_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50867,7 +50881,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4291563898742563395}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Feather.002_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50913,7 +50927,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2416390031634169073}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Feather.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50929,7 +50943,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1126048373089097038}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Gear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51009,7 +51023,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 192330678129394255}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: R Sub Feather.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51142,7 +51156,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6005896150598172470}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: box_light037
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51192,7 +51206,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1238541782148442075}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: L Feather.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51320,7 +51334,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8691930623076254991}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: hanging_light010
   m_TagString: Untagged
   m_Icon: {fileID: 0}
