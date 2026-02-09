@@ -1,74 +1,65 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 namespace BRASS
 {
-    /// 플레이어 입력을 수집하여 이동, 카메라, 행동 로직에 전달하는 클래스
+    /// 플레이어 입력을 수집하여 이동과 전투 입력을 각 시스템으로 전달하는 입력 라우터
     public class PlayerInputHandler : MonoBehaviour
     {
         #region Variables
-        [SerializeField] private PlayerInput playerInput; // 인풋 액션 에셋을 통해 데이터를 수신하는 컴포넌트
 
-        private PlayerCombat combat; // 기본 공격 입력을 처리할 전투 컴포넌트
-        private PlayerJump jump; // 점프 기능을 실행할 컴포넌트
-        private WeaponHandler weaponHandler; // 무기 장착 및 해제를 관리하는 핸들러
-        private MeleeSkill meleeSkill;  // 근접 스킬 사용을 처리할 컴포넌트
-        private PlayerState state;  // 가장 가까운 적을 타겟으로 설정하기 위한 상태 컨테이너
-        private PlayerController controller; // 자동 접근 취소 호출용
+        [SerializeField] private PlayerInput playerInput; // Input System PlayerInput 컴포넌트 참조
+
+        private RangeSkill rangeSkill;     // 원거리 스킬 처리 컴포넌트
+        private PlayerCombat combat;        // 근접 기본 공격 처리 컴포넌트
+        private RangeCombat rangeCombat;    // 원거리 기본 공격 처리 컴포넌트
+        private MeleeSkill meleeSkill;      // 근접 스킬 처리 컴포넌트
+        private PlayerJump jump;             // 점프 입력 처리 컴포넌트
+        private WeaponHandler weaponHandler; // 무기 장착 및 해제 처리 컴포넌트
+        private PlayerState state;            // 현재 무기 및 행동 상태 데이터   
         #endregion
 
         #region Property
-        public Vector2 MoveInput { get; private set; } // 방향키 또는 WASD 입력 값
-        public bool ClickMovePressed { get; private set; } // 마우스 클릭 이동 버튼의 상태
-        public Vector2 LookInput { get; private set; } // 마우스 델타(회전) 입력 값
-        public Vector2 MousePosition { get; private set; } // 화면상의 마우스 좌표
-        public bool RotatePressed { get; private set; } // 카메라 회전 활성화 키 상태
-        public float ZoomInput { get; private set; } // 마우스 휠을 통한 줌 값
-        public bool IsKeyboardMove { get; private set; } // 현재 키보드 입력을 통해 이동 중인지 여부
-        public bool SlidePressed { get; private set; } // 슬라이딩 키 입력 상태
-        public bool EscPressed { get; private set; }    // Esc 키 입력 상태
-        public bool TabPressed { get; private set; }    // Tab 키 입력 상태
+
+        public Vector2 MoveInput { get; private set; }          // 이동 입력 벡터
+        public bool ClickMovePressed { get; private set; }      // 클릭 이동 입력 여부
+        public Vector2 LookInput { get; private set; }          // 시점 회전 입력
+        public Vector2 MousePosition { get; private set; }      // 현재 마우스 좌표
+        public bool RotatePressed { get; private set; }         // 회전 버튼 입력 여부
+        public float ZoomInput { get; private set; }            // 카메라 줌 입력 값
+        public bool IsKeyboardMove { get; private set; }        // 키보드 이동 중인지 여부
+        public bool SlidePressed { get; private set; }          // 슬라이드 입력 여부
+
+        public bool EscDown { get; private set; }               // Esc 단발 입력
+        public bool TabDown { get; private set; }               // Tab 단발 입력
+
         #endregion
 
         #region Unity Event Methods
+
         private void Awake()
         {
-            if (playerInput == null) // 할당되지 않았다면 컴포넌트에서 찾는다
-                playerInput = GetComponent<PlayerInput>();
+            // Input System PlayerInput 컴포넌트 참조 캐싱
+            if (playerInput == null) playerInput = GetComponent<PlayerInput>();
 
-            // 모든 ActionMap을 명시적으로 비활성화
-            playerInput.actions.Disable();
+            playerInput.actions.Disable(); // 초기에는 모든 액션 맵 비활성화
 
-            // 자식 객체에서 필요한 기능적 컴포넌트들을 캐싱한다
             combat = GetComponentInChildren<PlayerCombat>();
+            rangeCombat = GetComponentInChildren<RangeCombat>();
+            meleeSkill = GetComponentInChildren<MeleeSkill>();
             jump = GetComponentInChildren<PlayerJump>();
             weaponHandler = GetComponentInChildren<WeaponHandler>();
-            meleeSkill = GetComponentInChildren<MeleeSkill>();
-            state = GetComponent<PlayerState>();
-            controller = GetComponent<PlayerController>();
-
-            // 누락된 컴포넌트에 대해 경고 로그 출력
-            if (meleeSkill == null) // 근접 스킬 컴포넌트 누락 시 경고
-                Debug.LogError("[PlayerInputHandler] MeleeSkill not found in children.");
-
-            if (jump == null) // 점프 컴포넌트 누락 시 경고
-                Debug.LogError("[PlayerInputHandler] PlayerJump not found in children.");
-
-            if (weaponHandler == null) // 무기 핸들러 누락 시 경고
-                Debug.LogError("[PlayerInputHandler] WeaponHandler not found in children.");
+            state = GetComponentInChildren<PlayerState>();
+            rangeSkill = GetComponentInChildren<RangeSkill>();
         }
 
         private void OnEnable()
         {
             if (playerInput == null) return;
 
-            // 필요한 ActionMap만 활성화
             playerInput.actions.FindActionMap("Player", true).Enable();
-            playerInput.actions.FindActionMap("Attack", true).Enable();            
+            playerInput.actions.FindActionMap("Attack", true).Enable();
 
-            // 각 입력 액션에 콜백 메서드를 등록한다
             playerInput.actions["Move"].performed += OnMove;
             playerInput.actions["Move"].canceled += OnMove;
             playerInput.actions["ClickMove"].performed += OnClickMove;
@@ -83,157 +74,188 @@ namespace BRASS
             playerInput.actions["Sliding"].canceled += OnSlide;
             playerInput.actions["Jump"].performed += OnJump;
             playerInput.actions["BasicAttack"].started += OnBasicAttackStarted;
-            playerInput.actions["BasicAttack"].canceled += OnBasicAttackCanceled;
             playerInput.actions["WeaponSlot1"].performed += OnWeaponSlot1;
-            playerInput.actions["Skill_1"].performed += OnSkill1;
-            playerInput.actions["Skill_2"].performed += OnSkill2;
-            playerInput.actions["Skill_3"].performed += OnSkill3;
+
+            playerInput.actions["Skill_1"].started += OnSkill1;
+            playerInput.actions["Skill_1"].canceled += OnSkill1;
+
+            playerInput.actions["Skill_2"].started += OnSkill2;
+
+            playerInput.actions["Skill_3"].started += OnSkill3;
+            playerInput.actions["Skill_3"].canceled += OnSkill3;
+
             playerInput.actions["Esc"].performed += OnEsc;
             playerInput.actions["Tab"].performed += OnTab;
+
         }
 
         private void OnDisable()
         {
             if (playerInput == null) return;
-
-            // 메모리 누수 방지를 위해 등록된 콜백을 모두 해제한다
-            playerInput.actions["Move"].performed -= OnMove;
-            playerInput.actions["Move"].canceled -= OnMove;
-            playerInput.actions["ClickMove"].performed -= OnClickMove;
-            playerInput.actions["ClickMove"].canceled -= OnClickMove;
-            playerInput.actions["Look"].performed -= OnLook;
-            playerInput.actions["Look"].canceled -= OnLook;
-            playerInput.actions["Rotate"].performed -= OnRotate;
-            playerInput.actions["Rotate"].canceled -= OnRotate;
-            playerInput.actions["Zoom"].performed -= OnZoom;
-            playerInput.actions["Zoom"].canceled -= OnZoom;
-            playerInput.actions["Sliding"].performed -= OnSlide;
-            playerInput.actions["Sliding"].canceled -= OnSlide;
-            playerInput.actions["Jump"].performed -= OnJump;
-            playerInput.actions["BasicAttack"].started -= OnBasicAttackStarted;
-            playerInput.actions["BasicAttack"].canceled -= OnBasicAttackCanceled;
-            playerInput.actions["WeaponSlot1"].performed -= OnWeaponSlot1;
-            playerInput.actions["Skill_1"].performed -= OnSkill1;
-            playerInput.actions["Skill_2"].performed -= OnSkill2;
-            playerInput.actions["Skill_3"].performed -= OnSkill3;
-            playerInput.actions["Esc"].performed -= OnEsc;
-            playerInput.actions["Tab"].performed -= OnTab;
-
-            // ActionMap 개별 Disable 대신 전체 Disable
             playerInput.actions.Disable();
         }
 
         private void Update()
         {
-            // 매 프레임 마우스의 현재 좌표를 갱신한다
             if (Mouse.current != null)
                 MousePosition = Mouse.current.position.ReadValue();
         }
+
+        // 단발 입력 리셋 처리
+        private void LateUpdate()
+        {
+            EscDown = false;
+            TabDown = false;
+        }
+
         #endregion
 
         #region Custom Methods
-        // 카메라 줌 입력 값을 0으로 초기화한다
+
+        // 이동 입력 수신 및 키보드 이동 여부 판별
+        private void OnMove(InputAction.CallbackContext context)
+        {
+            MoveInput = context.ReadValue<Vector2>();
+            IsKeyboardMove = MoveInput.sqrMagnitude > 0.01f;
+        }
+
+        // 클릭 이동 입력 처리
+        private void OnClickMove(InputAction.CallbackContext context)
+        {
+            ClickMovePressed = context.ReadValueAsButton();
+        }
+
+        // 시점 회전 입력 처리
+        private void OnLook(InputAction.CallbackContext context)
+        {
+            LookInput = context.ReadValue<Vector2>();
+        }
+
+        // 회전 버튼 입력 처리
+        private void OnRotate(InputAction.CallbackContext context)
+        {
+            RotatePressed = context.ReadValueAsButton();
+        }
+
+        // 카메라 줌 입력 처리
+        private void OnZoom(InputAction.CallbackContext context)
+        {
+            ZoomInput = context.ReadValue<float>();
+        }
+
+        // 슬라이드 입력 처리
+        private void OnSlide(InputAction.CallbackContext context)
+        {
+            SlidePressed = context.ReadValueAsButton();
+        }
+
+        // 점프 입력을 점프 시스템으로 전달
+        private void OnJump(InputAction.CallbackContext context)
+        {
+            jump?.TryJump();
+        }
+
+        // 기본 공격 입력 처리
+        // 무기 타입에 따라 근접 또는 원거리 기본 공격으로 라우팅한다
+        private void OnBasicAttackStarted(InputAction.CallbackContext context)
+        {
+            /* 근접공격만 있었을때
+            if (state != null && state.IsGunEquipped)
+            {
+                rangeCombat?.Fire();
+            }
+            else
+            {
+                combat?.OnBasicAttackStarted();
+            }*/
+
+            if (state != null && state.IsGunEquipped)
+            {
+                rangeCombat?.TryFire();
+                return;
+            }
+
+            // 근접 기본 공격 실행
+            combat?.OnBasicAttackStarted();
+        }
+
+        // 무기 슬롯 1 토글 입력 처리
+        private void OnWeaponSlot1(InputAction.CallbackContext context)
+        {
+            if (!context.performed) return;
+            weaponHandler?.ToggleWeaponByIndex(0);
+        }
+
+        // 스킬 1 입력 처리        
+        private void OnSkill1(InputAction.CallbackContext context)
+        {
+            if (state != null && state.IsGunEquipped)
+            {
+                if (context.started)
+                    rangeSkill?.ExecuteSkill01();
+
+                if (context.canceled)
+                    rangeSkill?.StopFire();
+
+                return;
+            }
+
+            if (context.started)
+                meleeSkill?.ExecuteSkill01();
+        }
+
+        // 스킬 2 입력 처리
+        private void OnSkill2(InputAction.CallbackContext context)
+        {
+            if (!context.started) return;
+
+            if (state != null && state.IsGunEquipped)
+            {
+                rangeSkill?.ExecuteSkill02();
+                return;
+            }
+
+            meleeSkill?.ExecuteSkill02();
+        }
+
+        // 스킬 3 입력 처리
+        private void OnSkill3(InputAction.CallbackContext context)
+        {
+            if (state != null && state.IsGunEquipped)
+            {
+                if (context.started)
+                    rangeSkill?.ExecuteSkill03();
+
+                if (context.canceled)
+                    rangeSkill?.StopFire();
+
+                return;
+            }
+
+            if (context.started)
+                meleeSkill?.ExecuteSkill03();
+        }
+
+        // Esc 단발 입력 처리
+        private void OnEsc(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                EscDown = true;
+        }
+
+        // Tab 단발 입력 처리
+        private void OnTab(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                TabDown = true;
+        }
+
+        // 외부에서 줌 입력을 강제로 초기화
         public void ClearZoom()
         {
             ZoomInput = 0f;
         }
 
-        private void OnMove(InputAction.CallbackContext context)
-        {
-            MoveInput = context.ReadValue<Vector2>(); // 2D 이동 벡터를 읽는다
-            IsKeyboardMove = MoveInput.sqrMagnitude > 0.01f; // 입력 세기가 유효한지 판단
-
-            // 자동 접근이 활성화된 상태에서 키보드 이동 입력이 들어오면 자동 접근을 취소한다
-            if (IsKeyboardMove && controller != null) controller.CancelAutoApproach();
-        }
-
-        private void OnClickMove(InputAction.CallbackContext context)
-        {
-            ClickMovePressed = context.ReadValueAsButton(); // 클릭 이동 버튼 눌림 상태 저장
-
-            // 자동 접근이 활성화된 상태에서 클릭 이동 입력이 들어오면 자동 접근을 취소한다
-            if (ClickMovePressed && controller != null) controller.CancelAutoApproach();
-        }
-
-        private void OnLook(InputAction.CallbackContext context)
-        {
-            LookInput = context.ReadValue<Vector2>(); // 마우스 델타 값 저장
-        }
-
-        private void OnRotate(InputAction.CallbackContext context)
-        {
-            RotatePressed = context.ReadValueAsButton(); // 카메라 회전 모드 여부 저장
-        }
-
-        private void OnZoom(InputAction.CallbackContext context)
-        {
-            ZoomInput = context.ReadValue<float>(); // 마우스 휠 값 저장
-        }
-
-        private void OnSlide(InputAction.CallbackContext context)
-        {
-            SlidePressed = context.ReadValueAsButton(); // 슬라이딩/회피 상태 저장
-        }
-
-        private void OnJump(InputAction.CallbackContext context)
-        {
-            if (jump == null) return; // 점프 컴포넌트가 없다면 무시
-            jump.TryJump(); // 실제 점프 로직 시도
-        }
-
-        private void OnBasicAttackStarted(InputAction.CallbackContext context)
-        {
-            Debug.Log("E 입력 들어옴"); 
-
-            if (combat == null) return; // 전투 컴포넌트가 없다면 무시
-            combat.OnBasicAttackStarted(); // 공격 시퀀스 시작
-        }
-
-        private void OnBasicAttackCanceled(InputAction.CallbackContext context)
-        {
-            if (combat == null) return;
-            // 필요 시 공격 중단 혹은 장전 로직 등을 추가 가능
-        }
-
-        // 특정 무기 슬롯 입력을 받아 핸들러에 전달함
-        private void OnWeaponSlot1(InputAction.CallbackContext context)
-        {
-            if (!context.performed) // 수행 완료 시점이 아니라면 중단
-                return;
-
-            Debug.Log("WeaponSlot1 입력 수신"); // 무기 슬롯 1번 입력 확인
-
-            if (weaponHandler != null) // 무기 핸들러가 존재할 때만 실행
-                weaponHandler.ToggleWeaponByIndex(0);
-        }
-        
-        private void OnSkill1(InputAction.CallbackContext context)      // 근접 스킬 1번 입력 처리
-        {
-            if (meleeSkill != null) meleeSkill.ExecuteSkill01();
-        }
-
-        private void OnSkill2(InputAction.CallbackContext context)      // 근접 스킬 2번 입력 처리
-        {
-            if (meleeSkill != null) meleeSkill.ExecuteSkill02();
-        }
-
-        private void OnSkill3(InputAction.CallbackContext context)      // 근접 스킬 3번 입력 처리
-        {
-            if (meleeSkill != null) meleeSkill.ExecuteSkill03();
-        }
-
-        // Esc 키 입력 상태를 관리하는 메서드
-        private void OnEsc(InputAction.CallbackContext context)
-        {
-            // 단순히 눌렸을 때 true, 떼졌을 때 false 상태만 관리
-            EscPressed = context.ReadValueAsButton();
-        }
-
-        // Tab 키 입력 상태를 관리하는 메서드
-        private void OnTab(InputAction.CallbackContext context)
-        {
-            TabPressed = context.ReadValueAsButton();
-        }
         #endregion
     }
 }

@@ -1,6 +1,9 @@
 {
   "dependencies": {
+<<<<<<< HEAD
     "com.unity.2d.sprite": "1.0.0",
+=======
+>>>>>>> cbeba45646c6e2bc323f74e7b90fcb1e32f82de2
     "com.unity.ai.navigation": "2.0.10",
     "com.unity.animation.rigging": "1.4.1",
     "com.unity.cinemachine": "3.1.5",

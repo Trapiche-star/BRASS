@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HarpoonGun
   m_EditorClassIdentifier: Assembly-CSharp::BattleAxe
   itemId: 2
-  itemName: HarpoonGun
+  itemName: Gun
   weaponType: 2
   weaponPrefab: {fileID: 108424551863749329, guid: b39d2aaad32641e4da81b8cdd5f7578e, type: 3}
   bulletPrefab: {fileID: 2650562417226437747, guid: 3088d8ac26f79bd4ba2e645d34c51e31, type: 3}

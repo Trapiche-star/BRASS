@@ -6,7 +6,7 @@ namespace BRASS
     public enum WeaponType
     {
         None,
-        BattleAxe,
-        HarpoonGun
+        BattleAxe,        
+        Gun
     }
 }

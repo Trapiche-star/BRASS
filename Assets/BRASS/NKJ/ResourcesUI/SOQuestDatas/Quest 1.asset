@@ -12,8 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7da0852f2cf67d45b010f20a454f84a, type: 3}
   m_Name: Quest 1
   m_EditorClassIdentifier: Assembly-CSharp::QuestData
-  questID: 0
-  questName: 
-  description: 
-  targetCount: 0
-  rewardGold: 0
+  questID: 1
+  questName: "[\uC7AC\uAC74] \uACE8\uB4E0 \uAE30\uC5B4\uD638 \uC218\uB9AC"
+  description: "\uB9C8\uC744\uC758 \uC8FC\uC694 \uBCF4\uAE09\uC120\uC774 \uC5D4\uC9C4
+    \uACFC\uBD80\uD558\uB85C \uBA48\uCDB0 \uC130\uC2B5\uB2C8\uB2E4. \uC0C1\uC810\uC774
+    \uB2E4\uC2DC \uBB38\uC744 \uC5F4 \uC218 \uC788\uB3C4\uB85D \uACE0\uC21C\uB3C4
+    \uC5D0\uD14C\uB974 \uC5F0\uB8CC\uC640 \uAD50\uCCB4\uC6A9 \uD669\uB3D9 \uAE30\uC5B4\uB97C
+    \uC870\uB2EC\uD574 \uC8FC\uC138\uC694."
+  questLevel: 1
+  questType: 2
+  targetName: "\uACE8\uB4E0 \uAE30\uC5B4\uD638"
+  targetCount: 1
+  rewardGold: 1000
+  rewardExp: 100
+  prerequisiteQuestID: 1
+  nextQuestID: 2
+  npcName: "\uC0C1\uC810 \uC8FC\uC778"
+  npcPortrait: {fileID: 2011090882785546652, guid: b77342e1883ccd94983f6bd49ddd47a5, type: 3}

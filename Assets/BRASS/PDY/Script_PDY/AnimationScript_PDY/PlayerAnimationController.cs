@@ -2,7 +2,9 @@ using UnityEngine;
 
 namespace BRASS
 {
+    /// <summary>
     /// PlayerState를 기반으로 애니메이터 파라미터를 갱신하여 결과만 재생하는 클래스
+    /// </summary>    
     public class PlayerAnimationController : MonoBehaviour
     {
         #region Variables
@@ -10,7 +12,7 @@ namespace BRASS
 
         [SerializeField] private Animator animator; // 애니메이션 재생을 담당하는 컴포넌트
         [SerializeField] private PlayerState state; // 플레이어의 현재 상태 데이터 참조
-        [SerializeField] private IdleAnimation idleAnimation; // 대기 상태 변형 애니메이션 제어기
+        [SerializeField] private IdleAnimation idleAnimation; // 대기 상태 변형 애니메이션 제어기        
 
         private int hashIsMoving;   // 이동 상태 파라미터 해시
         private int hashIsSliding;  // 슬라이딩 상태 파라미터 해시
@@ -23,6 +25,10 @@ namespace BRASS
         private int hashIsEquipped; // 무기 장착 상태 파라미터 해시
         private int hashIsBattleAxeEquipped; // 배틀액스 장착 상태 파라미터 해시
         private int hashIsGunEquipped;      // 하푼건 장착 상태 파라미터 해시
+        private int hashGunFire;    // 하푼건 발사 트리거 해시
+        private int hashIsShooting; // 사격 상태(불형) 파라미터 해시
+        private int hashSkill2Fire;     // 스킬2 발사 트리거 해시
+        private int hashSkill3Fire;     // 스킬3 발사 트리거 해시
         #endregion
 
         #region Unity Event Method
@@ -46,6 +52,10 @@ namespace BRASS
             hashIsEquipped = Animator.StringToHash("IsEquipped");
             hashIsBattleAxeEquipped = Animator.StringToHash("IsBattleAxeEquipped");
             hashIsGunEquipped = Animator.StringToHash("IsGunEquipped");
+            hashGunFire = Animator.StringToHash("GunFire");
+            hashIsShooting = Animator.StringToHash("IsShooting");
+            hashSkill2Fire = Animator.StringToHash("Skill2Fire");
+            hashSkill3Fire = Animator.StringToHash("Skill3Fire");
         }
 
         private void Update()
@@ -61,19 +71,30 @@ namespace BRASS
             Vector3 position = animator.rootPosition;   // 애니메이션에 의한 루트 위치 추출
             position.y = parent.position.y;             // 수직 위치는 기존 부모의 높이를 유지하여 튀는 현상을 방지한다
             parent.position = position;                 // 최종 계산된 위치를 부모 트랜스폼에 적용한다
-        }*/
-        
-        private void OnAnimatorMove()
-        {
-            // 스킬 중에는 유니티가 애니메이션 좌표를 물리 엔진에 적용하지 못하게 원천 차단
-            if (state != null && state.IsAttacking) return;
 
-            if (animator == null || parent == null) return;
+        2026/02/05 수정 전 코드
+        // 스킬 중에는 유니티가 애니메이션 좌표를 물리 엔진에 적용하지 못하게 원천 차단
+            if (state != null && state.IsAttacking) return; // 공격 중이면 루트 모션 적용을 건너뜀
+
+            if (animator == null || parent == null) return; //  참조가 유효하지 않으면 아무 처리도 하지 않는다
 
             // 평상시 이동 (CharacterController를 쓸 때는 보통 아래 코드가 필요 없거나 다르게 짜여있을 겁니다)
             // 만약 평소에 루트 모션으로 걷는 게 아니라면 이 함수 전체를 주석 처리해도 됩니다.
-            parent.position = animator.rootPosition;
-            parent.rotation = animator.rootRotation;
+            parent.position = animator.rootPosition;    // 애니메이션에 의한 루트 위치를 부모 오브젝트에 반영한다
+            parent.rotation = animator.rootRotation;    //  애니메이션에 의한 루트 회전을 부모 오브젝트에 반영한다
+        }*/
+
+        private void OnAnimatorMove()
+        {
+            //스킬 중에는 유니티가 애니메이션 좌표를 물리 엔진에 적용하지 못하게 원천 차단
+            if (state != null && state.IsAttacking) return; // 공격 중이면 루트 모션 적용을 건너뜀
+
+            if (animator == null || parent == null) return; //  참조가 유효하지 않으면 아무 처리도 하지 않는다
+
+            // 평상시 이동 (CharacterController를 쓸 때는 보통 아래 코드가 필요 없거나 다르게 짜여있을 겁니다)
+            // 만약 평소에 루트 모션으로 걷는 게 아니라면 이 함수 전체를 주석 처리해도 됩니다.
+            parent.position = animator.rootPosition;    // 애니메이션에 의한 루트 위치를 부모 오브젝트에 반영한다
+            parent.rotation = animator.rootRotation;    //  애니메이션에 의한 루트 회전을 부모 오브젝트에 반영한다
         }
         #endregion
 
@@ -90,7 +111,7 @@ namespace BRASS
             animator.SetBool(hashIsGrounded, state.IsGrounded); // 접지 여부 반영
             animator.SetBool(hashIsJumping, state.IsJumping);   // 점프 여부 반영
             animator.SetInteger(hashJumpIndex, state.JumpIndex); // 현재 점프 단계 반영
-            animator.SetBool(hashIsGunEquipped, state.IsGunEquipped);   // 하푼건 장착 상태 반영
+            animator.SetBool(hashIsGunEquipped, state.IsGunEquipped);   // 건 장착 상태 반영
 
             animator.SetFloat(
                 hashFastRun,
@@ -103,7 +124,7 @@ namespace BRASS
 
                 if (idleAnimation.ShouldPlayIdleAlt()) // 변형 대기 동작을 재생할 조건이 충족되었다면
                     animator.SetTrigger(hashIdleDwarf); // 변형 애니메이션 트리거를 활성화한다
-            }
+            }            
         }
 
         // 외부에서 호출하여 공격 애니메이션 재생 트리거를 작동시킴
@@ -120,6 +141,34 @@ namespace BRASS
 
             animator.ResetTrigger(hashAttack); // 대기 중인 공격 트리거가 있다면 모두 초기화한다
             animator.CrossFade("Idle", 0.1f); // 0.1초 동안 부드럽게 Idle 상태로 애니메이션을 전환한다
+        }
+
+        // 외부에서 호출하여 하푼건 발사 애니메이션 재생 트리거를 작동시킴
+        public void PlayGunFire()
+        {
+            if (animator == null) return;
+            animator.SetTrigger(hashGunFire);
+        }       
+        
+        // 사격 상태(연사 불형) 제어
+        public void SetIsShooting(bool isShooting)
+        {
+            if (animator == null) return;
+            animator.SetBool(hashIsShooting, isShooting);
+        }
+
+        // 스킬2 발사 애니메이션 재생 트리거를 작동시킴
+        public void PlaySkill2Fire()
+        {
+            if (animator == null) return;
+            animator.SetTrigger(hashSkill2Fire);
+        }
+
+        // 스킬3 발사 애니메이션 재생 트리거를 작동시킴
+        public void PlaySkill3Fire()
+        {
+            if (animator == null) return;
+            animator.SetTrigger(hashSkill3Fire);
         }
         #endregion
     }

@@ -12,8 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7da0852f2cf67d45b010f20a454f84a, type: 3}
   m_Name: Quest
   m_EditorClassIdentifier: Assembly-CSharp::QuestData
-  questID: 1
-  questName: kill
-  description: kill target
+  questID: 0
+  questName: "[\uC870\uC0AC] \uC783\uC5B4\uBC84\uB9B0 \uACE0\uB3C4\uC758 \uC720\uC0B0"
+  description: "\uD6FC\uC190\uB41C \uBE44\uD589\uC120\uC744 \uC870\uC0AC\uD558\uB77C!\n\uBE44\uD589\uC120\uC758
+    \uC794\uD574 \uADFC\uCC98\uB97C \uBC30\uD68C\uD558\uB294 \uD0DC\uC5FD \uBAAC\uC2A4\uD130\uB4E4\uC744
+    \uC870\uC2EC\uD558\uC2ED\uC2DC\uC624."
+  questLevel: 1
+  questType: 2
+  targetName: "\uD0DC\uC5FD \uBAAC\uC2A4\uD130"
   targetCount: 10
   rewardGold: 100
+  rewardExp: 50
+  prerequisiteQuestID: 0
+  nextQuestID: 1
+  npcName: "\uB9C8\uC744 \uCD0C\uC7A5"
+  npcPortrait: {fileID: -7897023157229227031, guid: b77342e1883ccd94983f6bd49ddd47a5, type: 3}
