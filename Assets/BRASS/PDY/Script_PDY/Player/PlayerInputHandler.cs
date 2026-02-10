@@ -11,6 +11,7 @@ namespace BRASS
 
         [SerializeField] private PlayerInput playerInput; // Input System PlayerInput 컴포넌트 참조
 
+        private bool isInputLockedByAnimation; // 애니메이션(히트/경직)으로 인한 입력 잠금 여부 
         private RangeSkill rangeSkill;     // 원거리 스킬 처리 컴포넌트
         private PlayerCombat combat;        // 근접 기본 공격 처리 컴포넌트
         private RangeCombat rangeCombat;    // 원거리 기본 공격 처리 컴포넌트
@@ -120,6 +121,10 @@ namespace BRASS
         // 추가: 문자 입력 중일 때 게임 입력 차단 처리
         private void HandleInputBlockingByTypingState()
         {
+            // 애니메이션에 의해 입력이 잠겨 있으면 어떤 경우에도 건드리지 않음
+            if (isInputLockedByAnimation)
+                return;
+
             if (state == null || playerInput == null) return;
 
             // 타이핑 중이면 게임 입력 비활성화
@@ -186,17 +191,7 @@ namespace BRASS
         // 기본 공격 입력 처리
         // 무기 타입에 따라 근접 또는 원거리 기본 공격으로 라우팅한다
         private void OnBasicAttackStarted(InputAction.CallbackContext context)
-        {
-            /* 근접공격만 있었을때
-            if (state != null && state.IsGunEquipped)
-            {
-                rangeCombat?.Fire();
-            }
-            else
-            {
-                combat?.OnBasicAttackStarted();
-            }*/
-
+        {           
             if (state != null && state.IsGunEquipped)
             {
                 rangeCombat?.TryFire();
@@ -299,6 +294,24 @@ namespace BRASS
             ZoomInput = 0f;
 
             IsKeyboardMove = false;
+        }
+
+        /// 히트 / 경직 중 입력 잠금
+        public void LockInput()
+        {
+            if (playerInput == null) return;
+
+            isInputLockedByAnimation = true;
+            playerInput.DeactivateInput();
+        }
+
+        // 히트 종료 시 입력 해제
+        public void UnlockInput()
+        {
+            if (playerInput == null) return;
+
+            isInputLockedByAnimation = false;
+            playerInput.ActivateInput();
         }
         #endregion
     }

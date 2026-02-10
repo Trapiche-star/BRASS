@@ -12,8 +12,8 @@ namespace BRASS
 
         [SerializeField] private Animator animator; // 애니메이션 재생을 담당하는 컴포넌트
         [SerializeField] private PlayerState state; // 플레이어의 현재 상태 데이터 참조
-        [SerializeField] private IdleAnimation idleAnimation; // 대기 상태 변형 애니메이션 제어기        
-
+        [SerializeField] private IdleAnimation idleAnimation; // 대기 상태 변형 애니메이션 제어기       
+        
         private int hashIsMoving;   // 이동 상태 파라미터 해시
         private int hashIsSliding;  // 슬라이딩 상태 파라미터 해시
         private int hashFastRun;     // 고속 달리기 배율 파라미터 해시
@@ -35,12 +35,9 @@ namespace BRASS
 
         #region Unity Event Method
         private void Awake()
-        {
-            if (animator == null) // 만약 애니메이터 참조가 없다면
-                animator = GetComponentInChildren<Animator>(); // 자식 객체에서 컴포넌트를 찾아 할당한다
-
-            if (state == null) // 만약 상태 참조가 없다면
-                state = GetComponentInParent<PlayerState>(); // 부모 객체에서 컴포넌트를 찾아 할당한다
+        {   
+            if (animator == null) animator = GetComponentInChildren<Animator>();    // 만약 애니메이터 참조가 없다면 자식 객체에서 컴포넌트를 찾아 할당한다
+            if (state == null) state = GetComponentInParent<PlayerState>();     // 만약 상태 참조가 없다면 부모 객체에서 컴포넌트를 찾아 할당한다            
 
             // 애니메이터 파라미터 문자열을 해시값으로 미리 변환하여 성능을 최적화한다
             hashIsMoving = Animator.StringToHash("IsMoving");
@@ -59,7 +56,7 @@ namespace BRASS
             hashSkill2Fire = Animator.StringToHash("Skill2Fire");
             hashSkill3Fire = Animator.StringToHash("Skill3Fire");
             hashHit = Animator.StringToHash("Hit");
-            hashIsDead = Animator.StringToHash("IsDead");
+            hashIsDead = Animator.StringToHash("IsDead");          
 
             // PlayerState 이벤트 구독
             if (state != null)
@@ -69,6 +66,7 @@ namespace BRASS
             }
         }
 
+        // 매 프레임 호출되어 애니메이터 파라미터를 갱신함
         private void Update()
         {
             UpdateAnimator(); // 매 프레임 플레이어의 논리 상태를 애니메이터에 동기화한다
@@ -217,7 +215,7 @@ namespace BRASS
             if (animator.GetBool(hashIsDead)) return;
 
             animator.SetBool(hashIsDead, true);
-        }
+        }       
         #endregion
     }
 }

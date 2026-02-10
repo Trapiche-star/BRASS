@@ -7387,8 +7387,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1577374528}
   m_HandleRect: {fileID: 1577374527}
   m_Direction: 2
-  m_Value: 1.0000031
-  m_Size: 0.97058815
+  m_Value: 1.0000061
+  m_Size: 0.9705883
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -11887,6 +11887,11 @@ Transform:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4229011529844047906, guid: eb45c73711d95a94eb1421a8a9f8c22e, type: 3}
   m_PrefabInstance: {fileID: 654358628}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &616084551 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 685362686297057986, guid: 0e6951f9c9fbc64458230eff6b2c72a1, type: 3}
+  m_PrefabInstance: {fileID: 1478114667}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &617102206
 PrefabInstance:
@@ -22402,6 +22407,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AttackSweepPosition
       objectReference: {fileID: 0}
+    - target: {fileID: 8300371140834930499, guid: b025e8f995497ca49a4c48c02fc867ec, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -24778,18 +24787,22 @@ PrefabInstance:
     - target: {fileID: 4379256836293682995, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
       propertyPath: cameraPivot
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 616084551}
     - target: {fileID: 4379256836293682995, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
       propertyPath: playerCombat
       value: 
       objectReference: {fileID: 1175960842}
+    - target: {fileID: 5654846921500000158, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
+      propertyPath: inputHandler
+      value: 
+      objectReference: {fileID: 1175960866}
     - target: {fileID: 6290972978739155226, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.72536
       objectReference: {fileID: 0}
     - target: {fileID: 6290972978739155226, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.01
+      value: -3.83
       objectReference: {fileID: 0}
     - target: {fileID: 6290972978739155226, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
       propertyPath: m_LocalPosition.z
@@ -24930,6 +24943,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Team1.BossRewardCheater
   robotBoss: {fileID: 1163104238}
   bossClearUI: {fileID: 140008783}
+--- !u!114 &1175960866 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8488641150117180251, guid: a40e2056165d83a44b2bcf5b9bdca533, type: 3}
+  m_PrefabInstance: {fileID: 1175960838}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175960839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c2c1cf8afadaf24e8127de46be5de72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInputHandler
 --- !u!1 &1177868426
 GameObject:
   m_ObjectHideFlags: 0
@@ -30630,6 +30654,22 @@ PrefabInstance:
     - target: {fileID: 5486232252615340519, guid: 0e6951f9c9fbc64458230eff6b2c72a1, type: 3}
       propertyPath: m_Name
       value: _CameraRig
+      objectReference: {fileID: 0}
+    - target: {fileID: 6737140171851137997, guid: 0e6951f9c9fbc64458230eff6b2c72a1, type: 3}
+      propertyPath: TrackerSettings.BindingMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6737140171851137997, guid: 0e6951f9c9fbc64458230eff6b2c72a1, type: 3}
+      propertyPath: TrackerSettings.RotationDamping.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6737140171851137997, guid: 0e6951f9c9fbc64458230eff6b2c72a1, type: 3}
+      propertyPath: TrackerSettings.RotationDamping.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6737140171851137997, guid: 0e6951f9c9fbc64458230eff6b2c72a1, type: 3}
+      propertyPath: TrackerSettings.RotationDamping.z
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -50411,8 +50451,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 10.17037, y: 0.5709201, z: 15.84494}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 10.17037, y: 0.19019309, z: 15.84494}
+  m_Center: {x: 0, y: -0.19036351, z: 1.8449066e-16}
 --- !u!4 &4877818972518427436
 Transform:
   m_ObjectHideFlags: 0
