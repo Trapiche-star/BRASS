@@ -19090,7 +19090,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffff9c147c6aa0a4a82846bd7385824c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QuestManager
-  allQuestDB: []
+  allQuestDB:
+  - {fileID: 11400000, guid: a446864029df90d448f81540cad4f92b, type: 2}
+  - {fileID: 11400000, guid: 3d3a352e6a9f77e4f9443aeb9ecf809f, type: 2}
+  - {fileID: 11400000, guid: 394ba1e57c49c1f4db6157ca6409e9e6, type: 2}
   questPanel: {fileID: 0}
   questListParent: {fileID: 0}
   questSlotPrefab: {fileID: 0}
