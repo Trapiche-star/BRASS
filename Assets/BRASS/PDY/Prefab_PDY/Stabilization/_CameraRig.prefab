@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5085572709917284182}
   - component: {fileID: 6737140171851137997}
   - component: {fileID: 4850734595086551730}
-  - component: {fileID: 6017953091782757413}
   - component: {fileID: 2278717596725454927}
   - component: {fileID: 3725672870639636491}
   - component: {fileID: 7005510741830622303}
@@ -31,8 +30,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1677263312714310408}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.16313684, y: -0.000000025178265, z: 0.0000000041632764, w: 0.98660344}
-  m_LocalPosition: {x: 0, y: 2.5, z: -5}
+  m_LocalRotation: {x: 0.06949191, y: 0.00000001368261, z: -9.531351e-10, w: 0.99758255}
+  m_LocalPosition: {x: 0, y: 1.5, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -93,10 +92,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b5d7c088409d9a40b7b09aa707777f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineOrbitalFollow
-  TargetOffset: {x: 0, y: 1, z: 0}
+  TargetOffset: {x: 0, y: 0, z: 0}
   TrackerSettings:
     BindingMode: 4
-    PositionDamping: {x: 1, y: 1, z: 1}
+    PositionDamping: {x: 0, y: 0, z: 0}
     AngularDampingMode: 0
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
@@ -105,13 +104,13 @@ MonoBehaviour:
   Orbits:
     Top:
       Radius: 3
-      Height: 15
+      Height: 8
     Center:
       Radius: 5
       Height: 1.5
     Bottom:
       Radius: 3
-      Height: -10
+      Height: -4
     SplineCurvature: 0.5
   RecenteringTarget: 3
   HorizontalAxis:
@@ -167,29 +166,12 @@ MonoBehaviour:
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
   TargetOffset: {x: 0, y: 0.8, z: 0}
-  Damping: {x: 0.5, y: 0.5}
+  Damping: {x: 0, y: 0}
   Lookahead:
     Enabled: 0
     Time: 0
     Smoothing: 0
     IgnoreY: 0
---- !u!114 &6017953091782757413
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1677263312714310408}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a076c17fe76165e4f8ed21498b877bf9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineFreeLookModifier
-  Easing: 0
-  Modifiers: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &2278717596725454927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,14 +189,14 @@ MonoBehaviour:
     Enabled: 1
     ObstacleLayers:
       serializedVersion: 2
-      m_Bits: 8
+      m_Bits: 0
     UseFollowTarget:
       Enabled: 0
       YOffset: 0
-    Damping: 0.5
+    Damping: 0
     SmoothingTime: 0
   TerrainResolution:
-    Enabled: 1
+    Enabled: 0
     TerrainLayers:
       serializedVersion: 2
       m_Bits: 8
@@ -289,8 +271,8 @@ MonoBehaviour:
   pitchSpeed: 90
   minZoom: 0.15
   maxZoom: 1
-  zoomSpeed: 3
-  zoomDamping: 10
+  zoomSpeed: 5
+  zoomDamping: 5
 --- !u!1 &5486232252615340519
 GameObject:
   m_ObjectHideFlags: 0
