@@ -1,5 +1,6 @@
 using BRASS;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class RobotBossHealth : MonoBehaviour, IDamageable
 {
@@ -51,7 +52,8 @@ public class RobotBossHealth : MonoBehaviour, IDamageable
     // [테스트용] 스페이스바를 누르면 데미지 100
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        // 새 Input System 사용
+        if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             TakeDamage(100f);
         }
@@ -60,6 +62,7 @@ public class RobotBossHealth : MonoBehaviour, IDamageable
     public void TakeDamage(float damageAmount)
     {
         Hp -= damageAmount;
+        Debug.Log($"보스 데미지 입음! 남은 체력: {currentHealth}");
     }
 
     void Die()
@@ -70,6 +73,8 @@ public class RobotBossHealth : MonoBehaviour, IDamageable
             // 죽었을 때 UI 숨기기
             healthBarUI.ClearTarget();
         }
+        Debug.Log("보스가 파괴되었습니다!");
+        // 여기에 폭발 이펙트나 애니메이션 실행 코드 추가
     }
 }
 /*
