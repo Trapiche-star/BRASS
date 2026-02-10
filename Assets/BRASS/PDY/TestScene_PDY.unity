@@ -1034,6 +1034,42 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1982843022003332221, guid: ec6475342360d3c42a96d57947e82d52, type: 3}
+      propertyPath: zoomSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1982843022003332221, guid: ec6475342360d3c42a96d57947e82d52, type: 3}
+      propertyPath: zoomDamping
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2079123110274079848, guid: ec6475342360d3c42a96d57947e82d52, type: 3}
+      propertyPath: CameraRadius
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2079123110274079848, guid: ec6475342360d3c42a96d57947e82d52, type: 3}
+      propertyPath: Decollision.Damping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2079123110274079848, guid: ec6475342360d3c42a96d57947e82d52, type: 3}
+      propertyPath: TerrainResolution.Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2079123110274079848, guid: ec6475342360d3c42a96d57947e82d52, type: 3}
+      propertyPath: Decollision.ObstacleLayers.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2954773727488519801, guid: ec6475342360d3c42a96d57947e82d52, type: 3}
+      propertyPath: Orbits.Top.Height
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2954773727488519801, guid: ec6475342360d3c42a96d57947e82d52, type: 3}
+      propertyPath: Orbits.Bottom.Height
+      value: -4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2954773727488519801, guid: ec6475342360d3c42a96d57947e82d52, type: 3}
+      propertyPath: TrackerSettings.BindingMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5553399034309590799, guid: ec6475342360d3c42a96d57947e82d52, type: 3}
       propertyPath: m_Name
       value: CameraRig
