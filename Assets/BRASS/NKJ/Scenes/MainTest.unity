@@ -27695,11 +27695,16 @@ MonoBehaviour:
   missilePort: {fileID: 197571723}
   laserEffect: {fileID: 0}
   laserPort: {fileID: 297029346}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
   detectionRange: 20
   attackRange: 15
   recoverTime: 3
   rotationSpeed: 5
   laserDamage: 5
+  sweepDamage: 10
+  clapDamage: 3
   lastAttackIndex: -1
 --- !u!95 &2033023267
 Animator:
