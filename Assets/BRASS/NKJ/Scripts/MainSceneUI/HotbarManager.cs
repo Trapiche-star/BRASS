@@ -37,16 +37,19 @@ public class HotbarManager : MonoBehaviour
             ToggleHotbar();
         }
 
-        // 2. 스킬 사용 로직 (UI가 투명해도 오브젝트가 켜져있으므로 정상 작동)
-        if (kb.wKey.wasPressedThisFrame) { LogKeyAndUse(kb.wKey.displayName, 0); }
-        if (kb.aKey.wasPressedThisFrame) { LogKeyAndUse(kb.aKey.displayName, 1); }
-        if (kb.sKey.wasPressedThisFrame) { LogKeyAndUse(kb.sKey.displayName, 2); }
-        if (kb.dKey.wasPressedThisFrame) { LogKeyAndUse(kb.dKey.displayName, 3); }
-        if (kb.rKey.wasPressedThisFrame) { LogKeyAndUse(kb.rKey.displayName, 4); }
-        if (kb.eKey.wasPressedThisFrame) { LogKeyAndUse(kb.eKey.displayName, 5); }
-        if (kb.gKey.wasPressedThisFrame) { LogKeyAndUse(kb.gKey.displayName, 6); }
-        if (kb.iKey.wasPressedThisFrame) { LogKeyAndUse(kb.iKey.displayName, 7); }
-        if (kb.spaceKey.wasPressedThisFrame) { LogKeyAndUse(kb.spaceKey.displayName, 8); }
+        // 2. 스킬 사용 로직 - Alt + 숫자키 (1~9)
+        if (kb.altKey.isPressed)
+        {
+            if (kb.digit1Key.wasPressedThisFrame) { LogKeyAndUse("Alt+1", 0); }
+            if (kb.digit2Key.wasPressedThisFrame) { LogKeyAndUse("Alt+2", 1); }
+            if (kb.digit3Key.wasPressedThisFrame) { LogKeyAndUse("Alt+3", 2); }
+            if (kb.digit4Key.wasPressedThisFrame) { LogKeyAndUse("Alt+4", 3); }
+            if (kb.digit5Key.wasPressedThisFrame) { LogKeyAndUse("Alt+5", 4); }
+            if (kb.digit6Key.wasPressedThisFrame) { LogKeyAndUse("Alt+6", 5); }
+            if (kb.digit7Key.wasPressedThisFrame) { LogKeyAndUse("Alt+7", 6); }
+            if (kb.digit8Key.wasPressedThisFrame) { LogKeyAndUse("Alt+8", 7); }
+            if (kb.digit9Key.wasPressedThisFrame) { LogKeyAndUse("Alt+9", 8); }
+        }
     }
 
     void ToggleHotbar()
