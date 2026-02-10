@@ -91,7 +91,6 @@ GameObject:
   - component: {fileID: 332315365112722739}
   - component: {fileID: 2954773727488519801}
   - component: {fileID: 3609722125923663736}
-  - component: {fileID: 6888131189497629887}
   - component: {fileID: 2079123110274079848}
   - component: {fileID: 7148307322034300175}
   - component: {fileID: 1982843022003332221}
@@ -252,23 +251,6 @@ MonoBehaviour:
     Time: 0
     Smoothing: 0
     IgnoreY: 0
---- !u!114 &6888131189497629887
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 198822839785687005, guid: 35141f2e977a2244286d88fe1485e800, type: 3}
-  m_PrefabInstance: {fileID: 8037864683307789940}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8196721791019076266}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a076c17fe76165e4f8ed21498b877bf9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineFreeLookModifier
-  Easing: 0
-  Modifiers: []
-  references:
-    version: 2
-    RefIds: []
 --- !u!114 &2079123110274079848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -426,7 +408,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

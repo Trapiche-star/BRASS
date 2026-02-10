@@ -16,7 +16,8 @@ namespace BRASS
         [SerializeField] private PlayerState state;         // 플레이어 상태 데이터 컨테이너
         [SerializeField] private RangeSkill rangeSkill;         // 원거리 스킬 컴포넌트
         [SerializeField] private MeleeSkill meleeSkill;     // 근접 스킬 처리 컴포넌트 
-        [SerializeField] private RangeCombat rangeCombat;   // 원거리 기본 공격 처리 컴포넌트                                                          
+        [SerializeField] private RangeCombat rangeCombat;   // 원거리 기본 공격 처리 컴포넌트
+        [SerializeField] private PlayerInputHandler inputHandler; // 히트 중 입력 잠금용                                                                 
         #endregion
 
         #region Unity Event Method
@@ -31,6 +32,7 @@ namespace BRASS
             if (footstepSound == null) footstepSound = GetComponentInChildren<PlayerFootstepSound>();
             if (axeSound == null) axeSound = GetComponentInChildren<AxeSound>();
             if (gunSound == null) gunSound = GetComponentInChildren<GunSound>();
+            if (inputHandler == null) inputHandler = GetComponentInParent<PlayerInputHandler>();
         }
         #endregion
 
@@ -257,6 +259,24 @@ namespace BRASS
         {
             if (gunSound == null) return;
             gunSound.PlayReload();
+        }
+
+        // 히트 애니메이션 시작 시 입력 잠금
+        public void OnHitStart()
+        {
+            if (state == null || inputHandler == null) return;
+
+            state.IsInputMovementLocked = true;
+            inputHandler.LockInput(); // 🔒 입력 잠금
+        }
+
+        // 히트 애니메이션 종료 시 입력 해제
+        public void OnHitEnd()
+        {
+            if (state == null || inputHandler == null) return;
+
+            state.IsInputMovementLocked = false;
+            inputHandler.UnlockInput(); // 🔓 입력 복구
         }
         #endregion
     }

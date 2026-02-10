@@ -12,8 +12,8 @@ namespace BRASS
 
         [SerializeField] private Animator animator; // 애니메이션 재생을 담당하는 컴포넌트
         [SerializeField] private PlayerState state; // 플레이어의 현재 상태 데이터 참조
-        [SerializeField] private IdleAnimation idleAnimation; // 대기 상태 변형 애니메이션 제어기        
-
+        [SerializeField] private IdleAnimation idleAnimation; // 대기 상태 변형 애니메이션 제어기       
+        
         private int hashIsMoving;   // 이동 상태 파라미터 해시
         private int hashIsSliding;  // 슬라이딩 상태 파라미터 해시
         private int hashFastRun;     // 고속 달리기 배율 파라미터 해시
@@ -29,16 +29,15 @@ namespace BRASS
         private int hashIsShooting; // 사격 상태(불형) 파라미터 해시
         private int hashSkill2Fire;     // 스킬2 발사 트리거 해시
         private int hashSkill3Fire;     // 스킬3 발사 트리거 해시
+        private int hashHit;   // 피격 트리거 해시
+        private int hashIsDead;   // 사망 불형 해시
         #endregion
 
         #region Unity Event Method
         private void Awake()
-        {
-            if (animator == null) // 만약 애니메이터 참조가 없다면
-                animator = GetComponentInChildren<Animator>(); // 자식 객체에서 컴포넌트를 찾아 할당한다
-
-            if (state == null) // 만약 상태 참조가 없다면
-                state = GetComponentInParent<PlayerState>(); // 부모 객체에서 컴포넌트를 찾아 할당한다
+        {   
+            if (animator == null) animator = GetComponentInChildren<Animator>();    // 만약 애니메이터 참조가 없다면 자식 객체에서 컴포넌트를 찾아 할당한다
+            if (state == null) state = GetComponentInParent<PlayerState>();     // 만약 상태 참조가 없다면 부모 객체에서 컴포넌트를 찾아 할당한다            
 
             // 애니메이터 파라미터 문자열을 해시값으로 미리 변환하여 성능을 최적화한다
             hashIsMoving = Animator.StringToHash("IsMoving");
@@ -56,8 +55,18 @@ namespace BRASS
             hashIsShooting = Animator.StringToHash("IsShooting");
             hashSkill2Fire = Animator.StringToHash("Skill2Fire");
             hashSkill3Fire = Animator.StringToHash("Skill3Fire");
+            hashHit = Animator.StringToHash("Hit");
+            hashIsDead = Animator.StringToHash("IsDead");          
+
+            // PlayerState 이벤트 구독
+            if (state != null)
+            {
+                state.OnHit += PlayHit;
+                state.OnDead += SetDead;
+            }
         }
 
+        // 매 프레임 호출되어 애니메이터 파라미터를 갱신함
         private void Update()
         {
             UpdateAnimator(); // 매 프레임 플레이어의 논리 상태를 애니메이터에 동기화한다
@@ -86,6 +95,7 @@ namespace BRASS
 
         private void OnAnimatorMove()
         {
+            if (state != null && state.IsDead) return; // 사망 상태이면 루트 모션 적용을 건너뜀
             //스킬 중에는 유니티가 애니메이션 좌표를 물리 엔진에 적용하지 못하게 원천 차단
             if (state != null && state.IsAttacking) return; // 공격 중이면 루트 모션 적용을 건너뜀
 
@@ -103,6 +113,13 @@ namespace BRASS
         private void UpdateAnimator()
         {
             if (animator == null || state == null) return; // 참조가 유효하지 않으면 업데이트를 수행하지 않는다
+
+            // 사망 중이면 Death 상태만 유지
+            if (state.IsDead)
+            {
+                animator.SetBool(hashIsDead, true);
+                return;
+            }
 
             animator.SetBool(hashIsEquipped, state.IsEquipped);     // 무기 장착 상태 반영
             animator.SetBool(hashIsBattleAxeEquipped, state.IsBattleAxeEquipped); // 배틀액스 장착 상태 반영
@@ -170,6 +187,35 @@ namespace BRASS
             if (animator == null) return;
             animator.SetTrigger(hashSkill3Fire);
         }
+
+        // 피격 애니메이션 재생 트리거를 작동시킴
+        private void OnDestroy()
+        {
+            if (state != null)
+            {
+                state.OnHit -= PlayHit;
+                state.OnDead -= SetDead;
+            }
+        }
+
+        // 피격 애니메이션 재생
+        private void PlayHit()
+        {
+            if (animator == null) return;
+            if (state != null && state.IsDead) return;
+            animator.SetTrigger(hashHit);
+        }
+
+        // 사망 애니메이션 재생
+        private void SetDead()
+        {
+            if (animator == null) return;
+
+            // 이미 죽은 상태면 다시 세팅하지 않음
+            if (animator.GetBool(hashIsDead)) return;
+
+            animator.SetBool(hashIsDead, true);
+        }       
         #endregion
     }
 }

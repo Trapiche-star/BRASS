@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
 namespace BRASS
 {
     /// 플레이어 입력을 수집하여 이동과 전투 입력을 각 시스템으로 전달하는 입력 라우터
@@ -10,6 +11,7 @@ namespace BRASS
 
         [SerializeField] private PlayerInput playerInput; // Input System PlayerInput 컴포넌트 참조
 
+        private bool isInputLockedByAnimation; // 애니메이션(히트/경직)으로 인한 입력 잠금 여부 
         private RangeSkill rangeSkill;     // 원거리 스킬 처리 컴포넌트
         private PlayerCombat combat;        // 근접 기본 공격 처리 컴포넌트
         private RangeCombat rangeCombat;    // 원거리 기본 공격 처리 컴포넌트
@@ -51,6 +53,9 @@ namespace BRASS
             weaponHandler = GetComponentInChildren<WeaponHandler>();
             state = GetComponentInChildren<PlayerState>();
             rangeSkill = GetComponentInChildren<RangeSkill>();
+            state = GetComponentInChildren<PlayerState>();
+
+            if (state != null) state.OnDead += OnPlayerDead;
         }
 
         private void OnEnable()
@@ -99,6 +104,8 @@ namespace BRASS
         {
             if (Mouse.current != null)
                 MousePosition = Mouse.current.position.ReadValue();
+
+            HandleInputBlockingByTypingState();
         }
 
         // 단발 입력 리셋 처리
@@ -111,6 +118,32 @@ namespace BRASS
         #endregion
 
         #region Custom Methods
+        // 추가: 문자 입력 중일 때 게임 입력 차단 처리
+        private void HandleInputBlockingByTypingState()
+        {
+            // 애니메이션에 의해 입력이 잠겨 있으면 어떤 경우에도 건드리지 않음
+            if (isInputLockedByAnimation)
+                return;
+
+            if (state == null || playerInput == null) return;
+
+            // 타이핑 중이면 게임 입력 비활성화
+            if (state.IsTypingInUI)
+            {
+                if (playerInput.currentActionMap != null && playerInput.currentActionMap.enabled)
+                {
+                    playerInput.DeactivateInput();
+                }
+            }
+            // 타이핑 중이 아니면 게임 입력 활성화
+            else
+            {
+                if (playerInput.currentActionMap != null && !playerInput.currentActionMap.enabled)
+                {
+                    playerInput.ActivateInput();
+                }
+            }
+        }
 
         // 이동 입력 수신 및 키보드 이동 여부 판별
         private void OnMove(InputAction.CallbackContext context)
@@ -158,17 +191,7 @@ namespace BRASS
         // 기본 공격 입력 처리
         // 무기 타입에 따라 근접 또는 원거리 기본 공격으로 라우팅한다
         private void OnBasicAttackStarted(InputAction.CallbackContext context)
-        {
-            /* 근접공격만 있었을때
-            if (state != null && state.IsGunEquipped)
-            {
-                rangeCombat?.Fire();
-            }
-            else
-            {
-                combat?.OnBasicAttackStarted();
-            }*/
-
+        {           
             if (state != null && state.IsGunEquipped)
             {
                 rangeCombat?.TryFire();
@@ -256,6 +279,40 @@ namespace BRASS
             ZoomInput = 0f;
         }
 
+        // 플레이어 사망 시 모든 입력 초기화 및 비활성화 처리
+        private void OnPlayerDead()
+        {
+            // 모든 입력 액션 맵 비활성화
+            playerInput.actions.Disable();
+
+            // 남아 있는 입력 값들 정리
+            MoveInput = Vector2.zero;
+            LookInput = Vector2.zero;
+            ClickMovePressed = false;
+            RotatePressed = false;
+            SlidePressed = false;
+            ZoomInput = 0f;
+
+            IsKeyboardMove = false;
+        }
+
+        /// 히트 / 경직 중 입력 잠금
+        public void LockInput()
+        {
+            if (playerInput == null) return;
+
+            isInputLockedByAnimation = true;
+            playerInput.DeactivateInput();
+        }
+
+        // 히트 종료 시 입력 해제
+        public void UnlockInput()
+        {
+            if (playerInput == null) return;
+
+            isInputLockedByAnimation = false;
+            playerInput.ActivateInput();
+        }
         #endregion
     }
 }
